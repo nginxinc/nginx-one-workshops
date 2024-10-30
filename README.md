@@ -1,76 +1,89 @@
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/nginxinc/template-repository/badge)](https://securityscorecards.dev/viewer/?uri=github.com/nginxinc/template-repository)
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Community Support](https://badgen.net/badge/support/community/cyan?icon=awesome)](https://github.com/nginxinc/template-repository/blob/main/SUPPORT.md)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://github.com/nginxinc/template-repository/main/CODE_OF_CONDUCT.md)
+# NGINX ONE Console Workshop 102
 
-# NGINX Template Repository
+![](labs/media/nginx-one-icon.png)
 
-## What is included on this template?
+<br/>
 
-This template includes all the scaffolding you need to get started on an OSS repository that meets the required NGINX criteria:
+This Repo is for learning the **`NGINX ONE Console`**, with Instructor Lead and Self-paced and Hands-on Lab Exercises and Lab Guides that will teach a student using real Nginx instances with NGINX ONE.
 
-- [Apache License 2.0](/LICENSE) (required for all NGINX OSS projects).
-- [`.gitignore`](/.gitignore) with some minimal sensible defaults.
-- [Issue](/.github/ISSUE_TEMPLATE) and [PR](/.github//pull_request_template.md) templates.
-- [Contributing](/CONTRIBUTING.md) guidelines.
-- [Support](/SUPPORT.md) guidelines for either community and/or commercial support (uncomment the commercial block if necessary).
-- [Security](/SECURITY.md) guidelines for reporting major vulnerabilities.
-- [Code of Conduct](/CODE_OF_CONDUCT.md).
-- [F5 CLA workflow](/.github/workflows/f5-cla.yml). For more details on the action please check the [F5 CLA signature datastore repository](https://github.com/f5/f5-cla-data).
-- Open Source Security Foundation (OSSF) Scorecard [(implemented via a GitHub Action)](/.github/workflows/ossf_scorecard.yml)
-- [README](/README.md) placeholder. How you structure the README is up to you (although the template provides placeholder sections), but you will need to include:
-  - A [repostatus](https://www.repostatus.org/) badge.
-  - An OSSF Scorecard badge. (Optional -- Some projects will by their nature have low scores. In such a case you might want to remove this badge!).
-  - A community and/or commercial support badge. Include the latter -- and replace the commented out badge/URL placeholder with the relevant support URL -- if this repository contains a commercially supported project. You can find a commented out example below the community badge in this README.
-  - A contributor covenant/code of conduct badge. (Optional -- If you already have multiple badges and want to reduce clutter, simply including the actual code of conduct is enough!)
-  - An explicit link back to the [Apache License 2.0](/LICENSE).
-  - An up to date copyright notice.
-- [Changelog](/CHANGELOG.md) placeholder. (Optional -- A changelog is recommended, but it is not required and can diverge in format from the placeholder here included.)
-- [Codeowners](/.github/CODEOWNERS) placeholder. (Optional -- Codeowners is a useful feature, but not all repositories require them.)
+<br>
 
-**Note:** If you created a public repository before this template became available (or you didn't know about it's existence), please include any missing files found here in your repository. There is no need if you have a private repository, but we still recommend you include all of the above scaffolding should the repository ever become public.
+## Audience
 
-## How do I use this template?
+This Workshop is meant for Modern Application Developers, DevOps, Platform Ops, and SRE engineers working with NGINX, NGINX Plus, Docker - how they are managed, monitored, and configured using the ONE Console.  Using various Nginx instances, you will connect them to NGINX ONE and explore the Console.
 
-**DO NOT FORK** -- this template is meant to be used from the **[`Use this template`](https://github.com/nginxinc/template-repository/generate)** feature.
+`The Student taking this Workshop must have the basic skills and knowledge with the following:`
 
-1. Click on **[`Use this template`](https://github.com/nginxinc/template-repository/generate)**.
-2. Give a name to your project.
-3. Wait until the first run of CI finishes (GitHub Actions will process the template and commit to your new repo).
-4. Clone your new project and tweak any of the placeholders if necessary. Pay special attention to the README!
-5. Happy coding!
+- Nginx Opensource or Plus
+- Nginx configurations: files, directives, and variables
+- Chrome Browser
+- Linux OS / desktop skills
+- Optional: Docker container concepts
+- Optional: TLS certificates
+- Optional: CVE Security concepts
 
-**NOTE**: **WAIT** until the first CI run on GitHub Actions finishes before cloning your new project.
+You should be proficient with the following technologies and concepts.
 
----
+- Nginx Webserver and Reverse Proxy
+- HTTP 1.1 Protocol, TLS
+- Various Desktop tools; Visual Studio, Linux, Terminal, Chrome
 
-<!--  DELETE THE LINES ABOVE THIS AND WRITE YOUR PROJECT README BELOW -- PLACEHOLDER SECTIONS HAVE BEEN INCLUDED FOR YOUR CONVENIENCE -->
+<br/>
 
-[![Project Status: Concept – Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/nginxinc/nginx-one-workshops/badge)](https://securityscorecards.dev/viewer/?uri=github.com/nginxinc/nginx-one-workshops)
-[![Community Support](https://badgen.net/badge/support/community/cyan?icon=awesome)](/SUPPORT.md) <!-- [![Commercial Support](https://badgen.net/badge/support/commercial/cyan?icon=awesome)](<Insert URL>) -->
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](/CODE_OF_CONDUCT.md)
+## Knowledge and Skills Requirements
 
-# nginx_one_workshops
+<br/>
 
-## Requirements
+NGINX ONE Console  |  Hands-On Labs
+:-------------------------:|:-------------------------:
+![](labs/media/nginx-one-icon.png)  |  ![](labs/media/developer-seated.svg)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam elit turpis, varius et arcu elementum, viverra rhoncus sem. Aliquam nec sodales magna, et egestas enim. Mauris lobortis ultrices euismod. Pellentesque in arcu lacus. Mauris cursus laoreet nulla, ac vehicula est. Vestibulum eu mauris quis lorem consectetur aliquam ac nec quam. Vestibulum commodo pharetra mi, at bibendum neque faucibus ut. Mauris et tortor sed sem consectetur eleifend ut non magna. Praesent feugiat placerat nibh, varius viverra orci bibendum sed. Vestibulum dapibus ex ut pulvinar facilisis. Quisque sodales enim et augue tempor mattis. Suspendisse finibus congue felis, ac blandit ligula. Praesent condimentum ultrices odio quis semper. Nunc ultrices, nibh quis mattis pellentesque, elit nulla bibendum felis, quis dapibus erat turpis ac urna.
+<br/>
+
+To meet the Prerequisite skills requirement, there are other Workshops from Nginx to help you prepare.  The student should have completed the Nginx Basics Workshop 101, prior to taking this workshop. (Or have equivalent knowledge).  
+
+- Nginx Basics Workshop - 101 (https://github.com/nginxinc/nginx-basics-workshops/tree/master/labs)
+
+See [Lab0 Readme](/labs/lab0/readme.md) for the Hardware/Software and Skills Prerequisites for taking this Workshop and completing the Lab Exercises.
+
+<br/>
 
 ## Getting Started
 
-Duis sit amet sapien vel velit ornare vulputate. Nulla rutrum euismod risus ac efficitur. Curabitur in sagittis elit, a semper leo. Suspendisse malesuada aliquam velit, eu suscipit lorem vehicula at. Proin turpis lacus, semper in placerat in, accumsan non ipsum. Cras euismod, elit eget pretium laoreet, tortor nulla finibus tortor, nec hendrerit elit turpis ut eros. Quisque congue nisi id mauris molestie, eu condimentum dolor rutrum. Nullam eleifend elit ac lobortis tristique. Pellentesque nec tellus non mauris aliquet commodo a eu elit. Ut at feugiat metus, at tristique mauris. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
+Review the Github Repo content for the Nginx Basics Workshop 101.  If you have taken this Workshop, and understand the content, you can successfully complete the Lab exercises in this Nginx ONE Workshop.  It is HIGHLY recommended that you complete the 101 Workshop prior.  
+
+It will take approximately 1 hour to complete the Nginx ONE  Workshop.
+
+<br/>
 
 ## How to Use
 
-Maecenas at vehicula justo. Suspendisse posuere elementum elit vel posuere. Etiam quis pulvinar massa. Integer tempor semper risus, vitae maximus eros ullamcorper vitae. In egestas, ex vitae gravida sodales, ipsum dolor varius est, et cursus lorem dui a mi. Morbi faucibus ut nisi id faucibus. Sed quis ullamcorper ex. In et dolor id nunc interdum suscipit.
+The content and lab exercises are presented in a sequence as you build and add additional Nginx instances and functionality as you progress.  It is essential that the Lab Exercises are completed in the order provided.  This content provided is for example only, is not for production workloads.  The user of this information assumes all risks.
+
+- Click [LabGuide](labs/readme.md) to begin the Lab Exercises.
+- Click [Lab0 Readme](labs/lab0/readme.md) to review the Lab0 Prerequisites - "Know before you Go".
+
+<br/>
 
 ## Contributing
 
-Please see the [contributing guide](/CONTRIBUTING.md) for guidelines on how to best contribute to this project.
+Please see the [contributing guide](https://github.com/nginxinc/nginx-one-workshops/blob/main/CONTRIBUTING.md) for guidelines on how to best contribute to this project.
+
+<br/>
+
+### Authors
+
+- Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
+- Adam Currier - Solutions Architect - Community and Alliances @ F5, Inc.
+
+-------------
+
+<br/>
 
 ## License
 
-[Apache License, Version 2.0](/LICENSE)
+[Apache License, Version 2.0](https://github.com/nginxinc/nginx-one-workshops/blob/main/LICENSE)
+
 
 &copy; [F5, Inc.](https://www.f5.com/) 2024
