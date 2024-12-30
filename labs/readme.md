@@ -24,9 +24,9 @@ This is the second Workshop in the `NGINXperts Series` from the Nginx Communitie
 
 <br/>
 
-NGINX ONE Console  |  NGINXperts Workshops
-:-------------------------:|:-------------------------:
-![](media/nginx-one-icon.png)  |  ![](media/developer-seated.svg)
+NGINX ONE Console  |
+:-------------------------:|
+![](media/nginx-one-icon.png)  |
 
 <br/>
 
@@ -42,16 +42,16 @@ See the [Lab0 Readme.md](lab0/readme.md) for details on Student Prerequisites fo
 
 </br>
 
-NGINX One Console  |  NGINX Plus  |  NGINX OSS | Docker
-:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![](media/nginx-one-icon.png)  |  ![](media/nginx-plus-icon.png)   |  ![](media/nginx-oss-icon.png) |  ![](media/docker-icon.png)
+  NGINX Plus | NGINX One Console |  NGINX OSS 
+:-------------------------:|:-------------------------:|:-------------------------:
+![](media/nginx-plus-icon.png)  |  ![](media/nginx-one-icon.png)   |  ![](media/nginx-icon.png)
 
 <br/>
 
 ## Lab Outline
 
-### Lab 0: Prerequesites - Student Skills / Resources
-- [Lab 0: Prerequesites - Student Skills / Resources](lab0/readme.md)
+### Lab 0: Prerequisites - Student Skills / Resources
+- [Lab 0: Prerequisites - Student Skills / Resources](lab0/readme.md)
 
 ### Lab 1: NGINX One Console Access & Overview
 - [Lab 1: NGINX One Console Access & Overview](lab1/readme.md)
