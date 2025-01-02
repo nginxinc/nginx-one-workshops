@@ -10,15 +10,14 @@ In this lab, you will be logging into NGINX One Console and exploring various co
 
 By the end of the lab you will be able to:
 
-- [NGINX One Console Introduction](#nginx-one-console-introduction)
-- [Access and navigate the NGINX One console](#access-and-navigate-the-nginx-one-console)
+- [Understand NGINX One Console product](#nginx-one-console-introduction)
+- [Access and navigate the NGINX One Console](#access-and-navigate-the-nginx-one-console)
 - [Create and manage data plane keys that would be used to manage NGINX instances](#create-and-manage-data-plane-keys-that-would-be-used-to-manage-nginx-instances)
 
 ## Prerequisites
 
 - You must have an F5 Distributed Cloud(XC) Account
 - You must have enabled NGINX One service on F5 Distributed Cloud(XC)
-- You must have Docker and Docker Compose installed and running
 - See `Lab0` for instructions on setting up your system for this Workshop
 - Familiarity with basic Linux concepts and commands
 - Familiarity with basic Nginx concepts and commands
@@ -112,7 +111,9 @@ The Nginx One Console requires `nginx-agent`, an open source software module wri
 <br/>
 
 This ends lab1.
+
 <br/>
+
 ## References:
 
 - [Nginx One Console](https://docs.nginx.com/nginx-one/)
