@@ -4,7 +4,7 @@
 *.key
 *~
 \#*
-nginx-plus.jwt
+nginx-repo.jwt
 
 # OS Specific #
 ###############
