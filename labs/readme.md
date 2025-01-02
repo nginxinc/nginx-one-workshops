@@ -56,8 +56,8 @@ See the [Lab0 Readme.md](lab0/readme.md) for details on Student Prerequisites fo
 ### Lab 1: NGINX One Console Access & Overview
 - [Lab 1: NGINX One Console Access & Overview](lab1/readme.md)
 
-### Lab 2: Add NGINX OSS Container
-- [Lab 2: Add NGINX OSS Container](lab2/readme.md)
+### Lab 2: Build workshop components within Docker
+- [Lab 2: Build workshop components within Docker](lab2/readme.md)
 
 ### Lab 3: Add NGINX Plus Container  
 - [Lab 3: Add NGINX Plus Container](lab3/readme.md)
