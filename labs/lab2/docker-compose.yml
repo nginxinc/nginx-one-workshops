@@ -140,6 +140,7 @@ services:
   web1:
       hostname: web1
       container_name: web1
+      platform: linux/amd64
       image: nginxinc/ingress-demo            # Image from Docker Hub
       ports:
         - "80"                                # Open for HTTP
@@ -147,6 +148,7 @@ services:
   web2:
       hostname: web2
       container_name: web2
+      platform: linux/amd64
       image: nginxinc/ingress-demo
       ports:
         - "80"
@@ -154,6 +156,7 @@ services:
   web3:
       hostname: web3
       container_name: web3
+      platform: linux/amd64
       image: nginxinc/ingress-demo
       ports:
         - "80"
