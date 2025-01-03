@@ -190,34 +190,56 @@ One of the Best Features of the Nginx ONE Console is the Configuration analysis 
 
     ![Nginx Conf Best Practice](media/lab3_nginx-conf-best-practice.png)
 
-
-~~~~~~NEED EDITS From here~~~~~~~
-
 Ok, so now what??  You can fix all these.  Just Click the `Edit Configuration` Pencil icon at the top, and now you can edit the Nginx config files directly.
 
-1. Try this on the `cafe.example.com.conf` file.  At the bottom, Click the link for `line 4`.  It will take you directly to the file's config line, and also display an explanation with details about the parameter.  ADD the `default_server` directive to Line4, so it reads `listen 80 default_server;`.  
+1. Try this on the `cafe.example.com.conf` file.  At the bottom, Click the link for `line 4`.  It will take you directly to the file's config line, and also display an explanation with details about the parameter.  
 
->And another Great Feature of the One Console, **Nginx Mice!!**  If you `mouse-over` any of the `colored words` in your config, you will see a pop-up with details about the Directive, Variable, or Parameter.  No more Googling to try and find details about Nginx configurations, it's at your finger/mouse tips!
+    Add the `default_server` directive to Line4, so it reads `listen 80 default_server;`.  
 
-![Cafe Edit Line4](media/lab7_cafe-edit-line4.png) 
+    >And another Great Feature of the One Console, **Nginx Mice!!**  If you `mouse-over` any of the `colored words` in your config, you will see a pop-up with details about the Directive, Variable, or Parameter.  No more Googling to try and find details about Nginx configurations, it's at your finger/mouse tips!
+
+    ![Cafe Edit Line4](media/lab3_cafe-edit-line4.png)
 
 1. Now do the same for Line #16, the `proxy_buffering off` Directive, change it to `on`.
 
-![Cafe Edit Line16](media/lab7_cafe-edit-line16.png) 
+    ![Cafe Edit Line16](media/lab3_cafe-edit-line16.png)
 
 1. When finished with your Edits, Click the Green `Next` button.  This will show you a side-by-side `DIFF` of the before/after configuration changes that you made.
 
-![Cafe Edit Line16](media/lab7_cafe-config-diff.png) 
+    ![Cafe Edit Line16](media/lab3_cafe-config-diff.png)
 
 1. Now you can click the Green `Publish` button to commit your changes to the Nginx Instance.  The Nginx-agent on the Instance will re-test and then apply your configuration changes.  You will see two pop-ups for Publishing Status and `Success`.
 
-
-![Cafe Publish](media/lab7_cafe-publish.png) 
-![Cafe Publish completed](media/lab7_cafe-publish-success.png) 
+    ![Cafe Publish](media/lab3_cafe-publish.png)
+    ![Cafe Publish completed](media/lab3_cafe-publish-success.png)
 
 1. You can follow this same procedure for your other Nginx config files, making the edits and Publish your changes.
 
->You can even add `new` files to your Nginx configurations, and Publish those as well!  Just click on `Add file` while you are in Edit mode.
+    >You can even add `new` files to your Nginx configurations, and Publish those as well!  Just click on `Add file` while you are in Edit mode.
+
+<br/>
+
+~~~CONTINUE FROM HERE WIP~~~~
+
+## Nginx One CVEs Deep Dive
+
+![CVE](media/lab7_none-cves.png)
+
+One of the nice security feature of the NGINX One Console is the ability to provide a CVE summary with `High-Medium-Low Severity` classes. Clicking those classes reveals which Instances fall under them.
+
+1. Using the Overview Dashboard CVEs Panel, Click on the `High` Severity link. This will provide a List View of the Instances that have CVEs that are classified under `High` Severity.
+
+    ![High CVEs](media/lab7_none-cves-high.png)
+
+1. Click on the `basics-plus1` Instance. This will provide the Instance level Details, you will see a `CVEs` Section, this time with the Name, Severity and Description for each CVEs applicable to the instance.
+
+    ![Basics-plus1 CVE](media/lab7_basics-plus1-cves.png)
+
+1. If you click on one of the CVEs name hyperlink, for example `CVE-2024-39792`, it will directly open the CVE website on a new tab with detailed information and possible remediations.
+
+    ![High CVE redirect](media/lab7_basics-plus1-cves-redirect.png)
+
+1. In similar fashion explore, click on the `Medium` Severity link within the Overview Dashboard and explore all the other CVEs that are classified under `Medium` Severity.
 
 <br/>
 
