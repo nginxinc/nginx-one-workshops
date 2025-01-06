@@ -169,20 +169,28 @@ Fix the Expired Certificate!  If you want to create a new certificate, say with 
 
 1. Copy the 91.* files to the appropriate directory, in this workshop, that would be `lab2/nginx-oss/etc/ssl/nginx`.
 
-1. Edit the `tls-cars.example.com.conf` file, changing the names of the crt/key from `1-day.crt and 1-day.key` to `90-day.crt and 90-day.key`; Lines #13-14.
+1. Edit the `tls-cars.example.com.conf` file that can be found in `lab2/nginx-oss/etc/nginx/conf.d/` file path. Change the names of the crt/key from `cars.crt and cars.key` to `90-day.crt and 90-day.key`; Lines #13-14.
 
     ```nginx
     ...
     # Update the following 2 lines for NGINX cert and key directives and file locations
 
-        ssl_certificate /etc/ssl/nginx/1-day.crt;
-        ssl_certificate_key /etc/ssl/nginx/1-day.key;
+        ssl_certificate /etc/ssl/nginx/cars.crt;
+        ssl_certificate_key /etc/ssl/nginx/cars.key;
 
     ...
 
     ```
 
-1. You will have to `docker exec login` to each container, and reload Nginx ( `nginx -s reload` ) for Nginx to pick up the configuration changes.
+1. Once you have made this file edits, you would need to reload nginx within all the NGINX OSS containers to incorporate these configuration changes. To do so run below command in your terminal
+
+    ```bash
+    docker exec -it basics-oss1 nginx -s reload
+    docker exec -it basics-oss2 nginx -s reload
+    docker exec -it basics-oss3 nginx -s reload
+    ```
+
+    The above set of commands would reload nginx in all the three NGINX OSS containers:  basics-oss1, basics-oss2 and basics-oss3.
 
 <br/>
 
