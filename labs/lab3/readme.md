@@ -107,6 +107,34 @@ This Panel shows basic Network level information from the Linux OS about the net
 
 <br/>
 
+## Nginx One CVEs Deep Dive
+
+![CVE](media/lab3_none-cves.png)
+
+One of the nice security feature of the NGINX One Console is the ability to provide a CVE summary with `High-Medium-Low Severity` classes. Clicking those classes reveals which Instances fall under them.
+
+1. Using the Overview Dashboard CVEs Panel, Click on the `High` Severity link. This will provide a List View of the Instances that have CVEs that are classified under `High` Severity.
+
+    ![High CVEs](media/lab3_none-cves-high.png)
+
+1. Click on the `basics-plus1` Instance. This will provide the Instance level Details, you will see a `CVEs` Section, this time with the Name, Severity and Description for each CVEs applicable to the instance.
+
+    ![Basics-plus1 CVE](media/lab3_basics-plus1-cves.png)
+
+1. If you click on one of the CVEs name hyperlink, for example `CVE-2024-39792`, it will directly open the CVE website on a new tab with detailed information and possible remediations.
+
+    ![High CVE redirect](media/lab3_basics-plus1-cves-redirect.png)
+
+1. In similar fashion explore, click on the `Medium` Severity link within the Overview Dashboard and explore all the other CVEs that are classified under `Medium` Severity.
+
+1. Another alternate way to look into CVEs is to navigate to the `Security` tab. This opens a new window in the left pane that shows all the F5 announced CVEs that are related to NGINX. This view also has a counter besides the CVE Name that shows how many instances are impacted by that particular CVE.
+    ![CVE Security Pane](media/lab3_none-security-pane.png)
+
+1. Clicking on the CVE name opens a new pane that shows you the instances impacted by that particular CVE. `View More` link would directly open the CVE website on a new tab similar to earlier steps.
+    ![CVE Security Pane Details](media/lab3_none-security-pane-details.png)
+
+<br/>
+
 ## Nginx One Certificates Deep Dive
 
 ![Certs](media/lab3_none-certs.png)
@@ -124,7 +152,7 @@ Another nice feature of the Nginx One Console is the ability to quickly see the 
 
     ![Certs](media/lab3_basics-oss1-certs.png)
 
-1. If you Click on the actual certifcate file, for example `30-day.crt`, it will give you a List of all the Instances that are using that same certificate.
+1. If you Click on the actual certificate file, for example `30-day.crt`, it will give you a List of all the Instances that are using that same certificate.
 
     ![Cert Details](media/lab3_30-day-cert-details.png)
 
@@ -219,31 +247,7 @@ Ok, so now what??  You can fix all these.  Just Click the `Edit Configuration` P
 
 <br/>
 
-~~~CONTINUE FROM HERE WIP~~~~
-
-## Nginx One CVEs Deep Dive
-
-![CVE](media/lab7_none-cves.png)
-
-One of the nice security feature of the NGINX One Console is the ability to provide a CVE summary with `High-Medium-Low Severity` classes. Clicking those classes reveals which Instances fall under them.
-
-1. Using the Overview Dashboard CVEs Panel, Click on the `High` Severity link. This will provide a List View of the Instances that have CVEs that are classified under `High` Severity.
-
-    ![High CVEs](media/lab7_none-cves-high.png)
-
-1. Click on the `basics-plus1` Instance. This will provide the Instance level Details, you will see a `CVEs` Section, this time with the Name, Severity and Description for each CVEs applicable to the instance.
-
-    ![Basics-plus1 CVE](media/lab7_basics-plus1-cves.png)
-
-1. If you click on one of the CVEs name hyperlink, for example `CVE-2024-39792`, it will directly open the CVE website on a new tab with detailed information and possible remediations.
-
-    ![High CVE redirect](media/lab7_basics-plus1-cves-redirect.png)
-
-1. In similar fashion explore, click on the `Medium` Severity link within the Overview Dashboard and explore all the other CVEs that are classified under `Medium` Severity.
-
-<br/>
-
-#### Optional:  How to Pull and Run individual containers
+## (Optional Exercise):  Check how to Pull and Run individual containers
 
 If you would like to just run a few containers without Docker Compose, here are some examples to try.  Notice that the `$TOKEN with Dataplane Key` must be set and used for Registration with the Nginx One Console:
 
@@ -268,25 +272,19 @@ If you would like to just run a few containers without Docker Compose, here are 
 
     ```
 
-### Nginx Container Images with Nginx Agent installed for Nginx One Console
+## (Optional Exercise): Check Container registry for all Nginx Container Images with Nginx Agent installed
 
-For Reference:  Find all the currently available `Nginx OSS` containers with Agent installed.  Curl the `Docker Registry`:
+1. Find all the currently available `Nginx OSS` containers with Agent installed.  Curl the `Docker Registry`:
 
-```bash
-curl https://docker-registry.nginx.com/v2/nginx/agent/tags/list  | jq
+    ```bash
+    curl https://docker-registry.nginx.com/v2/nginx/agent/tags/list  | jq
+    ```
 
-```
+1. Find all the currently available `Nginx Plus` containers with Agent installed.  Curl the `Nginx Private Registry` ( **NOTE:** you will need your `nginx-repo Certificate and Key` files to run this command):
 
-For Reference:  Find all the currently available `NginxPlus` containers with Agent installed.  Curl the `Nginx Private Registry`, you will need your `nginx-repo Certificate and Key` files for this command:
-
-```bash
-curl https://private-registry.nginx.com/v2/nginx-plus/agent/tags/list --key nginx-repo.key --cert nginx-repo.crt | jq
-
-```
-
-<br/>
-
-
+    ```bash
+    curl https://private-registry.nginx.com/v2/nginx-plus/agent/tags/list --key nginx-repo.key --cert nginx-repo.crt | jq
+    ```
 
 <br/>
 
