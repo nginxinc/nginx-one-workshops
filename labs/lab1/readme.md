@@ -11,7 +11,7 @@ In this lab, you will be logging into NGINX One Console and exploring various co
 By the end of the lab you will be able to:
 
 - [Understand NGINX One Console product](#nginx-one-console-introduction)
-- [Access and navigate the NGINX One Console](#access-and-navigate-the-nginx-one-console)
+- [Access and navigate NGINX One Console](#access-and-navigate-nginx-one-console)
 - [Create and manage data plane keys that would be used to manage NGINX instances](#create-and-manage-data-plane-keys-that-would-be-used-to-manage-nginx-instances)
 
 ## Prerequisites
@@ -46,7 +46,7 @@ NGINX One Console offers the following key benefits:
 
 The NGINX One Console requires `NGINX Agent`, an open source software module written by NGINX that connects and communicates with NGINX One.  This NGINX Agent must be installed and running on every NGINX instance that you wish to manage with NGINX One.  You will use the publicly available NGINX with Agent images from Docker Hub for your NGINX OSS containers.  In addition, as part of your Docker Compose file, your NGINX Plus containers already have the required `NGINX Agent` installed for you.  NGINX Agent can also be installed using regular Linux package managers like `apt` and `yum`.  Refer to the References Section for links to the NGINX Agent installation guides.
 
-### Access and navigate the NGINX One console
+### Access and navigate NGINX One console
 
 1. Login into the F5 Distributed Cloud console using your account credentials. The login page can be found at: https://console.ves.volterra.io/login/start
 
