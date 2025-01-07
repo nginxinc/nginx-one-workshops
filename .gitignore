@@ -1,7 +1,8 @@
 # Any private crt and keys #
 ############################
-*.crt
-*.key
+*-day.crt
+*-day.key
+nginx-repo.*
 *~
 \#*
 

@@ -24,9 +24,9 @@ This is the second Workshop in the `NGINXperts Series` from the Nginx Communitie
 
 <br/>
 
-NGINX ONE Console  |  NGINXperts Workshops
-:-------------------------:|:-------------------------:
-![](media/nginx-one-icon.png)  |  ![](media/developer-seated.svg)
+NGINX ONE Console  |
+:-------------------------:|
+![](media/nginx-one-icon.png)  |
 
 <br/>
 
@@ -42,46 +42,37 @@ See the [Lab0 Readme.md](lab0/readme.md) for details on Student Prerequisites fo
 
 </br>
 
-NGINX One Console  |  NGINX Plus  |  NGINX OSS | Docker
-:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![](media/nginx-one-icon.png)  |  ![](media/nginx-plus-icon.png)   |  ![](media/nginx-oss-icon.png) |  ![](media/docker-icon.png)
+  NGINX Plus | NGINX One Console |  NGINX OSS 
+:-------------------------:|:-------------------------:|:-------------------------:
+![](media/nginx-plus-icon.png)  |  ![](media/nginx-one-icon.png)   |  ![](media/nginx-icon.png)
 
 <br/>
 
 ## Lab Outline
 
-### Lab 0: Prerequesites - Student Skills / Resources
-- [Lab 0: Prerequesites - Student Skills / Resources](lab0/readme.md)
+### Lab 0: Prerequisites - Student Skills / Resources
+- [Lab 0: Prerequisites - Student Skills / Resources](lab0/readme.md)
 
-### Lab 1: NGINX One Console Access & Overview
-- [Lab 1: NGINX One Console Access & Overview](lab1/readme.md)
+### Lab 1: NGINX One Console Introduction & Access
+- [Lab 1: NGINX One Console Introduction & Access](lab1/readme.md)
 
-### Lab 2: Add NGINX OSS Container
-- [Lab 2: Add NGINX OSS Container](lab2/readme.md)
+### Lab 2: Build workshop components within Docker
+- [Lab 2: Build workshop components within Docker](lab2/readme.md)
 
-### Lab 3: Add NGINX Plus Container  
-- [Lab 3: Add NGINX Plus Container](lab3/readme.md)
+### Lab 3: NGINX One Console Overview and Deep Dive  
+- [Lab 3: NGINX One Console Overview and Deep Dive](lab3/readme.md)
 
-### Lab 4: NGINX Instance Groups
-- [Lab 4: NGINX Instance Groups](lab4/readme.md)
+### Lab 4: Managing your NGINX fleet
+- [Lab 4: Managing your NGINX fleet](lab4/readme.md)
 
-### Lab 5: Managing your NGINX fleet
-- [Lab 5: Managing your NGINX fleet](lab5/readme.md)
+### Lab 5: Placeholder
+- [Lab 5: Placeholder](lab8/readme.md)
 
-### Lab 6: TLS Certificates
-- [Lab 6: TLS Certificates](lab6/readme.md)
+### Lab 6: Placeholder
+- [Lab6: Placeholder](lab9/readme.md)
 
-### Lab 7: CVE Overview
-- [Lab 7: CVE Overview](lab7/readme.md)
-
-### Lab 8: Placeholder
-- [Lab 8: Placeholder](lab8/readme.md)
-
-### Lab 9: Placeholder
-- [Lab9: Placeholder](lab9/readme.md)
-
-### Lab 10: Placeholder
-- [Lab10: Placeholder](lab10/readme.md)
+### Lab 7: Placeholder
+- [Lab7: Placeholder](lab10/readme.md)
 
 #### Labs Optional: Optional Exercises
 - [Labs Optional: Optional Exercises](labs-optional/readme.md)
