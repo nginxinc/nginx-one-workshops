@@ -14,7 +14,7 @@ In this lab, you will be running the backend application and several NGINX OSS a
 - You must have an Active Data Plane Key from previous exercise
 - See `Lab0` for instructions on setting up your system for this Workshop
 - Familiarity with basic Linux concepts and commands
-- Familiarity with basic Nginx concepts and commands
+- Familiarity with basic NGINX concepts and commands
 
 <br/>
 
@@ -22,13 +22,13 @@ In this lab, you will be running the backend application and several NGINX OSS a
 
 NGINX Plus | Docker| NGINX OSS
 :-------------------------:|:-------------------------:|:---------------:
-![NGINX Plus](media/nginx-plus-icon.png) |![Docker](media/docker-icon.png) |![Nginx OSS](media/nginx-icon.png)
+![NGINX Plus](media/nginx-plus-icon.png) |![Docker](media/docker-icon.png) |![NGINX OSS](media/nginx-icon.png)
 
 You will run some Docker containers to build out various workshop components, using the provided `docker-compose.yml` file.  This Docker Compose will pull and run 9 different Docker Containers, as follows:
 
-- 3 Nginx OSS Containers, with different OS and Nginx versions, connecting to the Nginx One Console
-- 3 Nginx Plus Containers, with different OS and Nginx versions, connecting to the Nginx One Console
-- 3 nginxinc/ingress-demo Containers, used for the backend web servers, but NOT connected to the Nginx One Console
+- 3 NGINX OSS Containers, with different OS and NGINX versions, connecting to the NGINX One Console
+- 3 NGINX Plus Containers, with different OS and NGINX versions, connecting to the NGINX One Console
+- 3 nginxinc/ingress-demo Containers, used for the backend web servers, but NOT connected to the NGINX One Console
 
 1. Inspect the `lab2/docker-compose.yml` file.  You will see the details of each container being pulled and run.
 
@@ -52,7 +52,7 @@ You will run some Docker containers to build out various workshop components, us
     vJ+ADwlFXKf58bX0Qk/...6N38Al4fdxXDefT6J2iiM=
     ```
 
-1. Using the same Terminal, set the `JWT` environment variable from your `nginx-repo.jwt` license file.  This is required to pull the Nginx Plus container images from the Nginx Private Registry.   If you do not have an Nginx Plus license, you can request a free 30-Day Trial license from here:  https://www.f5.com/trials/nginx-one 
+1. Using the same Terminal, set the `JWT` environment variable from your `nginx-repo.jwt` license file.  This is required to pull the NGINX Plus container images from the NGINX Private Registry.   If you do not have an NGINX Plus license, you can request a free 30-Day Trial license from here:  https://www.f5.com/trials/nginx-one 
 
     ```bash
     export JWT=$(cat nginx-repo.jwt)
@@ -65,7 +65,7 @@ You will run some Docker containers to build out various workshop components, us
     echo $JWT
     ```
 
-1. Using Docker, Login to to the Nginx Private Registry, using the $JWT ENV variable for the username, as follows.  (Your system may require sudo):
+1. Using Docker, Login to to the NGINX Private Registry, using the $JWT ENV variable for the username, as follows.  (Your system may require sudo):
 
     ```bash
     docker login private-registry.nginx.com --username=$JWT --password=none
@@ -89,7 +89,7 @@ You will run some Docker containers to build out various workshop components, us
     bash generate_certs.sh
     ```
 
-1. If both ENV variables are set correctly && you are logged into the Nginx Private Registry, you can now run Docker Compose to pull and run the images.  Ensure you are in the `/lab2` folder:
+1. If both ENV variables are set correctly && you are logged into the NGINX Private Registry, you can now run Docker Compose to pull and run the images.  Ensure you are in the `/lab2` folder:
 
     ```bash
     docker compose up --force-recreate -d
@@ -124,17 +124,17 @@ You will run some Docker containers to build out various workshop components, us
     ##Sample output##
 
     CONTAINER ID   IMAGE                                                                             COMMAND                  CREATED          STATUS          PORTS                                                                                                                                                                          NAMES
-    # Nginx OSS containers
+    # NGINX OSS containers
     00ee8c9e4326   docker-registry.nginx.com/nginx/agent:mainline                                    "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33396->80/tcp, :::33395->80/tcp, 0.0.0.0:33393->443/tcp, :::33392->443/tcp, 0.0.0.0:33388->9000/tcp, :::33387->9000/tcp, 0.0.0.0:33381->9113/tcp, :::33380->9113/tcp   basics-oss1
     34b871d50d1b   docker-registry.nginx.com/nginx/agent:alpine                                      "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33391->80/tcp, :::33390->80/tcp, 0.0.0.0:33385->443/tcp, :::33384->443/tcp, 0.0.0.0:33378->9000/tcp, :::33377->9000/tcp, 0.0.0.0:33375->9113/tcp, :::33374->9113/tcp   basics-oss2
     022d79ce886c   docker-registry.nginx.com/nginx/agent:1.26-alpine                                 "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33398->80/tcp, :::33397->80/tcp, 0.0.0.0:33395->443/tcp, :::33394->443/tcp, 0.0.0.0:33392->9000/tcp, :::33391->9000/tcp, 0.0.0.0:33386->9113/tcp, :::33385->9113/tcp   basics-oss3
 
-    # Nginx Plus containers
+    # NGINX Plus containers
     9770a4169e19   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r32-alpine-3.20-20240613   "/usr/bin/supervisor…"   44 minutes ago   Up 44 minutes   0.0.0.0:33397->80/tcp, :::33396->80/tcp, 0.0.0.0:33394->443/tcp, :::33393->443/tcp, 0.0.0.0:33389->9000/tcp, :::33388->9000/tcp, 0.0.0.0:33383->9113/tcp, :::33382->9113/tcp   basics-plus1
     852667e29280   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522   "/usr/bin/supervisor…"   44 minutes ago   Up 44 minutes   0.0.0.0:33382->80/tcp, :::33381->80/tcp, 0.0.0.0:33377->443/tcp, :::33376->443/tcp, 0.0.0.0:33374->9000/tcp, :::33373->9000/tcp, 0.0.0.0:33372->9113/tcp, :::33371->9113/tcp   basics-plus2
     ffa65b04e03b   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-ubi-9-20240522         "/usr/bin/supervisor…"   44 minutes ago   Up 44 minutes   0.0.0.0:33373->80/tcp, :::33372->80/tcp, 0.0.0.0:33371->443/tcp, :::33370->443/tcp, 0.0.0.0:33370->9000/tcp, :::33369->9000/tcp, 0.0.0.0:33369->9113/tcp, :::33368->9113/tcp   basics-plus3
 
-    # Nginx Ingress Demo containers (not Registered with One Console)
+    # NGINX Ingress Demo containers (not Registered with One Console)
     37c2777c8598   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33387->80/tcp, :::33386->80/tcp, 0.0.0.0:33379->443/tcp, :::33378->443/tcp                                                                                             web1
     dba569e76e36   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   443/tcp, 0.0.0.0:33390->80/tcp, :::33389->80/tcp, 0.0.0.0:33384->433/tcp, :::33383->433/tcp                                                                                    web2
     5cde3c462a27   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33380->80/tcp, :::33379->80/tcp, 0.0.0.0:33376->443/tcp, :::33375->443/tcp                                                                                             web3
@@ -142,9 +142,9 @@ You will run some Docker containers to build out various workshop components, us
 
     Go back to your One Console Instance page, and click `Refresh`.  You should see all 6 of your `basics-`  instances appear in the list, and the Online icon should be `green`.  If they did not Register with the One Console, it is likely you have an issue with the $TOKEN used, create a new Dataplane Key and try again.  It should look similar to this:
 
-    ![Nginx Instances](media/lab2_none-instances.png)
+    ![NGINX Instances](media/lab2_none-instances.png)
 
-Now that the Nginx OSS and Plus containers are running and Registered with the Nginx One Console, in subsequent sections you will explore the various features of Nginx One Console, and manage your Nginx Instances!
+Now that the NGINX OSS and Plus containers are running and Registered with the NGINX One Console, in subsequent sections you will explore the various features of NGINX One Console, and manage your NGINX Instances!
 
 <br/>
 
@@ -154,8 +154,8 @@ This ends lab2.
 
 ## References:
 
-- [Nginx One Console](https://docs.nginx.com/nginx-one/)
-- [Nginx Agent](https://docs.nginx.com/nginx-agent/overview/)
+- [NGINX One Console](https://docs.nginx.com/nginx-one/)
+- [NGINX Agent](https://docs.nginx.com/nginx-agent/overview/)
 
 <br/>
 
