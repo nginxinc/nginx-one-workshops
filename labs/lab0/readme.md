@@ -1,91 +1,94 @@
-#  Setup your Computer for NGINX Workshops 
+# Workshop pre-work
 
-## `under construction`
+## Prep for your upcoming F5/NGINX Workshop
 
-## Introduction
+If you're here that probably means you are currently in, or registered for, an upcoming NGINXperts Workshop. By taking the time to run through this exercise you are helping us save time during the workshop and ensure that you meet the prerequisites to access the workshop. We appreciate you taking time to check your system and your access.
 
-In this Workshop, you will build a working Lab environment in Azure, and use Nginx for Azure to control traffic to these Azure Resources.  The architecture you will build will look like this diagram:
+<br/>
 
-![N4A Workshop](media/n4a-workshop-diagram-r7.png)
+## Step 0: If this is your first time in an F5 Hosted Workshop
+
+Look for an email from **`courses@notify.udf.f5.com`**. This will have instructions on how you can login into UDF (F5 workshop environment).
+
+![Ultra Super Important Invite email](media/megasuperimportantemail.png)
+
+### If you cannot find your invite email ("UDF Course Registration:NGINXperts Lab ...") STOP
+
+- These commonly get caught by spam/junk filters. *Make sure to check your spam folder **and** your system's email Quarantine.*
+
+- If you still cannot find your invite email, you either have not been invited to a workshop or we have an incorrect email. Please get help from whoever sent you to this page.
+
+## Step 1: Get yourself to UDF
+
+- Navigate to [https://udf.f5.com/](https://udf.f5.com/) and select `Invited Users`
+    ![Non F5](media/udfloginnonf5.png)
+
+- If this is your first time using UDF, use the `Sign Up` link which would take your to F5 registration page.
   
-In order to build this environment, your computer hardware, software, and applications must be properly installed and functional.  This is the list of Prerequisite needed to successfully complete this Workshop as a Student.
+  **NOTE:** this will *not be the password to the Ubuntu Desktop or other VMs in the class!*
+    ![Sign up](media/F5signup.png)
 
->It is `highly recommended` for Students attending this Workshop to be proficient with NGINX and Azure and have some experience with Kubernetes and Docker administration, networking tools, and Load Balancing concepts.  An `Azure Subscription` and Admin level access to Azure Portal is required. Previous experience with Visual Studio Code and Redis Tools is also recommended.
+- Once you have filled in your registration details, you should be receiving an `Account Activation` email as shown below
+  ![Account Activation Email](media/F5accountactivationemail.png)
 
-<br/>
+- When you click on the `Activate Account` button within the activation email, you would be redirected to setup 2 factor authentication as shown below. Select your preferred authentication method.
+  ![2factor Authentication prompt](media/2factorAuthentication.png)
 
-## Prerequisites
+- Once you have set up 2 factor authentication successfully, you will see a `green` checkmark on your preferred method. Click on `Finish`.
+  ![2factor Confirmation](media/2factorConfirmation.png)
 
-In this Lab0, the requirements for both the Student and the Azure environment will be described.  
+- If you already have an account but you can't remember your password, simply reset your password by clicking on `Forgot Password?` link.
+![Non F5](media/udfloginreset.png "happens to the best of us")
 
-> **IMPORTANT!** It is imperative that you have the appropriate computer, tools, and Azure Subscription privileges to successfully complete the Workshop.
+## Step 2: Start the course
 
-</br>
+- Once logged into UDF, click `Launch` (This will open a new tab.)
+  ![Non F5](media/courselist.png "click launch")
 
-NGINXaaS for Azure  |  NGINX Plus  |  Kubernetes | Docker | Redis
-:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![](media/nginx-azure-icon.png)  |  ![](media/nginx-plus-icon.png)   |  ![](media/kubernetes-icon.png) |  ![](media/docker-icon.png) |  ![](media/redis-icon.png)
+- And then click on `Join`
+  ![Non F5](media/joinbutton.png "'Yes I'm sure'")
 
-<br/>
+- Click the `DEPLOYMENT` tab at the top
+![Non F5](media/almostthere.png "I'm up here")
 
-## Student Azure Subscription Requirements
+## Step 3: RDP to the Ubuntu Jumpbox
 
-**IMPORTANT:** Students taking this Workshop will require `Owner` level privileges to complete the Lab Exercises.  In addition, Students will also require the following Subscription privileges. Consult with your IT Cloud Team to ensure you have the necessary privileges for the following items, *prior* to attempting the Workshop Exercises:
+- username: `ubuntu`
+- password: `Nginx123`
 
-1. Multiple `Public Ip Addresses` used in this lab.
+THIS REQUIRES AN RDP CLIENT! If you have a Mac *and* haven't downloaded an RDP client before, here is the first-party version:
 
-    - Public IP Address for the Nginx for Azure instance
-    - Public IP Address for the UbuntuVM
-    - Public IP Address for the Kubernetes Cluster API Server for the AKS instance(s)
+[Microsoft's RDP client on the Apple Apps Store](https://apps.apple.com/us/app/microsoft-remote-desktop/id1295203466?mt=12)
 
-2. `Azure Key Vault` used in this lab, to create TLS certificates and keys.
+- Now you just have to wait for the Ubuntu Desktop to finish booting. . .
 
-3. `Entra ID` used in this lab, to create Applications and Settings for the OIDC/JWT integration with Nginx. 
+![Non F5](media/waitforboot.png "loading. . .")
 
-<br/>
+- Make sure to select a small enough resolution to see the whole screen.
 
-### Student Hardware/Software/Azure Requirements
+![Non F5](media/launchrdp.png "almost there")
 
-Verify you have the proper computer requirements - hardware and software.
-- Hardware:  Laptop, Admin rights, Internet connection
-- Software:  Visual Studio, Terminal, Chrome, Docker, AKS and Azure CLI.
-    - You will need the Azure Command Line Interface tool (version 2.61.0 or higher) installed on your client machine to manage your Azure services. See [Azure CLI Installation](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) for instructions.
-    - You will also need the Azure CLI `NGINX` extension added.  See [Azure CLI Extensions](https://learn.microsoft.com/en-us/cli/azure/azure-cli-extensions-overview) for instructions.
-- Verify you have proper computer skills:  Linux CLI, files, SSH/Terminal, Docker/Compose, Azure Portal, Load Balancing concepts, Linux tools, Azure CLI
-- Verify you have the proper access to Azure resources: Azure Subscription with Admin/Owner level access
+- Once you select the resolution, your browser will download an rdp file. Open this file to connect to Ubuntu Desktop.
 
-<br/>
+- Accept the self-signed cert, the Ubuntu Desktop username and password will be `ubuntu` and `Nginx123`.
+  
+  (**NOTE:** This is *not* your UDF login username & password.)
 
-### Required Skills
+  ![Non F5](media/useruser.png)
 
-- Nginx for Azure NGINXperts Workshop has minimum REQUIRED Nginx Skills: Students must be familiar with Nginx operation, configurations, and concepts for HTTP traffic.
-- The NGINXperts Basics Workshop is HIGHLY recommended, students should have taken this workshop prior.
-- The NGINXperts Plus Ingress Controller workshop is also HIGHLY recommended, students should have taken this workshop prior.
-- Azure admin skills, previous training from Microsoft Learn is HIGHLY recommended.
-- Recommended: TLS, DNS, HTTP caching, Grafana, Redis
+-------------
+> **If you can't connect to the Ubuntu Desktop, *remember to shut off your VPN*, or join a non-proxied network (sometimes a guest network in the office will work)**
+-------------
 
-<br/>
+**For machines running Windows and attached to a domain, Windows will helpfully attempt to use your domain creds to log in, and you'll see:**
 
-[NGINXperts Basics Workshop](https://github.com/nginxinc/nginx-basics-workshops)
+![Non F5](media/domaincreds.png "everyone has credentials.com email accounts right?")
 
-<br/>
+### Click "More choices" to enter both a username and a password
 
-**This completes Lab0.**
+![Non F5](media/domaincredsannotated.png "green arrows")
 
-<br/>
-
-## References:
-
-- [NGINX As A Service for Azure](https://docs.nginx.com/nginxaas/azure/)
-- [NGINX Plus Product Page](https://docs.nginx.com/nginx/)
-- [NGINX Ingress Controller](https://docs.nginx.com//nginx-ingress-controller/)
-- [NGINX on Docker](https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-docker/)
-- [NGINX Directives Index](https://nginx.org/en/docs/dirindex.html)
-- [NGINX Variables Index](https://nginx.org/en/docs/varindex.html)
-- [NGINX Technical Specs](https://docs.nginx.com/nginx/technical-specs/)
-- [NGINX - Join Community Slack](https://community.nginx.org/joinslack)
-
-<br/>
+That wraps the pre-requisites.
 
 ### Authors
 
@@ -95,4 +98,4 @@ Verify you have the proper computer requirements - hardware and software.
 
 -------------
 
-Navigate to ([Lab1](../lab1/readme.md) | [LabGuide](../readme.md))
+Navigate to ([Lab1](../lab1/readme.md) | [Main Menu](../readme.md))
