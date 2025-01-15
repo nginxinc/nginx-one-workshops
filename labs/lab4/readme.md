@@ -47,7 +47,7 @@ On the _Details_ tab, there are two views: _Details_ represents additional detai
 
 On the _Configuration_ tab, there is a view that defines the NGINX configurations to use for all NGINX instances in this Config Sync Group.
 
-![Configuration View](media/lab4_csg_connfiguration.png)
+![Configuration View](media/lab4_csg_configuration.png)
 
 Notice the configuration is empty when you first create a Config Sync Group. There are two ways to handle the initial configuration.
 
@@ -130,7 +130,7 @@ You can see that the container starts up. With a refresh on the Config Sync Grou
 
 <br/>
 
-![1 Manual Instance](media/lab4_csg_one_manual_instance.png)
+![1 Manual Instance](media/lab4_csg_details-auto.png)
 
 <br/>
 
@@ -143,7 +143,7 @@ cd ../lab2
 docker compose down
 ```
 
-Now open up the docker-compose.yml file. You can uncomment the lines numbered 14, 36, & 58. This NGINX variable is all you need to add these to the Config Sync Group:
+Now open up the _**docker-compose.yml**_ file. You can uncomment the lines numbered **14, 36, & 58**. This NGINX variable is all you need to add these to the Config Sync Group:
 
 ```bash
 NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
@@ -185,7 +185,7 @@ Then click the `Edit Configuration` button on the right hand side of the page:
 
 <br/>
 
-We are going to replace the contents (which were pulled from the previous container) with our own config that will be used going forward. Edit the /etc/nginx/conf.d/default.conf file. We are going to add this snippet at lines 21-25
+We are going to add to the contents (which were pulled from the previous container) of the default config that will be used going forward. Click on and modify the /etc/nginx/conf.d/default.conf file. We are going to add this snippet at lines 21-25
 
 ```nginx
      location /test_header {
@@ -195,12 +195,18 @@ We are going to replace the contents (which were pulled from the previous contai
 ```
 
 <br/>
+You will notice it now says (modified) in braces next to the file we changed. At the bottom left you can see that the configuration checker thinks our changes look good.
+<br/>
 
 ![Config Change](media/lab4_csg_config_change.png)
 
 <br/>
 
-The next screen allows you to see a diff between the two configs. After reviewing you can click `Save and Publish`.
+What would it look like if there was a problem when ONE Console checked the config? Something like this:
+
+![Error Config Change](media/lab4_csg_config_error.png)
+
+Ok, we don't have any errors, so click on the green **Next** button. The following screen allows you to see a diff between the two configs. After reviewing you can click `Save and Publish`.
 
 <br>
 
@@ -234,7 +240,7 @@ A final note... you can _**mix OSS and Plus instances**_ in the same group! The 
 
 ---
 
-## Wrap UP
+## Wrap Up
 
 > If you are finished with this lab, you can use Docker Compose to shut down your test environment. Make sure you are in the `lab2` folder:
 
