@@ -297,6 +297,7 @@ This ends lab4.
 ## References
 
 - [Nginx One Console](https://docs.nginx.com/nginx-one/)
+- [Nginx One Console - Manage Config Sync Groups](https://docs.nginx.com/nginx-one/how-to/config-sync-groups/manage-config-sync-groups/)
 
 <br/>
 
