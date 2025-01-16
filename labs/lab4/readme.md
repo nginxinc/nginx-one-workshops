@@ -26,7 +26,7 @@ By the end of the lab you will be able to:
 
 ### Create a Config Sync Group
 
-Config Sync Groups allow us to group multiple NGINX instances and leverage an identical configuration across all instances. This feature is extremely helpful in ephemeral environments, such as Docker and Kubernetes, as the NGINX instance can pull its configuration versus needing to rebuild the NGINX container every time the configuration changes. This section will go through using this feature.
+Config Sync Groups allow you to group multiple NGINX instances and leverage an identical configuration across all instances. This feature is extremely helpful in ephemeral environments, such as Docker and Kubernetes, as the NGINX instance can pull its configuration versus needing to rebuild the NGINX container every time the configuration changes. This section will go through using this feature.
 
 - Under the `Manage` heading in the left hand column, click on the `Config Sync Groups` link.<br/>
   ![Config Sync Groups](media/lab4_csg.png)<br/><br/>
@@ -34,7 +34,7 @@ Config Sync Groups allow us to group multiple NGINX instances and leverage an id
 - In the resulting panel at the top, click on the `Add Config Sync Group` button.<br/>
   ![Add Config Sync Group](media/lab4_csg_add.png)<br/><br/>
 
-- A modal window will pop up and ask you to give a name for the Config Sync Group. Here we will use the name: `one-workshop-plus`<br/>
+- A modal window will pop up and ask you to give a name for the Config Sync Group. Here you will use the name: `one-workshop-plus`<br/>
   ![Config Sync Group Name](media/lab4_csg_name.png)<br/><br/>
 
 Click the create button. Your newly created Config Sync Group `one-workshop-plus` should be in the list.
@@ -133,9 +133,9 @@ You can see that the container starts up. With a refresh on the Config Sync Grou
 
 <br/>
 
-You can also notice that it says we are out of sync! We did not populate the configuration manually, so the first container added will download the configuration and become the new default config. We will change this a bit later. Hey, didn't we use docker compose to start our containers in the previous labs? We can add those instances to this `Config Sync Group` even easier than what we did above - automatically!
+You can also notice that it says you are out of sync! You did not populate the configuration manually, so the first container added will download the configuration and become the new default config. You will change this a bit later. Hey, didn't you use docker compose to start our containers in the previous labs? We can add those instances to this `Config Sync Group` even easier than what you did above - automatically!
 
-Let's stop our running containers by running:
+Let's stop your running containers by running:
 
 ```bash
 cd ../lab2
@@ -162,7 +162,7 @@ Use the refresh button and you should see the three new instances added to our c
 
 <br/>
 
-Upon being added to the Config Instance group, NGINX One will attempt to apply the configuration of the group to the instances in it. Here we can see the config was immediately applied to **one-plus-2** and **one-plus-3**. **one-plus-1** is the synch still in progress instance here. This shows it takes a a moment as the Config Sync Group applies the configuration to each new instance. We will need to refresh the UI to make sure the configs all get applied, but give it a minute.
+Upon being added to the Config Instance group, NGINX One will attempt to apply the configuration of the group to the instances in it. Here you can see the config was immediately applied to **one-plus-2** and **one-plus-3**. **one-plus-1** is the synch still in progress instance here. This shows it takes a moment as the Config Sync Group applies the configuration to each new instance. You will need to refresh the UI to make sure the configs all get applied, but give it a minute.
 
 <br/>
 
@@ -172,16 +172,16 @@ Upon being added to the Config Instance group, NGINX One will attempt to apply t
 
 ### Option 2 - Let's manually change the config file and apply it to the group
 
-Let's show we can push a change to the whole group! Click on the `Configuration` button next to the `Details`.
+Let's show you can push a change to the whole group! Click on the `Configuration` button next to the `Details`.
 
-1. When you select the _Configuration_ tab, notice the configuration here is identical to the first NGINX instance you just added. We could have pre-populated this area before any instances were added and the first instance would have pulled the config instead of pushing it's config as in the previous example. Now click the `Edit Configuration` button on the right hand side of the page:
+1. When you select the _Configuration_ tab, notice the configuration here is identical to the first NGINX instance you just added. You could have pre-populated this area before any instances were added and the first instance would have pulled the config instead of pushing it's config as in the previous example. Now click the `Edit Configuration` button on the right hand side of the page:
    <br/>
 
 ![Edit Config](media/lab4_csg_edit_config.png)
 
 <br/>
 
-We are going to add to the contents (which were pulled from the first added instance) of the default config that will be used going forward. Click on and modify the /etc/nginx/conf.d/default.conf file. We are going to add this snippet at lines 21-25
+You are going to add to the contents (which were pulled from the first added instance) of the default config that will be used going forward. Click on and modify the /etc/nginx/conf.d/default.conf file. You are going to add this snippet at lines 21-25
 
 ```nginx
      location /test_header {
@@ -205,7 +205,7 @@ What would it look like if there was a problem when ONE Console checked the conf
 
 <br/>
 
-Ok, we don't have any errors, so click on the green **Next** button. The following screen allows you to see a diff between the two configs. After reviewing you can click `Save and Publish`.
+Ok, you don't have any errors, so click on the green **Next** button. The following screen allows you to see a diff between the two configs. After reviewing you can click `Save and Publish`.
 
 <br>
 
@@ -221,7 +221,7 @@ NGINX One will indicate the change was a success and push it to all of our insta
 
 <br>
 
-We can now see all the instances are in sync!
+You can now see all the instances are in sync!
 
 <br>
 
