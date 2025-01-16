@@ -11,7 +11,7 @@ services:
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey From One Console
-      NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
+    #  NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
     hostname: one-workshop-plus1
     container_name: one-workshop-plus1
     image: private-registry.nginx.com/nginx-plus/agent:nginx-plus-r32-alpine-3.20-20240613 # CVE - From Nginx Private Registry
@@ -33,7 +33,7 @@ services:
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
-      NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
+    #  NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
     hostname: one-workshop-plus2
     container_name: one-workshop-plus2
     image: private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522 # CVE - From Nginx Private Registry
@@ -55,7 +55,7 @@ services:
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
-      NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
+    #  NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
     hostname: one-workshop-plus3
     container_name: one-workshop-plus3
     image: private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-ubi-9-20240522 # From Nginx Private Registry

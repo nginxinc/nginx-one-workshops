@@ -49,11 +49,10 @@ On the _Configuration_ tab, there is a view that defines the NGINX configuration
 
 ![Configuration View](media/lab4_csg_configuration.png)
 
-Notice the configuration is empty when you first create a Config Sync Group. There are two ways to handle the initial configuration.
+Notice that the configuration is empty when you first create a Config Sync Group. There are two ways to handle the initial configuration.
 
-**Option 1:** Auto-generate the Config Sync Group's configuration by adding the first NGINX instance. The existing config from the NGINX instance will be used as the config for your Config Sync Group.
-
-**Option 2:** Manually define the NGINX configurations before adding any NGINX instances using the UI text editor.
+- Option 1: Auto-generate the Config Sync Group's configuration by adding the first NGINX instance. The existing config from the NGINX instance will be used as the config for your Config Sync Group.
+- Option 2: Manually define the NGINX configurations before adding any NGINX instances using the UI text editor.
 
 ### Option 1 - Create and add an instance to the group
 
@@ -113,8 +112,8 @@ Start the container. We are going to modify the command shown in the console to 
 
 ```bash
 docker run \
---hostname=one-workshop-plus \
---name=one-auto \
+--hostname=one-workshop-manual \
+--name=one-manual \
 --env=NGINX_LICENSE_JWT="$JWT" \
 --env=NGINX_AGENT_SERVER_GRPCPORT=443 \
 --env=NGINX_AGENT_SERVER_HOST=agent.connect.nginx.com \
@@ -134,7 +133,7 @@ You can see that the container starts up. With a refresh on the Config Sync Grou
 
 <br/>
 
-Hey, didn't we use docker compose to start our containers in the previous labs? We can add instances to this `Config Sync Group` even easier than what we did above - automatically!
+You can also notice that it says we are out of sync! We did not populate the configuration manually, so the first container added will download the configuration and become the new default config. We will change this a bit later. Hey, didn't we use docker compose to start our containers in the previous labs? We can add those instances to this `Config Sync Group` even easier than what we did above - automatically!
 
 Let's stop our running containers by running:
 
@@ -155,7 +154,7 @@ Let's launch the containers again and then watch the Nginx One console to see th
 docker compose up --force-recreate -d
 ```
 
-Use the refresh button and you should see the three original instances added to our config group. These will only be the Plus instances as they were the instances to which we added the variable line.
+Use the refresh button and you should see the three new instances added to our config group. These will only be the Plus instances as they were the instances to which we added the variable line.
 
 <br/>
 
@@ -163,11 +162,11 @@ Use the refresh button and you should see the three original instances added to 
 
 <br/>
 
-Upon being added to the Config Instance group, NGINX One will attempt to apply the configuration of the group to the instances in it. Here we can see the config was immediately applied to **one-plus-2**:
+Upon being added to the Config Instance group, NGINX One will attempt to apply the configuration of the group to the instances in it. Here we can see the config was immediately applied to **one-plus-2** and **one-plus-3**. **one-plus-1** is the synch still in progress instance here. This shows it takes a a moment as the Config Sync Group applies the configuration to each new instance. We will need to refresh the UI to make sure the configs all get applied, but give it a minute.
 
 <br/>
 
-![In Sync](media/lab4_csg_basics-plus-2.png)
+![In Sync](media/lab4_csg_one-plus-2.png)
 
 <br/>
 
@@ -175,17 +174,14 @@ Upon being added to the Config Instance group, NGINX One will attempt to apply t
 
 Let's show we can push a change to the whole group! Click on the `Configuration` button next to the `Details`.
 
-1. When you select the _Configuration_ tab, notice the configuration here is identical to the first NGINX instance you just added.
-   ![Configuration](media/lab4_csg_basics-plus-2.png)
-
-Then click the `Edit Configuration` button on the right hand side of the page:
-<br/>
+1. When you select the _Configuration_ tab, notice the configuration here is identical to the first NGINX instance you just added. We could have pre-populated this area before any instances were added and the first instance would have pulled the config instead of pushing it's config as in the previous example. Now click the `Edit Configuration` button on the right hand side of the page:
+   <br/>
 
 ![Edit Config](media/lab4_csg_edit_config.png)
 
 <br/>
 
-We are going to add to the contents (which were pulled from the previous container) of the default config that will be used going forward. Click on and modify the /etc/nginx/conf.d/default.conf file. We are going to add this snippet at lines 21-25
+We are going to add to the contents (which were pulled from the first added instance) of the default config that will be used going forward. Click on and modify the /etc/nginx/conf.d/default.conf file. We are going to add this snippet at lines 21-25
 
 ```nginx
      location /test_header {
@@ -196,6 +192,7 @@ We are going to add to the contents (which were pulled from the previous contain
 
 <br/>
 You will notice it now says (modified) in braces next to the file we changed. At the bottom left you can see that the configuration checker thinks our changes look good.
+
 <br/>
 
 ![Config Change](media/lab4_csg_config_change.png)
@@ -205,6 +202,8 @@ You will notice it now says (modified) in braces next to the file we changed. At
 What would it look like if there was a problem when ONE Console checked the config? Something like this:
 
 ![Error Config Change](media/lab4_csg_config_error.png)
+
+<br/>
 
 Ok, we don't have any errors, so click on the green **Next** button. The following screen allows you to see a diff between the two configs. After reviewing you can click `Save and Publish`.
 
