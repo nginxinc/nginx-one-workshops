@@ -20,28 +20,47 @@ By the end of the lab you will be able to:
 - You must have an F5 Distributed Cloud(XC) Account
 - You must have enabled NGINX One service on F5 Distributed Cloud(XC)
 - See `Lab0` for instructions on setting up your system for this Workshop
+- You must have a dataplane key - you can use the one created from the earlier labs
 - Familiarity with basic Linux concepts and commands
 - Familiarity with basic Nginx concepts and commands
 
 ### Create a Config Sync Group
 
-- Under the `Manage` heading in the left hand column, click on `Config Sync Groups`.<br/>
-  ![Config Sync Groups](media/lab3_csg.png)<br/><br/>
+Config Sync Groups allow you to group multiple NGINX instances and leverage an identical configuration across all instances. This feature is extremely helpful in ephemeral environments, such as Docker and Kubernetes, as the NGINX instance can pull its configuration versus needing to rebuild the NGINX container every time the configuration changes. This section will go through using this feature.
+
+- Under the `Manage` heading in the left hand column, click on the `Config Sync Groups` link.<br/>
+  ![Config Sync Groups](media/lab4_csg.png)<br/><br/>
 
 - In the resulting panel at the top, click on the `Add Config Sync Group` button.<br/>
-  ![Add Config Sync Group](media/lab3_csg_add.png)<br/><br/>
+  ![Add Config Sync Group](media/lab4_csg_add.png)<br/><br/>
 
-- A modal window will pop up and ask you to give a name for the Config Sync Group. Here we will use the name:
-  `basics-workshop-plus`<br/>
-  ![Config Sync Group Name](media/lab3_csg_name.png)<br/><br/>
+- A modal window will pop up and ask you to give a name for the Config Sync Group. Here you will use the name: `one-workshop-plus`<br/>
+  ![Config Sync Group Name](media/lab4_csg_name.png)<br/><br/>
 
-### Create and add an instance to the group
+Click the create button. Your newly created Config Sync Group `one-workshop-plus` should be in the list.
 
-On this page is a button that says `Add Instance to Config Sync Group`
+You can now explore your Config Sync Group by selecting `one-workshop-plus`. When you select it, there are two tabs named _Details_ and _Configuration_.
+
+On the _Details_ tab, there are two views: _Details_ represents additional details of this group and _Instances_ represents the NGINX instances that are in this group.
+
+![Details View](media/lab4_csg_details.png)
+
+On the _Configuration_ tab, there is a view that defines the NGINX configurations to use for all NGINX instances in this Config Sync Group.
+
+![Configuration View](media/lab4_csg_configuration.png)
+
+Notice that the configuration is empty when you first create a Config Sync Group. There are two ways to handle the initial configuration.
+
+- Option 1: Auto-generate the Config Sync Group's configuration by adding the first NGINX instance. The existing config from the NGINX instance will be used as the config for your Config Sync Group.
+- Option 2: Manually define the NGINX configurations before adding any NGINX instances using the UI text editor.
+
+### Option 1 - Create and add an instance to the group
+
+On this page is a button that says `Add Instance to Config Sync Group`. Click on this.
 
 <br/>
 
-![Add Instance](media/lab3_csg_add_instance.png)
+![Add Instance](media/lab4_csg_add_instance.png)
 
 <br/>
 
@@ -49,7 +68,7 @@ This will pop up another modal window on the right. We will choose the second op
 
 <br/>
 
-![Register New](media/lab3_csg_register_new.png)
+![Register New](media/lab4_csg_register_new.png)
 
 <br/>
 
@@ -57,7 +76,7 @@ The next option is to generate a dataplane key or use an existing one. We will c
 
 <br/>
 
-![Use Existing Key](media/lab3_csg_use_existing_key.png)
+![Use Existing Key](media/lab4_csg_use_existing_key.png)
 
 <br/>
 
@@ -65,7 +84,7 @@ If you are testing on bare metal, there is a curl command listed to register thi
 
 <br/>
 
-![Docker instructions](media/lab3_csg_docker_instructions.png)
+![Docker instructions](media/lab4_csg_docker_instructions.png)
 
 <br/>
 
@@ -93,83 +112,104 @@ Start the container. We are going to modify the command shown in the console to 
 
 ```bash
 docker run \
---hostname=basics-manual \
---name=basics-manual \
+--hostname=one-workshop-manual \
+--name=one-manual \
 --env=NGINX_LICENSE_JWT="$JWT" \
 --env=NGINX_AGENT_SERVER_GRPCPORT=443 \
 --env=NGINX_AGENT_SERVER_HOST=agent.connect.nginx.com \
 --env=NGINX_AGENT_SERVER_TOKEN="$TOKEN" \
---env=NGINX_AGENT_INSTANCE_GROUP=basics-workshop-plus \
+--env=NGINX_AGENT_INSTANCE_GROUP=one-workshop-plus \
 --env=NGINX_AGENT_TLS_ENABLE=true \
 --restart=always \
 --runtime=runc \
 -d private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522
 ```
 
-You can see that the container starts up. With a refresh on the Config Sync Groups page, you will see that the basics-workshop-plus Config Sync Group now has 1 instance in it.
+You can see that the container starts up. With a refresh on the Config Sync Groups page, you will see that the `one-workshop-plus` Config Sync Group now has 1 instance in it.
 
 <br/>
 
-![1 Manual Instance](media/lab3_csg_one_manual_instance.png)
+![1 Manual Instance](media/lab4_csg_details-auto.png)
 
 <br/>
 
-Hey, didn't we use docker compose to start our containers before? We can add instances to this `Config Sync Group` even easier than what we did above - automatically!
+You can also notice that it says you are out of sync! You did not populate the configuration manually, so the first container added will download the configuration and become the new default config. You will change this a bit later. Hey, didn't you use docker compose to start our containers in the previous labs? We can add those instances to this `Config Sync Group` even easier than what you did above - automatically!
 
-Let's stop our running containers by running:
+Let's stop your running containers by running:
 
 ```bash
+cd ../lab2
 docker compose down
 ```
 
-Now open up the docker-compose.yml. You can uncomment the lines numbered 14, 36, & 58. This NGINX variable is all you need to add these to the instance group:
+Now open up the _**docker-compose.yml**_ file. You can uncomment the lines numbered **14, 36, & 58**. This NGINX variable is all you need to add these to the Config Sync Group:
 
 ```bash
-NGINX_AGENT_INSTANCE_GROUP: basics-workshop-plus
+NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
 ```
 
 Let's launch the containers again and then watch the Nginx One console to see the instances added to the Config Sync Group.
 
 ```bash
-docker compose up
+docker compose up --force-recreate -d
 ```
 
-Use the refresh button and you should see the three original instances added to our config group. These will only be the Plus instances as they were the instances to which we added the variable line.
+Use the refresh button and you should see the three new instances added to our config group. These will only be the Plus instances as they were the instances to which we added the variable line.
 
 <br/>
 
-![3 Auto Instances](media/lab3_csg_three_auto_instances.png)
+![3 Auto Instances](media/lab4_csg_three_auto_instances.png)
 
 <br/>
 
-Upon being added to the Config Instance group, NGINX One will attempt to apply the configuration of the group to the instances in it. Here we can see the config was immediately applied to **basics-plus-2**:
+Upon being added to the Config Instance group, NGINX One will attempt to apply the configuration of the group to the instances in it. Here you can see the config was immediately applied to **one-plus-2** and **one-plus-3**. **one-plus-1** is the synch still in progress instance here. This shows it takes a moment as the Config Sync Group applies the configuration to each new instance. You will need to refresh the UI to make sure the configs all get applied, but give it a minute.
 
 <br/>
 
-![In Sync](media/lab3_csg_basics-plus-2.png)
+![In Sync](media/lab4_csg_one-plus-2.png)
 
 <br/>
 
-Before this finishes, let's show we can push a change to the whole group! Click on the `Configuration` button next to the `Details`. Then click the `Edit Config` button:
-<br/>
+### Option 2 - Let's manually change the config file and apply it to the group
 
-![Edit Config](media/lab3_csg_edit_config.png)
+Let's show you can push a change to the whole group! Click on the `Configuration` button next to the `Details`.
 
-<br/>
+1. When you select the _Configuration_ tab, notice the configuration here is identical to the first NGINX instance you just added. You could have pre-populated this area before any instances were added and the first instance would have pulled the config instead of pushing it's config as in the previous example. Now click the `Edit Configuration` button on the right hand side of the page:
+   <br/>
 
-On line 76, Let's simply add a comment, a trivial change. Then click the `Next` button.
-
-<br/>
-
-![Config Change](media/lab3_csg_config_change.png)
+![Edit Config](media/lab4_csg_edit_config.png)
 
 <br/>
 
-The next screen allows you to see a diff between the two configs. After reviewing you can click `Save and Publish`.
+You are going to add to the contents (which were pulled from the first added instance) of the default config that will be used going forward. Click on and modify the /etc/nginx/conf.d/default.conf file. You are going to add this snippet at lines 21-25
+
+```nginx
+     location /test_header {
+        add_header X-Test-App true;
+        return 200 'HTTP/1.1 200 OK\nContent-Type: text/html\n\n<html><body>Welcome to Lab 4 of the NGINX One Workshop!</body></html>';
+    }
+```
+
+<br/>
+You will notice it now says (modified) in braces next to the file we changed. At the bottom left you can see that the configuration checker thinks our changes look good.
+
+<br/>
+
+![Config Change](media/lab4_csg_config_change.png)
+
+<br/>
+
+What would it look like if there was a problem when ONE Console checked the config? Something like this:
+
+![Error Config Change](media/lab4_csg_config_error.png)
+
+<br/>
+
+Ok, you don't have any errors, so click on the green **Next** button. The following screen allows you to see a diff between the two configs. After reviewing you can click `Save and Publish`.
 
 <br>
 
-![Save and Publish](media/lab3_csg_save_publish.png)
+![Save and Publish](media/lab4_csg_save_publish.png)
 
 <br>
 
@@ -177,59 +217,60 @@ NGINX One will indicate the change was a success and push it to all of our insta
 
 <br>
 
-![Edit Success](media/lab3_csg_edit_success.png)
+![Edit Success](media/lab4_csg_edit_success.png)
 
 <br>
 
-We can now see all the instances are in sync!
+You can now see all the instances are in sync!
 
 <br>
 
-![In Sync](media/lab3_csg_in_sync.png)
+![In Sync](media/lab4_csg_in_sync.png)
 
 <br>
+
+All new instances that you add to the Config Sync Group will inherit this configuration. If you spin up another new nginx-plus container, you can verify that it has the same configuration.
 
 ---
 
 **NOTE**
 
-A final note... you can `mix OSS and Plus instances` in the same group! The important caveat is that the config features must be available to all instances. If you are going to be working with NGINX Plus specific configurations, you are better off putting those into their own Config Sync Group.
+A final note... you can _**mix OSS and Plus instances**_ in the same group! The important caveat is that the config features must be available to all instances. If you are going to be working with NGINX Plus specific configurations, you are better off putting those into their own **Config Sync Group**.
 
 ---
 
-## Wrap UP
+## Wrap Up
 
-> If you are finished with this lab, you can use Docker Compose to shut down your test environment. Make sure you are in the `lab7` folder:
+> If you are finished with this lab, you can use Docker Compose to shut down your test environment. Make sure you are in the `lab2` folder:
 
 ```bash
+cd ../lab2
 docker compose down
-
 ```
 
 ```bash
 ##Sample output##
 [+] Running 10/10
- ✔ Container basics-oss3   Removed                                                               6.4s
- ✔ Container basics-plus2  Removed                                                              10.7s
- ✔ Container web1          Removed                                                               0.5s
- ✔ Container basics-oss1   Removed                                                               5.5s
- ✔ Container web2          Removed                                                               0.4s
- ✔ Container basics-plus1  Removed                                                              10.7s
- ✔ Container web3          Removed                                                               0.5s
- ✔ Container basics-oss2   Removed                                                               6.2s
- ✔ Container basics-plus3  Removed                                                              10.6s
- ✔ Network lab7_default    Removed                                                               0.1s
-
+ ✔ Container one-workshop-oss1   Removed                                                         6.1s
+ ✔ Container web3                Removed                                                         0.3s
+ ✔ Container web2                Removed                                                         0.2s
+ ✔ Container one-workshop-plus2  Removed                                                         6.0s
+ ✔ Container web1                Removed                                                         0.2s
+ ✔ Container one-workshop-oss2   Removed                                                         6.9s
+ ✔ Container one-workshop-plus1  Removed                                                         6.0s
+ ✔ Container one-workshop-plus3  Removed                                                         5.2s
+ ✔ Container one-workshop-oss3   Removed                                                         7.0s
+ ✔ Network lab2_default          Removed                                                         0.1s
 ```
 
 To clean up the manual container we added:
 
 ```bash
 docker ps | grep manual
-f8a5fb797615   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522   "/usr/bin/supervisor…"   About an hour ago   Up About an hour   80/tcp                                                                                                                                                                         basics-manual
+f8a5fb797615   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522   "/usr/bin/supervisor…"   About an hour ago   Up About an hour   80/tcp                                                                                                                                                                         one-auto
 ```
 
-Your container id will be different. You can stop it by using `docker stop <container id>`. Another tip, if you only have a few containers, docker will identify the container id with the first few characters (assuming they are unique). Here we use the first 3 characters and that's enough for docker to know which container we are talking about:
+**Your container id will be different.** You can stop it by using `docker stop <container id>`. Another tip, if you only have a few containers, docker will identify the container id with the first few characters (assuming they are unique). Here we use the first 3 characters and that's enough for docker to know which container we are talking about:
 
 ```bash
 docker stop f8a
@@ -243,7 +284,7 @@ docker rm f8a
 f8a
 ```
 
-Don't forget to stop all of the Nginx containers if you are finished with them, and Delete them from the Nginx One Instance inventory.
+Don't forget to stop all of the Nginx containers if you are finished with them, and **Delete them from the Nginx One Instance inventory**.
 
 <br/>
 
@@ -256,6 +297,7 @@ This ends lab4.
 ## References
 
 - [Nginx One Console](https://docs.nginx.com/nginx-one/)
+- [Nginx One Console - Manage Config Sync Groups](https://docs.nginx.com/nginx-one/how-to/config-sync-groups/manage-config-sync-groups/)
 
 <br/>
 
