@@ -1,8 +1,8 @@
-![NGINX ONE](media/nginxone-workshop-banner.png)
+![NGINX ONE](media/nginx-one-workshop-banner.png)
 
 <br/>
 
-## NGINX ONE Console Workshop 102
+## NGINX ONE Console Workshop
 
 <br/>
 
@@ -42,7 +42,7 @@ See the [Lab0 Readme.md](lab0/readme.md) for details on Student Prerequisites fo
 
 </br>
 
-  NGINX Plus | NGINX One Console |  NGINX OSS 
+  NGINX Plus | NGINX One Console |  NGINX OSS
 :-------------------------:|:-------------------------:|:-------------------------:
 ![](media/nginx-plus-icon.png)  |  ![](media/nginx-one-icon.png)   |  ![](media/nginx-icon.png)
 
@@ -50,8 +50,9 @@ See the [Lab0 Readme.md](lab0/readme.md) for details on Student Prerequisites fo
 
 ## Lab Outline
 
-### Lab 0: Prerequisites - Student Skills / Resources
-- [Lab 0: Prerequisites - Student Skills / Resources](lab0/readme.md)
+### Lab 0: Workshop pre-work (Choose any one)
+- [Lab 0: Workshop pre-work using F5 provided UDF environment](lab0/readme.md)
+- [Lab 0: Workshop pre-work using your own system](lab0/prerequisites.md)
 
 ### Lab 1: NGINX One Console Introduction & Access
 - [Lab 1: NGINX One Console Introduction & Access](lab1/readme.md)
@@ -65,18 +66,6 @@ See the [Lab0 Readme.md](lab0/readme.md) for details on Student Prerequisites fo
 ### Lab 4: Managing your NGINX fleet
 - [Lab 4: Managing your NGINX fleet](lab4/readme.md)
 
-### Lab 5: Placeholder
-- [Lab 5: Placeholder](lab8/readme.md)
-
-### Lab 6: Placeholder
-- [Lab6: Placeholder](lab9/readme.md)
-
-### Lab 7: Placeholder
-- [Lab7: Placeholder](lab10/readme.md)
-
-#### Labs Optional: Optional Exercises
-- [Labs Optional: Optional Exercises](labs-optional/readme.md)
-
 <br/>
 
 ### Authors
@@ -87,7 +76,6 @@ See the [Lab0 Readme.md](lab0/readme.md) for details on Student Prerequisites fo
 
 <br/>
 
-Click [Lab0: Student Prerequisites](lab0/readme.md) for details on Student Prerequisite Requirements for this Workshop.
+Choose one of the [Lab 0: Workshop pre-work](#lab-0-workshop-pre-work-choose-any-one) to get all set to work through the workshop content.
 
-Click [Lab1: NGINX One Console Access & Overview](lab1/readme.md) to get started! 
-
+Click [Lab1: NGINX One Console Access & Overview](lab1/readme.md) to get started!

@@ -1,4 +1,8 @@
-# NGINX ONE Console Workshop 102
+![NGINX ONE](labs/media/nginx-one-workshop-banner.png)
+
+<br/>
+
+# NGINX ONE Console Workshop
 
 ![](labs/media/nginx-one-icon.png)
 
