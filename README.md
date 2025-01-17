@@ -40,7 +40,7 @@ You should be proficient with the following technologies and concepts.
 
 NGINX One Console  |  Hands-On Labs
 :-------------------------:|:-------------------------:
-![](labs/media/nginx-one-icon.png)  |  ![](labs/media/developer-seated.svg)
+![](labs/media/nginx-one-icon.png)  |  ![](labs/media/developer-seated.png)
 
 <br/>
 
