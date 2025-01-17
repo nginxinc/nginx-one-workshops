@@ -1,8 +1,8 @@
-![NGINX ONE](media/nginxone-workshop-banner.png)
+![NGINX ONE](media/nginx-one-workshop-banner.png)
 
 <br/>
 
-## NGINX ONE Console Workshop 102
+## NGINX One Console Workshop
 
 <br/>
 
@@ -10,13 +10,13 @@
 
 <br/>
 
-> ><strong>Welcome to the NGINX ONE Console Workshop!</strong>
+> ><strong>Welcome to the NGINX One Console Workshop!</strong>
 
 <br/>
 
-This **NGINXperts Workshop** will introduce the **`NGINX ONE Console`** with hands-on practice through lab exercises.
+This **NGINXperts Workshop** will introduce the **`NGINX One Console`** with hands-on practice through lab exercises.
 
-You will learn and explore NGINX ONE Console, part of the F5 Distributed Cloud. You will connect various NGINX instances to the Console and manage them.  You will explore how the Console is used to manage and monitor your fleet of Nginx servers.  You will see how the built-in ONE Console tools can provide important and helpful information about your instances, so you can take appropriate corrective actions as needed.
+You will learn and explore NGINX One Console, part of the F5 Distributed Cloud. You will connect various NGINX instances to the Console and manage them.  You will explore how the Console is used to manage and monitor your fleet of Nginx servers.  You will see how the built-in ONE Console tools can provide important and helpful information about your instances, so you can take appropriate corrective actions as needed.
 
 The Hands-on Lab Exercises are designed to build upon each other, adding additional services and features as you progress through them, completing the labs in sequential order is required.  You can follow along as an instructor guides you through these exercises, or you can do the exercises at your pace on your own time.
 
@@ -24,7 +24,7 @@ This is the second Workshop in the `NGINXperts Series` from the Nginx Communitie
 
 <br/>
 
-NGINX ONE Console  |
+NGINX One Console  |
 :-------------------------:|
 ![](media/nginx-one-icon.png)  |
 
@@ -32,17 +32,17 @@ NGINX ONE Console  |
 
 The Hands-On Lab Exercises are designed to build upon each other, adding additional services and features as you progress through them.  `It is important to complete the lab exercises in sequential order.`
 
-By the end of this Workshop, you will have a working, operational NGINX ONE Console, with multiple Nginx instances connected and managed.
+By the end of this Workshop, you will have a working, operational NGINX One Console, with multiple Nginx instances connected and managed.
 
 <br/>
 
 ### Prerequisites
 
-See the [Lab0 Readme.md](lab0/readme.md) for details on Student Prerequisites for this Workshop.
+Choose one of the [Lab 0: Workshop pre-work](#lab-0-workshop-pre-work-choose-any-one) for details on Student Prerequisites for this Workshop.
 
 </br>
 
-  NGINX Plus | NGINX One Console |  NGINX OSS 
+  NGINX Plus | NGINX One Console |  NGINX OSS
 :-------------------------:|:-------------------------:|:-------------------------:
 ![](media/nginx-plus-icon.png)  |  ![](media/nginx-one-icon.png)   |  ![](media/nginx-icon.png)
 
@@ -50,8 +50,9 @@ See the [Lab0 Readme.md](lab0/readme.md) for details on Student Prerequisites fo
 
 ## Lab Outline
 
-### Lab 0: Prerequisites - Student Skills / Resources
-- [Lab 0: Prerequisites - Student Skills / Resources](lab0/readme.md)
+### Lab 0: Workshop pre-work (Choose any one)
+- [Lab 0: Workshop pre-work using F5 provided UDF environment](lab0/readme.md)
+- [Lab 0: Workshop pre-work using your own system](lab0/prerequisites.md)
 
 ### Lab 1: NGINX One Console Introduction & Access
 - [Lab 1: NGINX One Console Introduction & Access](lab1/readme.md)
@@ -65,18 +66,6 @@ See the [Lab0 Readme.md](lab0/readme.md) for details on Student Prerequisites fo
 ### Lab 4: Managing your NGINX fleet
 - [Lab 4: Managing your NGINX fleet](lab4/readme.md)
 
-### Lab 5: Placeholder
-- [Lab 5: Placeholder](lab8/readme.md)
-
-### Lab 6: Placeholder
-- [Lab6: Placeholder](lab9/readme.md)
-
-### Lab 7: Placeholder
-- [Lab7: Placeholder](lab10/readme.md)
-
-#### Labs Optional: Optional Exercises
-- [Labs Optional: Optional Exercises](labs-optional/readme.md)
-
 <br/>
 
 ### Authors
@@ -87,7 +76,6 @@ See the [Lab0 Readme.md](lab0/readme.md) for details on Student Prerequisites fo
 
 <br/>
 
-Click [Lab0: Student Prerequisites](lab0/readme.md) for details on Student Prerequisite Requirements for this Workshop.
+Choose one of the [Lab 0: Workshop pre-work](#lab-0-workshop-pre-work-choose-any-one) to get all set to work through the workshop content.
 
-Click [Lab1: NGINX One Console Access & Overview](lab1/readme.md) to get started! 
-
+Click [Lab1: NGINX One Console Introduction & Access](lab1/readme.md) to get started!

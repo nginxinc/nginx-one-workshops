@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this lab, you will be logging into NGINX One Console and exploring various components within it. This lab requires that you have access to F5 Distributed Cloud to work with the One Console. As part of this lab, you will explore the NGINX One console product, as a quick Overview of what it is and how to access it.
+In this lab, you will be logging into NGINX One Console and exploring various components within it. This lab requires that you have access to F5 Distributed Cloud to work with the One Console. As part of this lab, you will explore the NGINX One Console product, as a quick Overview of what it is and how to access it.
 
 <br/>
 
@@ -44,23 +44,23 @@ NGINX One Console offers the following key benefits:
 
 ![NGINX Agent](media/nginx-agent-icon.png)
 
-The NGINX One Console requires `NGINX Agent`, an open source software module written by NGINX that connects and communicates with NGINX One.  This NGINX Agent must be installed and running on every NGINX instance that you wish to manage with NGINX One.  You will use the publicly available NGINX with Agent images from Docker Hub for your NGINX OSS containers.  In addition, as part of your Docker Compose file, your NGINX Plus containers already have the required `NGINX Agent` installed for you.  NGINX Agent can also be installed using regular Linux package managers like `apt` and `yum`.  Refer to the References Section for links to the NGINX Agent installation guides.
+The NGINX One Console requires `NGINX Agent`, an open source software module written by NGINX that connects and communicates with NGINX One Console.  This NGINX Agent must be installed and running on every NGINX instance that you wish to manage with NGINX One Console.  You will use the publicly available NGINX with Agent images from Docker Hub for your NGINX OSS containers.  In addition, as part of your Docker Compose file, your NGINX Plus containers already have the required `NGINX Agent` installed for you.  NGINX Agent can also be installed using regular Linux package managers like `apt` and `yum`.  Refer to the References Section for links to the NGINX Agent installation guides.
 
-### Access and navigate NGINX One console
+### Access and navigate NGINX One Console
 
 1. Login into the F5 Distributed Cloud console using your account credentials. The login page can be found at: https://console.ves.volterra.io/login/start
 
     ![XC Login](media/lab1_xc-login.png)
 
-1. Once logged in, the "home" screen shows you various tiles which represent F5 Distributed Cloud console features. In this lab, we'll focus on the `NGINX One` console tile as highlighted in the below screenshot.
+1. Once logged in, the "home" screen shows you various tiles which represent F5 Distributed Cloud console features. In this lab, we'll focus on the `NGINX One` Console tile as highlighted in the below screenshot.
 
     ![XC HomeScreen](media/lab1_none-tile.png)
 
-1. Click on the `NGINX One` tile from the home screen. The NGINX One "welcome" screen will appear. Make sure the NGINX One Console status shows `green - Enabled` as highlighted in below screenshot.  Click on `Visit Service`.  If it is not enabled, you must request access from your F5 Distributed Cloud admin.
+1. Click on the `NGINX One` Console tile from the home screen. The NGINX One Console "welcome" screen will appear. Make sure the NGINX One Console status shows `green - Enabled` as highlighted in below screenshot.  Click on `Visit Service`.  If it is not enabled, you must request access from your F5 Distributed Cloud admin.
 
     ![N One Visit Service](media/lab1_none-service.png)
 
-1. By default, this will bring you to the NGINX One Console `Overview Dashboard` page. As no NGINX Instances are being managed by NGINX One you are seeing the blank dashboard as shown in below screenshot.
+1. By default, this will bring you to the NGINX One Console `Overview Dashboard` page. As no NGINX Instances are being managed by NGINX One Console you are seeing the blank dashboard as shown in below screenshot.
 
     ![Empty Dashboard](media/lab1_none-empty-overview-dashboard.png)
 
@@ -80,7 +80,7 @@ The NGINX One Console requires `NGINX Agent`, an open source software module wri
 
     ![New Dataplane key](media/lab1_none-dataplane-key-new.png)
 
-    Once the key is generated, copy the value of this key to the clipboard using the `Copy` icon on the right side.  **NOTE:**  This Dataplane Key is only shown here and NGINX One doesn't save this value. Save this value locally as you would be using it to register new NGINX Instances.  You can Register as many NGINX Instances as you like with the same Dataplane Key.  If you lose the value of the key then you need to generate a new one again.
+    Once the key is generated, copy the value of this key to the clipboard using the `Copy` icon on the right side.  **NOTE:**  This Dataplane Key is only shown here and NGINX One Console doesn't save this value. Save this value locally as you would be using it to register new NGINX Instances.  You can Register as many NGINX Instances as you like with the same Dataplane Key.  If you lose the value of the key then you need to generate a new one again.
 
     ![New Dataplane key save](media/lab1_none-dataplane-key-save.png)
 

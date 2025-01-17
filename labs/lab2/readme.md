@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this lab, you will be running the backend application and several NGINX OSS and Plus instances as Docker containers. All the NGINX containers would be attached to NGINX One console as part of this exercise.
+In this lab, you will be running the backend application and several NGINX OSS and Plus instances as Docker containers. All the NGINX containers would be attached to NGINX One Console as part of this exercise.
 
 <br/>
 
@@ -34,7 +34,7 @@ You will run some Docker containers to build out various workshop components, us
 
    > Before you can pull and run these containers, you must set several Environment variables correctly, _before running docker compose_.
 
-1. Using the Visual Studio Terminal, set the `TOKEN` environment variable with the Dataplane Key from the One Console, as follows:
+1. Using the Visual Studio Terminal, set the `TOKEN` environment variable with the Dataplane Key from the NGINX One Console, as follows:
 
    ```bash
    export TOKEN=paste-your-dataplane-key-from-clipboard-here
@@ -134,13 +134,13 @@ You will run some Docker containers to build out various workshop components, us
    852667e29280   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522   "/usr/bin/supervisor…"   44 minutes ago   Up 44 minutes   0.0.0.0:33382->80/tcp, :::33381->80/tcp, 0.0.0.0:33377->443/tcp, :::33376->443/tcp, 0.0.0.0:33374->9000/tcp, :::33373->9000/tcp, 0.0.0.0:33372->9113/tcp, :::33371->9113/tcp   one-workshop-plus2
    ffa65b04e03b   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-ubi-9-20240522         "/usr/bin/supervisor…"   44 minutes ago   Up 44 minutes   0.0.0.0:33373->80/tcp, :::33372->80/tcp, 0.0.0.0:33371->443/tcp, :::33370->443/tcp, 0.0.0.0:33370->9000/tcp, :::33369->9000/tcp, 0.0.0.0:33369->9113/tcp, :::33368->9113/tcp   one-workshop-plus3
 
-   # NGINX Ingress Demo containers (not Registered with One Console)
+   # NGINX Ingress Demo containers (not Registered with NGINX One Console)
    37c2777c8598   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33387->80/tcp, :::33386->80/tcp, 0.0.0.0:33379->443/tcp, :::33378->443/tcp                                                                                             web1
    dba569e76e36   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   443/tcp, 0.0.0.0:33390->80/tcp, :::33389->80/tcp, 0.0.0.0:33384->433/tcp, :::33383->433/tcp                                                                                    web2
    5cde3c462a27   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33380->80/tcp, :::33379->80/tcp, 0.0.0.0:33376->443/tcp, :::33375->443/tcp                                                                                             web3
    ```
 
-   Go back to your One Console Instance page, and click `Refresh`. You should see all 6 of your `basics-` instances appear in the list, and the Online icon should be `green`. If they did not Register with the One Console, it is likely you have an issue with the $TOKEN used, create a new Dataplane Key and try again. It should look similar to this:
+   Go back to your NGINX One Console Instance page, and click `Refresh`. You should see all 6 of your `basics-` instances appear in the list, and the Online icon should be `green`. If they did not Register with the One Console, it is likely you have an issue with the $TOKEN used, create a new Dataplane Key and try again. It should look similar to this:
 
    ![NGINX Instances](media/lab2_none-instances.png)
 

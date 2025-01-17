@@ -14,7 +14,7 @@ By the end of this Prerequisite instructions, you will be ready to do the Worksh
 2. You must download the `nginx-repo.crt` and `nginx-repo.key` and `nginx-repo.jwt` files from your MyF5 account.
 3. If you do not have a current license, you can request a 30-Day Trial License for free, here: https://www.f5.com/trials/nginx-one . It takes several minutes for the F5 Licensing system to send you an email, with a `one-time download link` to the License files.  `Save the nginx-repo.* files to your local storage`, you will need them before you start the Workshop.
 
-## F5 Distributed Cloud Account
+## F5 Distributed Cloud Account Requirements
 
 You will need an F5 Distributed Cloud account to complete the Nginx One Console lab exercises.  If you do not have an Account, please contact your F5 Sales Representative for more information. Know more about F5 Distributed Cloud by navigating to the following link: https://www.f5.com/products/distributed-cloud-services/distributed-cloud-console.
 

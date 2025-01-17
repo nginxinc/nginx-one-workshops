@@ -1,8 +1,8 @@
-# Nginx One Config Sync Groups
+# NGINX One Console Config Sync Groups
 
 ## Introduction
 
-In this lab, we will show how to create and manage `Config Sync Groups` in the NGINX One Console. Config sync groups synchronize NGINX configurations across multiple NGINX instances, ensuring consistency and ease of management. If you’ve used instance groups in NGINX Instance Manager, you’ll find config sync groups in NGINX One similar. Let's go ahead and create one then add some instances to it.
+In this lab, we will show how to create and manage `Config Sync Groups` in the NGINX One Console. Config sync groups synchronize NGINX configurations across multiple NGINX instances, ensuring consistency and ease of management. If you’ve used instance groups in NGINX Instance Manager, you’ll find config sync groups in NGINX One Console similar. Let's go ahead and create one then add some instances to it.
 
 <br/>
 
@@ -11,7 +11,7 @@ In this lab, we will show how to create and manage `Config Sync Groups` in the N
 By the end of the lab you will be able to:
 
 - Create a Config Sync Group
-- Add instances to the group (OSS + NGinx Plus)
+- Add instances to the group (OSS + NGINX Plus)
 - Make changes and apply a default config
 - Troubleshoot CSG issues
 
@@ -22,7 +22,7 @@ By the end of the lab you will be able to:
 - See `Lab0` for instructions on setting up your system for this Workshop
 - You must have a dataplane key - you can use the one created from the earlier labs
 - Familiarity with basic Linux concepts and commands
-- Familiarity with basic Nginx concepts and commands
+- Familiarity with basic NGINX concepts and commands
 
 ### Create a Config Sync Group
 
@@ -64,7 +64,7 @@ On this page is a button that says `Add Instance to Config Sync Group`. Click on
 
 <br/>
 
-This will pop up another modal window on the right. We will choose the second option that says: `Register a new instance with NGINX One and then add it to the config sync group`. Then proceed to click on the `Next` button.
+This will pop up another modal window on the right. We will choose the second option that says: `Register a new instance with NGINX One Console and then add it to the config sync group`. Then proceed to click on the `Next` button.
 
 <br/>
 
@@ -148,7 +148,7 @@ Now open up the _**docker-compose.yml**_ file. You can uncomment the lines numbe
 NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
 ```
 
-Let's launch the containers again and then watch the Nginx One console to see the instances added to the Config Sync Group.
+Let's launch the containers again and then watch the NGINX One Console to see the instances added to the Config Sync Group.
 
 ```bash
 docker compose up --force-recreate -d
@@ -162,7 +162,7 @@ Use the refresh button and you should see the three new instances added to our c
 
 <br/>
 
-Upon being added to the Config Instance group, NGINX One will attempt to apply the configuration of the group to the instances in it. Here you can see the config was immediately applied to **one-plus-2** and **one-plus-3**. **one-plus-1** is the synch still in progress instance here. This shows it takes a moment as the Config Sync Group applies the configuration to each new instance. You will need to refresh the UI to make sure the configs all get applied, but give it a minute.
+Upon being added to the Config Instance group, NGINX One Console will attempt to apply the configuration of the group to the instances in it. Here you can see the config was immediately applied to **one-plus-2** and **one-plus-3**. **one-plus-1** is the synch still in progress instance here. This shows it takes a moment as the Config Sync Group applies the configuration to each new instance. You will need to refresh the UI to make sure the configs all get applied, but give it a minute.
 
 <br/>
 
@@ -186,7 +186,7 @@ You are going to add to the contents (which were pulled from the first added ins
 ```nginx
      location /test_header {
         add_header X-Test-App true;
-        return 200 'HTTP/1.1 200 OK\nContent-Type: text/html\n\n<html><body>Welcome to Lab 4 of the NGINX One Workshop!</body></html>';
+        return 200 'HTTP/1.1 200 OK\nContent-Type: text/html\n\n<html><body>Welcome to Lab 4 of the NGINX One Console Workshop!</body></html>';
     }
 ```
 
@@ -199,7 +199,7 @@ You will notice it now says (modified) in braces next to the file we changed. At
 
 <br/>
 
-What would it look like if there was a problem when ONE Console checked the config? Something like this:
+What would it look like if there was a problem when NGINX One Console checked the config? Something like this:
 
 ![Error Config Change](media/lab4_csg_config_error.png)
 
@@ -213,7 +213,7 @@ Ok, you don't have any errors, so click on the green **Next** button. The follow
 
 <br>
 
-NGINX One will indicate the change was a success and push it to all of our instances. Click on the `Details` button of the group to see the status of the instances.
+NGINX One Console will indicate the change was a success and push it to all of our instances. Click on the `Details` button of the group to see the status of the instances.
 
 <br>
 
@@ -284,7 +284,7 @@ docker rm f8a
 f8a
 ```
 
-Don't forget to stop all of the Nginx containers if you are finished with them, and **Delete them from the Nginx One Instance inventory**.
+Don't forget to stop all of the NGINX containers if you are finished with them, and **Delete them from the NGINX One Console Instance inventory**.
 
 <br/>
 
@@ -296,8 +296,8 @@ This ends lab4.
 
 ## References
 
-- [Nginx One Console](https://docs.nginx.com/nginx-one/)
-- [Nginx One Console - Manage Config Sync Groups](https://docs.nginx.com/nginx-one/how-to/config-sync-groups/manage-config-sync-groups/)
+- [NGINX One Console](https://docs.nginx.com/nginx-one/)
+- [NGINX One Console - Manage Config Sync Groups](https://docs.nginx.com/nginx-one/how-to/config-sync-groups/manage-config-sync-groups/)
 
 <br/>
 
