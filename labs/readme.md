@@ -38,7 +38,7 @@ By the end of this Workshop, you will have a working, operational NGINX One Cons
 
 ### Prerequisites
 
-See the [Lab0 Readme.md](lab0/readme.md) for details on Student Prerequisites for this Workshop.
+Choose one of the [Lab 0: Workshop pre-work](#lab-0-workshop-pre-work-choose-any-one) for details on Student Prerequisites for this Workshop.
 
 </br>
 
