@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this lab, you will be log back into NGINX One Console and explore various features within NGINX One console. You will then dive deep into those features and understand their usage.
+In this lab, you will be log back into NGINX One Console and explore various features within NGINX One Console. You will then dive deep into those features and understand their usage.
 
 <br/>
 
@@ -95,13 +95,13 @@ CPU | RAM | Disk
 
 ### Unsuccessful Response Codes
 
-The NGINX Agent scans the Access logs and summarizes the number of 4xx and 5xx HTTP Return codes found, and reports this information to the One Console. There is `Time Selector` and a `See All` button for this Panel as well.
+The NGINX Agent scans the Access logs and summarizes the number of 4xx and 5xx HTTP Return codes found, and reports this information to the NGINX One Console. There is `Time Selector` and a `See All` button for this Panel as well.
 
 ![Response Codes](media/lab3_none-response-codes.png)
 
 ### Top Network Usage
 
-This Panel shows basic Network level information from the Linux OS about the network traffic that the  NGINX Agent reports to the One Console. There is a `Time Selector` to show these metrics over different periods of time, with a history graph plotted for you. Click the `See All` button for a columnar list, which you can Filter and Sort.
+This Panel shows basic Network level information from the Linux OS about the network traffic that the  NGINX Agent reports to the NGINX One Console. There is a `Time Selector` to show these metrics over different periods of time, with a history graph plotted for you. Click the `See All` button for a columnar list, which you can Filter and Sort.
 
 ![Top Network](media/lab3_none-network.png)
 
@@ -232,7 +232,7 @@ Ok, so now what?? You can fix all these. Just Click the `Edit Configuration` Pen
 
     Add the `default_server` directive to Line4, so it reads `listen 80 default_server;`.
 
-    >And another Great Feature of the One Console, **NGINX Mice!!** If you `mouse-over` any of the `colored words` in your config, you will see a pop-up with details about the Directive, Variable, or Parameter. No more Googling to try and find details about NGINX configurations, it's at your finger/mouse tips!
+    >And another Great Feature of the NGINX One Console, **NGINX Mice!!** If you `mouse-over` any of the `colored words` in your config, you will see a pop-up with details about the Directive, Variable, or Parameter. No more Googling to try and find details about NGINX configurations, it's at your finger/mouse tips!
 
     ![Cafe Edit Line4](media/lab3_cafe-edit-line4.png)
 
