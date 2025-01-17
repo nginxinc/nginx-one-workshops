@@ -2,7 +2,7 @@
 
 <br/>
 
-## NGINX ONE Console Workshop
+## NGINX One Console Workshop
 
 <br/>
 
@@ -10,13 +10,13 @@
 
 <br/>
 
-> ><strong>Welcome to the NGINX ONE Console Workshop!</strong>
+> ><strong>Welcome to the NGINX One Console Workshop!</strong>
 
 <br/>
 
-This **NGINXperts Workshop** will introduce the **`NGINX ONE Console`** with hands-on practice through lab exercises.
+This **NGINXperts Workshop** will introduce the **`NGINX One Console`** with hands-on practice through lab exercises.
 
-You will learn and explore NGINX ONE Console, part of the F5 Distributed Cloud. You will connect various NGINX instances to the Console and manage them.  You will explore how the Console is used to manage and monitor your fleet of Nginx servers.  You will see how the built-in ONE Console tools can provide important and helpful information about your instances, so you can take appropriate corrective actions as needed.
+You will learn and explore NGINX One Console, part of the F5 Distributed Cloud. You will connect various NGINX instances to the Console and manage them.  You will explore how the Console is used to manage and monitor your fleet of Nginx servers.  You will see how the built-in ONE Console tools can provide important and helpful information about your instances, so you can take appropriate corrective actions as needed.
 
 The Hands-on Lab Exercises are designed to build upon each other, adding additional services and features as you progress through them, completing the labs in sequential order is required.  You can follow along as an instructor guides you through these exercises, or you can do the exercises at your pace on your own time.
 
@@ -24,7 +24,7 @@ This is the second Workshop in the `NGINXperts Series` from the Nginx Communitie
 
 <br/>
 
-NGINX ONE Console  |
+NGINX One Console  |
 :-------------------------:|
 ![](media/nginx-one-icon.png)  |
 
@@ -32,7 +32,7 @@ NGINX ONE Console  |
 
 The Hands-On Lab Exercises are designed to build upon each other, adding additional services and features as you progress through them.  `It is important to complete the lab exercises in sequential order.`
 
-By the end of this Workshop, you will have a working, operational NGINX ONE Console, with multiple Nginx instances connected and managed.
+By the end of this Workshop, you will have a working, operational NGINX One Console, with multiple Nginx instances connected and managed.
 
 <br/>
 
@@ -78,4 +78,4 @@ See the [Lab0 Readme.md](lab0/readme.md) for details on Student Prerequisites fo
 
 Choose one of the [Lab 0: Workshop pre-work](#lab-0-workshop-pre-work-choose-any-one) to get all set to work through the workshop content.
 
-Click [Lab1: NGINX One Console Access & Overview](lab1/readme.md) to get started!
+Click [Lab1: NGINX One Console Introduction & Access](lab1/readme.md) to get started!
