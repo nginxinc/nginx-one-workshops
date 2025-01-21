@@ -1,3 +1,9 @@
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/nginxinc/nginx-one-workshops/badge)](https://securityscorecards.dev/viewer/?uri=github.com/nginxinc/nginx-one-workshops)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Community Support](https://badgen.net/badge/support/community/cyan?icon=awesome)](https://github.com/nginxinc/nginx-one-workshops/blob/main/SUPPORT.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://github.com/nginxinc/nginx-one-workshops/blob/main/CODE_OF_CONDUCT.md)
+
+
 ![NGINX One](labs/media/nginx-one-workshop-banner.png)
 
 <br/>
