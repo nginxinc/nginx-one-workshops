@@ -78,11 +78,11 @@ This Panel is a great tool to show you the CVEs that you might have in your NGIN
 
 ![CVEs](media/lab3_none-cves.png)
 
-Click on the `basics-plus2` Instance, you should see a list of all the CVEs identified by NGINX One Console CVE scanner. NOTE: *This list may not include ALL CVEs*, rather just the list that NGINX One Console knows about at the time of the last scan.
+Click on `one-workshop-plus2` Instance, you should see a list of all the CVEs identified by NGINX One Console CVE scanner. NOTE: *This list may not include ALL CVEs*, rather just the list that NGINX One Console knows about at the time of the last scan.
 
-Basics Plus1 | Basics Plus2
+One Workshop Plus1 | One Workshop Plus2
 :-------------------------:|:-------------------------:
-![Container CVEs](media/lab3_basics-plus1-cves.png) | ![Container CVEs](media/lab3_basics-plus2-cves.png)
+![Container CVEs](media/lab3_one-workshop-plus1-cves.png) | ![Container CVEs](media/lab3_one-workshop-plus2-cves.png)
 
 ### CPU, RAM, Disk Utilization
 
@@ -117,13 +117,13 @@ One of the nice security feature of the NGINX One Console is the ability to prov
 
     ![High CVEs](media/lab3_none-cves-high.png)
 
-1. Click on the `basics-plus1` Instance. This will provide the Instance level Details, you will see a `CVEs` Section, this time with the Name, Severity and Description for each CVEs applicable to the instance.
+1. Click on the `one-workshop-plus1` Instance. This will provide the Instance level Details, you will see a `CVEs` Section, this time with the Name, Severity and Description for each CVEs applicable to the instance.
 
-    ![Basics-plus1 CVE](media/lab3_basics-plus1-cves.png)
+    ![Basics-plus1 CVE](media/lab3_one-workshop-plus1-cves.png)
 
 1. If you click on one of the CVEs name hyperlink, for example `CVE-2024-39792`, it will directly open the CVE website on a new tab with detailed information and possible remediations.
 
-    ![High CVE redirect](media/lab3_basics-plus1-cves-redirect.png)
+    ![High CVE redirect](media/lab3_one-workshop-plus1-cves-redirect.png)
 
 1. In similar fashion explore, click on the `Medium` Severity link within the Overview Dashboard and explore all the other CVEs that are classified under `Medium` Severity.
 
@@ -148,9 +148,9 @@ Another nice feature of the NGINX One Console is the ability to quickly see the 
 
 1. Using the Overview Dashboard Certificates Panel, Click on the `Expiring` link. This will provide a List View of the Instances affected, with metadata about the Instances using the Certificate.
 
-1. Click on the `basics-oss1` Instance. This will provide the Instance level Details, you will see a `Certificates` Section, this time with the Name, Status, `Expiration Date`, and Subject Name for each certificate file.
+1. Click on the `one-workshop-oss1` Instance. This will provide the Instance level Details, you will see a `Certificates` Section, this time with the Name, Status, `Expiration Date`, and Subject Name for each certificate file.
 
-    ![Certs](media/lab3_basics-oss1-certs.png)
+    ![Certs](media/lab3_one-workshop-oss1-certs.png)
 
 1. If you Click on the actual certificate file, for example `30-day.crt`, it will give you a List of all the Instances that are using that same certificate.
 
@@ -185,12 +185,12 @@ Fix the Expired Certificate! If you want to create a new certificate, say with a
 1. Once you have made this file edits, you would need to reload nginx within all the NGINX OSS containers to incorporate these configuration changes. To do so run below command in your terminal
 
     ```bash
-    docker exec -it basics-oss1 nginx -s reload
-    docker exec -it basics-oss2 nginx -s reload
-    docker exec -it basics-oss3 nginx -s reload
+    docker exec -it one-workshop-oss1 nginx -s reload
+    docker exec -it one-workshop-oss2 nginx -s reload
+    docker exec -it one-workshop-oss3 nginx -s reload
     ```
 
-    The above set of commands would reload nginx in all the three NGINX OSS containers: basics-oss1, basics-oss2 and basics-oss3.
+    The above set of commands would reload nginx in all the three NGINX OSS containers: one-workshop-oss1, one-workshop-oss2 and one-workshop-oss3.
 
 <br/>
 
@@ -202,13 +202,13 @@ One of the Best Features of the NGINX ONE Console is the Configuration analysis 
 - Optimization: NGINX configurations known to provide optimal performance.
 - Best Practices: Common configurations that follow standards and conform to ideal configs.
 
-1. From the Overview Dashboard, click on the `Security` and then Click on the `basics-oss1` Instance.
+1. From the Overview Dashboard, click on the `Security` and then Click on the `one-workshop-oss1` Instance.
 
     ![Config Rec Security](media/lab3_none-config-recommendations.png)
 
 1. Switch view to `Configuration` tab to see the recommendation details. The Recommendations are at the bottom of the screen, and if you look at the config file list, you see small numbers next to each config file that is affected. These are `color-coded`: the Orange numbers are for Security, Blue numbers are for Best Practices, and the Green numbers for for Optimizations.
 
-    ![Config Recs](media/lab3_basics-oss1-config-colors.png)
+    ![Config Recs](media/lab3_one-workshop-oss1-config-colors.png)
 
 1. If you click on the `cafe.example.com.conf` file, the Recommendations will be shown on the bottom, with details and Line Numbers, so you know which ones are being highlighted.
 
