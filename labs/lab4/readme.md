@@ -309,5 +309,4 @@ This ends lab4.
 
 ---
 
-Navigate to ([Lab5](../lab5/readme.md) | [LabGuide](../readme.md))
-
+Navigate to ([LabGuide](../readme.md))
