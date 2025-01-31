@@ -82,7 +82,7 @@ Click on `one-workshop-plus2` Instance, you should see a list of all the CVEs id
 
 One Workshop Plus1 | One Workshop Plus2
 :-------------------------:|:-------------------------:
-![Container CVEs](media/lab3_basics-plus1-cves.png) | ![Container CVEs](media/lab3_basics-plus2-cves.png)
+![Container CVEs](media/lab3_one-workshop-plus1-cves.png) | ![Container CVEs](media/lab3_one-workshop-plus2-cves.png)
 
 ### CPU, RAM, Disk Utilization
 
@@ -119,11 +119,11 @@ One of the nice security feature of the NGINX One Console is the ability to prov
 
 1. Click on the `one-workshop-plus1` Instance. This will provide the Instance level Details, you will see a `CVEs` Section, this time with the Name, Severity and Description for each CVEs applicable to the instance.
 
-    ![Basics-plus1 CVE](media/lab3_basics-plus1-cves.png)
+    ![Basics-plus1 CVE](media/lab3_one-workshop-plus1-cves.png)
 
 1. If you click on one of the CVEs name hyperlink, for example `CVE-2024-39792`, it will directly open the CVE website on a new tab with detailed information and possible remediations.
 
-    ![High CVE redirect](media/lab3_basics-plus1-cves-redirect.png)
+    ![High CVE redirect](media/lab3_one-workshop-plus1-cves-redirect.png)
 
 1. In similar fashion explore, click on the `Medium` Severity link within the Overview Dashboard and explore all the other CVEs that are classified under `Medium` Severity.
 
@@ -150,7 +150,7 @@ Another nice feature of the NGINX One Console is the ability to quickly see the 
 
 1. Click on the `one-workshop-oss1` Instance. This will provide the Instance level Details, you will see a `Certificates` Section, this time with the Name, Status, `Expiration Date`, and Subject Name for each certificate file.
 
-    ![Certs](media/lab3_basics-oss1-certs.png)
+    ![Certs](media/lab3_one-workshop-oss1-certs.png)
 
 1. If you Click on the actual certificate file, for example `30-day.crt`, it will give you a List of all the Instances that are using that same certificate.
 
@@ -208,7 +208,7 @@ One of the Best Features of the NGINX ONE Console is the Configuration analysis 
 
 1. Switch view to `Configuration` tab to see the recommendation details. The Recommendations are at the bottom of the screen, and if you look at the config file list, you see small numbers next to each config file that is affected. These are `color-coded`: the Orange numbers are for Security, Blue numbers are for Best Practices, and the Green numbers for for Optimizations.
 
-    ![Config Recs](media/lab3_basics-oss1-config-colors.png)
+    ![Config Recs](media/lab3_one-workshop-oss1-config-colors.png)
 
 1. If you click on the `cafe.example.com.conf` file, the Recommendations will be shown on the bottom, with details and Line Numbers, so you know which ones are being highlighted.
 
