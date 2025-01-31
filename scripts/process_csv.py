@@ -1,8 +1,8 @@
 import csv
-import requests
+# import requests
 
 # Constants
-CSV_FILE = "input.csv"  # Replace with your CSV file path
+CSV_FILE = "./registrants_original.csv"  # Replace with your CSV file path
 API_URL = "https://example.com/api"  # Replace with the actual API endpoint
 HEADERS = {"Content-Type": "application/json"}  # Adjust headers as needed
 
@@ -27,7 +27,8 @@ def process_csv(file_path):
     with open(file_path, newline='', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            make_api_call(row["firstname"], row["lastname"], row["email"])
+            # make_api_call(row["Buyer first name"], row["Buyer last name"], row["Buyer email"])
+            print(f"Firstname: {row["Buyer first name"]} Lastname: {row["Buyer last name"]} Email: {row["Buyer email"]}")
 
 if __name__ == "__main__":
     process_csv(CSV_FILE)
