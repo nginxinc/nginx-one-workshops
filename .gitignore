@@ -15,3 +15,7 @@ Thumbs.db
 # Logs #
 ########
 *.log
+
+# Python Dependencies #
+#######################
+myenv
