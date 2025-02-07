@@ -42,7 +42,7 @@ az vm create \
 
 ```
 
-## Steps to install elastic within Azure VM
+## Steps to install elasticsearch within Azure VM
 
 1. Install elasticsearch
 
@@ -94,7 +94,7 @@ az vm create \
     ./elasticsearch-users list
     ```
 
-## Steps to local client vm
+## Steps to setup local client vm
 
 1. Install nginx oss to run a nginx webserver
 
