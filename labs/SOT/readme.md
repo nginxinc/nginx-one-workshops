@@ -210,5 +210,96 @@ curl -X GET "http://13.89.102.212:9200/filebeat-index-*/_search?pretty" -H 'Cont
 From Jumphost sending request passing through NGINXPlus
 -------------------------------------
 curl -X GET "http://elastic.example.com:9200/filebeat-index-*/_search?pretty" -H 'Content-Type: application/json' -d'{ "query": { "range" : {"@timestamp": {"gte":"2025-02-07T00:00:00","lte": "2025-02-07T23:59:59"} }}}'
-
 ```
+
+## Setup mock Action1 server in Azure
+
+1. Create a new Azure vm
+
+    ```bash
+    export MY_RESOURCEGROUP="s.dutta-SOT"
+    export MY_LOCATION=centralus
+    export ID=`az group show -n $MY_RESOURCEGROUP --query "id" -otsv`
+
+    az vm create \
+        --resource-group $MY_RESOURCEGROUP \
+        --name sot-action1vm \
+        --image Ubuntu2204 \
+        --admin-username azureuser \
+        --vnet-name sot-vnet \
+        --subnet sot-vm-subnet \
+        --assign-identity \
+        --scope $ID \
+        --role Owner \
+        --generate-ssh-keys \
+        --public-ip-sku Standard \
+        --security-type TrustedLaunch \
+        --enable-secure-boot true \
+        --enable-vtpm true 
+    ```
+
+1. SSH into the new Azure VM and install nginx oss to run a nginx webserver
+
+    ```bash
+    sudo apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring
+
+    curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
+    | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+
+    gpg --dry-run --quiet --no-keyring --import --import-options import-show /usr/share/keyrings/nginx-archive-keyring.gpg
+
+    echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+    http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
+    | sudo tee /etc/apt/sources.list.d/nginx.list
+
+    echo -e "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n" \
+    | sudo tee /etc/apt/preferences.d/99nginx
+
+    sudo apt update
+    sudo apt install nginx
+
+    sudo nginx
+    ```
+
+1. Modify the /etc/nginx/conf.d/default.conf file to listen on port 22543 instead of port 80
+
+    ```bash
+    server {
+        listen       22543;
+        server_name  localhost;
+    
+        ...
+
+    }
+    ```
+
+1. Reload the updated config and test it out within the Azure VM
+
+    ```bash
+    nginx -s reload
+    curl localhost:22543
+    ```
+
+1. Update `sot-action1vmNSG` which is the network security group attached to the new Azure vm to open port `22543` for your IP.
+
+1. Add a stream block in the `nginx.conf` within nginxplus instance as shown below.
+
+    ```bash
+    
+    ...
+
+    # TCP/UDP proxy and load balancing block
+
+    stream {
+        include  /etc/nginx/stream/*.conf;
+
+        log_format  stream  '$remote_addr - $server_addr [$time_local] $status $upstream_addr $upstream_bytes_sent';
+
+        access_log  /var/log/nginx/stream.log  stream;
+    }
+
+    ...
+
+    ```
+
+1. Also create a `stream` subfolder within `/etc/nginx` folder and then add `action1.example.com.conf` and `stream-upstreams.conf` files as part of the subfolder.
