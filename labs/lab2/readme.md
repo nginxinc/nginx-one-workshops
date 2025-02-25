@@ -154,7 +154,7 @@ You will run some Docker containers to build out various workshop components, us
    5cde3c462a27   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33380->80/tcp, :::33379->80/tcp, 0.0.0.0:33376->443/tcp, :::33375->443/tcp                                                                                             s.jobs-web3
    ```
 
-   Go back to your NGINX One Console Instance page, and click `Refresh`. You should see all 6 of your `$NAME-` instances appear in the list, and the Online icon should be `green`. If they did not Register with the One Console, it is likely you have an issue with the $TOKEN used, create a new Dataplane Key and try again. It should look similar to this:
+   Go back to your NGINX One Console Instance page, and click `Refresh`. In the search box type in your `$NAME` value to search your instances. You should see all 6 of your instances appear in the list, and the Online icon should be `green`. If they did not Register with the One Console, it is likely you have an issue with the $TOKEN used, create a new Dataplane Key and try again. It should look similar to this:
 
    ![NGINX Instances](media/lab2_none-instances.png)
 
