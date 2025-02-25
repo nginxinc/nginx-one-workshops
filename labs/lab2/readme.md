@@ -68,7 +68,7 @@ You will run some Docker containers to build out various workshop components, us
 1. Using the same Terminal, set the `NAME` environment variable with your `initials.lastname`(or any unique value). This is needed if you are using a shared tenant within Distributed Cloud to differentiate your dataplane instance from other attendees.
 
    ```bash
-   # Replace <YOUR_INITIALS.LASTNAME> with proper value eg. s.dutta
+   # Replace <YOUR_INITIALS.LASTNAME> with proper value (eg. s.dutta)
    export NAME=<YOUR_INITIALS.LASTNAME>
    ```
 
