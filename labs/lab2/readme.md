@@ -65,6 +65,20 @@ You will run some Docker containers to build out various workshop components, us
    echo $JWT
    ```
 
+1. Using the same Terminal, set the `INITIALS` environment variable with your initials. This is needed if you are using a shared tenant within Distributed Cloud to differentiate your dataplane instance from other attendees.
+
+   ```bash
+   # Replace <YOUR INITIALS> with proper value
+   export INITIALS=<YOUR INITIALS>
+   ```
+
+   And verify it was set:
+
+   ```bash
+   #check it
+   echo $INITIALS
+   ```
+
 1. Using Docker, Login to to the NGINX Private Registry, using the $JWT ENV variable for the username, as follows. (Your system may require sudo):
 
    ```bash

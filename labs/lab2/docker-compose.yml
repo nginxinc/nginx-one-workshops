@@ -12,7 +12,7 @@ services:
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey From One Console
     #  NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
-    hostname: one-workshop-plus1
+    hostname: $INITIALS-one-workshop-plus1
     container_name: one-workshop-plus1
     image: private-registry.nginx.com/nginx-plus/agent:nginx-plus-r32-alpine-3.20-20240613 # CVE - From Nginx Private Registry
     volumes: # Sync these folders to container
@@ -34,7 +34,7 @@ services:
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
     #  NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
-    hostname: one-workshop-plus2
+    hostname: $INITIALS-one-workshop-plus2
     container_name: one-workshop-plus2
     image: private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522 # CVE - From Nginx Private Registry
     volumes: # Sync these folders to container
@@ -56,7 +56,7 @@ services:
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
     #  NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
-    hostname: one-workshop-plus3
+    hostname: $INITIALS-one-workshop-plus3
     container_name: one-workshop-plus3
     image: private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-ubi-9-20240522 # From Nginx Private Registry
     volumes: # Sync these folders to container
@@ -77,7 +77,7 @@ services:
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
-    hostname: one-workshop-oss1
+    hostname: $INITIALS-one-workshop-oss1
     container_name: one-workshop-oss1
     image: docker-registry.nginx.com/nginx/agent:mainline # From Docker Public Registry
     volumes: # Sync these folders to container
@@ -99,7 +99,7 @@ services:
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
-    hostname: one-workshop-oss2
+    hostname: $INITIALS-one-workshop-oss2
     container_name: one-workshop-oss2
     image: docker-registry.nginx.com/nginx/agent:alpine # From Docker Public Registry
     volumes: # Sync these folders to container
@@ -121,7 +121,7 @@ services:
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
-    hostname: one-workshop-oss3
+    hostname: $INITIALS-one-workshop-oss3
     container_name: one-workshop-oss3
     image: docker-registry.nginx.com/nginx/agent:1.26-alpine # From Docker Public Registry
     volumes: # Sync these folders to container
