@@ -118,14 +118,14 @@ docker run \
 --env=NGINX_AGENT_SERVER_GRPCPORT=443 \
 --env=NGINX_AGENT_SERVER_HOST=agent.connect.nginx.com \
 --env=NGINX_AGENT_SERVER_TOKEN="$TOKEN" \
---env=NGINX_AGENT_INSTANCE_GROUP=one-workshop-plus \
+--env=NGINX_AGENT_INSTANCE_GROUP="$NAME"-one-workshop-plus \
 --env=NGINX_AGENT_TLS_ENABLE=true \
 --restart=always \
 --runtime=runc \
 -d private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522
 ```
 
-You can see that the container starts up. With a refresh on the Config Sync Groups page, you will see that the `one-workshop-plus` Config Sync Group now has 1 instance in it.
+You can see that the container starts up. With a refresh on the Config Sync Groups page, you will see that the `$NAME-one-workshop-plus` Config Sync Group now has 1 instance in it.
 
 <br/>
 
@@ -145,7 +145,7 @@ docker compose down
 Now open up the _**docker-compose.yml**_ file. You can uncomment the lines numbered **14, 36, & 58**. This NGINX variable is all you need to add these to the Config Sync Group:
 
 ```bash
-NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
+NGINX_AGENT_INSTANCE_GROUP: $NAME-one-workshop-plus
 ```
 
 Let's launch the containers again and then watch the NGINX One Console to see the instances added to the Config Sync Group.
