@@ -68,7 +68,7 @@ You will run some Docker containers to build out various workshop components, us
 1. Using the same Terminal, set the `NAME` environment variable with your `initials.lastname`(or any unique value). This is needed if you are using a shared tenant within Distributed Cloud to differentiate your dataplane instance from other attendees.
 
    ```bash
-   # Replace <YOUR_INITIALS.LASTNAME> with proper value (eg. s.dutta)
+   # Replace <YOUR_INITIALS.LASTNAME> with proper value (eg. s.jobs)
    export NAME=<YOUR_INITIALS.LASTNAME>
    ```
 
@@ -117,15 +117,15 @@ You will run some Docker containers to build out various workshop components, us
    ## Sample output ##
    [+] Running 10/10
     ✔ Network lab2_default          Created                                                         0.0s
-    ✔ Container one-workshop-plus3  Started                                                         0.4s
-    ✔ Container one-workshop-plus1  Started                                                         0.4s
-    ✔ Container web3                Started                                                         0.3s
-    ✔ Container one-workshop-oss1   Started                                                         0.4s
-    ✔ Container web1                Started                                                         0.3s
-    ✔ Container one-workshop-oss2   Started                                                         0.4s
-    ✔ Container one-workshop-oss3   Started                                                         0.4s
-    ✔ Container web2                Started                                                         0.3s
-    ✔ Container one-workshop-plus2  Started                                                         0.4s
+    ✔ Container s.jobs-plus3        Started                                                         0.4s
+    ✔ Container s.jobs-plus1        Started                                                         0.4s
+    ✔ Container s.jobs-web3         Started                                                         0.3s
+    ✔ Container s.jobs-oss1         Started                                                         0.4s
+    ✔ Container s.jobs-web1         Started                                                         0.3s
+    ✔ Container s.jobs-oss2         Started                                                         0.4s
+    ✔ Container s.jobs-oss3         Started                                                         0.4s
+    ✔ Container s.jobs-web2         Started                                                         0.3s
+    ✔ Container s.jobs-plus2        Started                                                         0.4s
    ```
 
 1. Verify that all 9 containers started:
@@ -139,22 +139,22 @@ You will run some Docker containers to build out various workshop components, us
 
    CONTAINER ID   IMAGE                                                                             COMMAND                  CREATED          STATUS          PORTS                                                                                                                                                                          NAMES
    # NGINX OSS containers
-   00ee8c9e4326   docker-registry.nginx.com/nginx/agent:mainline                                    "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33396->80/tcp, :::33395->80/tcp, 0.0.0.0:33393->443/tcp, :::33392->443/tcp, 0.0.0.0:33388->9000/tcp, :::33387->9000/tcp, 0.0.0.0:33381->9113/tcp, :::33380->9113/tcp   one-workshop-oss1
-   34b871d50d1b   docker-registry.nginx.com/nginx/agent:alpine                                      "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33391->80/tcp, :::33390->80/tcp, 0.0.0.0:33385->443/tcp, :::33384->443/tcp, 0.0.0.0:33378->9000/tcp, :::33377->9000/tcp, 0.0.0.0:33375->9113/tcp, :::33374->9113/tcp   one-workshop-oss2
-   022d79ce886c   docker-registry.nginx.com/nginx/agent:1.26-alpine                                 "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33398->80/tcp, :::33397->80/tcp, 0.0.0.0:33395->443/tcp, :::33394->443/tcp, 0.0.0.0:33392->9000/tcp, :::33391->9000/tcp, 0.0.0.0:33386->9113/tcp, :::33385->9113/tcp   one-workshop-oss3
+   00ee8c9e4326   docker-registry.nginx.com/nginx/agent:mainline                                    "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33396->80/tcp, :::33395->80/tcp, 0.0.0.0:33393->443/tcp, :::33392->443/tcp, 0.0.0.0:33388->9000/tcp, :::33387->9000/tcp, 0.0.0.0:33381->9113/tcp, :::33380->9113/tcp   s.jobs-oss1
+   34b871d50d1b   docker-registry.nginx.com/nginx/agent:alpine                                      "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33391->80/tcp, :::33390->80/tcp, 0.0.0.0:33385->443/tcp, :::33384->443/tcp, 0.0.0.0:33378->9000/tcp, :::33377->9000/tcp, 0.0.0.0:33375->9113/tcp, :::33374->9113/tcp   s.jobs-oss2
+   022d79ce886c   docker-registry.nginx.com/nginx/agent:1.26-alpine                                 "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33398->80/tcp, :::33397->80/tcp, 0.0.0.0:33395->443/tcp, :::33394->443/tcp, 0.0.0.0:33392->9000/tcp, :::33391->9000/tcp, 0.0.0.0:33386->9113/tcp, :::33385->9113/tcp   s.jobs-oss3
 
    # NGINX Plus containers
-   9770a4169e19   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r32-alpine-3.20-20240613   "/usr/bin/supervisor…"   44 minutes ago   Up 44 minutes   0.0.0.0:33397->80/tcp, :::33396->80/tcp, 0.0.0.0:33394->443/tcp, :::33393->443/tcp, 0.0.0.0:33389->9000/tcp, :::33388->9000/tcp, 0.0.0.0:33383->9113/tcp, :::33382->9113/tcp   one-workshop-plus1
-   852667e29280   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522   "/usr/bin/supervisor…"   44 minutes ago   Up 44 minutes   0.0.0.0:33382->80/tcp, :::33381->80/tcp, 0.0.0.0:33377->443/tcp, :::33376->443/tcp, 0.0.0.0:33374->9000/tcp, :::33373->9000/tcp, 0.0.0.0:33372->9113/tcp, :::33371->9113/tcp   one-workshop-plus2
-   ffa65b04e03b   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-ubi-9-20240522         "/usr/bin/supervisor…"   44 minutes ago   Up 44 minutes   0.0.0.0:33373->80/tcp, :::33372->80/tcp, 0.0.0.0:33371->443/tcp, :::33370->443/tcp, 0.0.0.0:33370->9000/tcp, :::33369->9000/tcp, 0.0.0.0:33369->9113/tcp, :::33368->9113/tcp   one-workshop-plus3
+   9770a4169e19   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r32-alpine-3.20-20240613   "/usr/bin/supervisor…"   44 minutes ago   Up 44 minutes   0.0.0.0:33397->80/tcp, :::33396->80/tcp, 0.0.0.0:33394->443/tcp, :::33393->443/tcp, 0.0.0.0:33389->9000/tcp, :::33388->9000/tcp, 0.0.0.0:33383->9113/tcp, :::33382->9113/tcp   s.jobs-plus1
+   852667e29280   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522   "/usr/bin/supervisor…"   44 minutes ago   Up 44 minutes   0.0.0.0:33382->80/tcp, :::33381->80/tcp, 0.0.0.0:33377->443/tcp, :::33376->443/tcp, 0.0.0.0:33374->9000/tcp, :::33373->9000/tcp, 0.0.0.0:33372->9113/tcp, :::33371->9113/tcp   s.jobs-plus2
+   ffa65b04e03b   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-ubi-9-20240522         "/usr/bin/supervisor…"   44 minutes ago   Up 44 minutes   0.0.0.0:33373->80/tcp, :::33372->80/tcp, 0.0.0.0:33371->443/tcp, :::33370->443/tcp, 0.0.0.0:33370->9000/tcp, :::33369->9000/tcp, 0.0.0.0:33369->9113/tcp, :::33368->9113/tcp   s.jobs-plus3
 
    # NGINX Ingress Demo containers (not Registered with NGINX One Console)
-   37c2777c8598   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33387->80/tcp, :::33386->80/tcp, 0.0.0.0:33379->443/tcp, :::33378->443/tcp                                                                                             web1
-   dba569e76e36   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   443/tcp, 0.0.0.0:33390->80/tcp, :::33389->80/tcp, 0.0.0.0:33384->433/tcp, :::33383->433/tcp                                                                                    web2
-   5cde3c462a27   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33380->80/tcp, :::33379->80/tcp, 0.0.0.0:33376->443/tcp, :::33375->443/tcp                                                                                             web3
+   37c2777c8598   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33387->80/tcp, :::33386->80/tcp, 0.0.0.0:33379->443/tcp, :::33378->443/tcp                                                                                             s.jobs-web1
+   dba569e76e36   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   443/tcp, 0.0.0.0:33390->80/tcp, :::33389->80/tcp, 0.0.0.0:33384->433/tcp, :::33383->433/tcp                                                                                    s.jobs-web2
+   5cde3c462a27   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   44 minutes ago   Up 44 minutes   0.0.0.0:33380->80/tcp, :::33379->80/tcp, 0.0.0.0:33376->443/tcp, :::33375->443/tcp                                                                                             s.jobs-web3
    ```
 
-   Go back to your NGINX One Console Instance page, and click `Refresh`. You should see all 6 of your `one-workshop-` instances appear in the list, and the Online icon should be `green`. If they did not Register with the One Console, it is likely you have an issue with the $TOKEN used, create a new Dataplane Key and try again. It should look similar to this:
+   Go back to your NGINX One Console Instance page, and click `Refresh`. You should see all 6 of your `$NAME-` instances appear in the list, and the Online icon should be `green`. If they did not Register with the One Console, it is likely you have an issue with the $TOKEN used, create a new Dataplane Key and try again. It should look similar to this:
 
    ![NGINX Instances](media/lab2_none-instances.png)
 
