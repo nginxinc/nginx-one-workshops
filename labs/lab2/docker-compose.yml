@@ -5,7 +5,7 @@
 # Chris Akker, Shouvik Dutta, Adam Currier
 #
 services:
-  basics-plus1: # Alpine NGINX Plus Web / Load Balancer
+  plus1: # Alpine NGINX Plus Web / Load Balancer
     environment:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
@@ -27,7 +27,7 @@ services:
       - 9113:9113 # Open for Prometheus Scraper page
     restart: always
   #
-  basics-plus2: # Alpine NGINX Plus Web / Load Balancer
+  plus2: # Alpine NGINX Plus Web / Load Balancer
     environment:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
@@ -49,7 +49,7 @@ services:
       - '9113' # Open for Prometheus Scraper page
     restart: always
   #
-  basics-plus3: # RHEL UBI NGINX Plus Web / Load Balancer
+  plus3: # RHEL UBI NGINX Plus Web / Load Balancer
     environment:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
@@ -71,7 +71,7 @@ services:
       - '9113' # Open for Prometheus Scraper page
     restart: always
   #
-  basics-oss1: # Debian NGINX OSS Web / Load Balancer
+  oss1: # Debian NGINX OSS Web / Load Balancer
     environment:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
@@ -93,7 +93,7 @@ services:
       - '9113' # Open for Prometheus Scraper page
     restart: always
   #
-  basics-oss2: # Alpine NGINX OSS Web / Load Balancer
+  oss2: # Alpine NGINX OSS Web / Load Balancer
     environment:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
@@ -115,7 +115,7 @@ services:
       - '9113' # Open for Prometheus Scraper page
     restart: always
     #
-  basics-oss3: # Older Alpine NGINX OSS Web / Load Balancer
+  oss3: # Older Alpine NGINX OSS Web / Load Balancer
     environment:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
