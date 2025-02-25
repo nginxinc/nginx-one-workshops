@@ -138,24 +138,24 @@ services:
     restart: always
   #
   web1:
-    hostname: web1
-    container_name: web1
+    hostname: $NAME-web1
+    container_name: $NAME-web1
     platform: linux/amd64
     image: nginxinc/ingress-demo # Image from Docker Hub
     ports:
       - '80' # Open for HTTP
       - '443' # Open for HTTPS
   web2:
-    hostname: web2
-    container_name: web2
+    hostname: $NAME-web2
+    container_name: $NAME-web2
     platform: linux/amd64
     image: nginxinc/ingress-demo
     ports:
       - '80'
       - '433'
   web3:
-    hostname: web3
-    container_name: web3
+    hostname: $NAME-web3
+    container_name: $NAME-web3
     platform: linux/amd64
     image: nginxinc/ingress-demo
     ports:

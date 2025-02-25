@@ -131,7 +131,7 @@ You will run some Docker containers to build out various workshop components, us
 1. Verify that all 9 containers started:
 
    ```bash
-   docker ps
+   docker ps | grep $NAME
    ```
 
    ```bash
