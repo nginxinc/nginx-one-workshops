@@ -112,8 +112,8 @@ Start the container. We are going to modify the command shown in the console to 
 
 ```bash
 docker run \
---hostname=one-workshop-manual \
---name=one-manual \
+--hostname="$NAME"-one-workshop-manual \
+--name="$NAME"-one-manual \
 --env=NGINX_LICENSE_JWT="$JWT" \
 --env=NGINX_AGENT_SERVER_GRPCPORT=443 \
 --env=NGINX_AGENT_SERVER_HOST=agent.connect.nginx.com \
