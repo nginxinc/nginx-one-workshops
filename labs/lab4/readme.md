@@ -266,25 +266,16 @@ docker compose down
  ✔ Network lab2_default          Removed                                                         0.1s
 ```
 
-To clean up the manual container we added:
+To clean up the manual container we added run below command:
 
 ```bash
-docker ps | grep manual
-f8a5fb797615   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522   "/usr/bin/supervisor…"   About an hour ago   Up About an hour   80/tcp                                                                                                                                                                         one-auto
-```
-
-**Your container id will be different.** You can stop it by using `docker stop <container id>`. Another tip, if you only have a few containers, docker will identify the container id with the first few characters (assuming they are unique). Here we use the first 3 characters and that's enough for docker to know which container we are talking about:
-
-```bash
-docker stop f8a
-f8a
+docker stop $NAME-one-manual
 ```
 
 As we are finished with this exercise we can fully remove the container image as well:
 
 ```bash
-docker rm f8a
-f8a
+docker rm $NAME-one-manual
 ```
 
 Don't forget to stop all of the NGINX containers if you are finished with them, and **Delete them from the NGINX One Console Instance inventory**.
