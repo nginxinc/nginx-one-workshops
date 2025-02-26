@@ -129,7 +129,7 @@ docker run \
 -d private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522
 ```
 
-You can see that the container starts up. With a refresh on the Config Sync Groups page, you will see that the `$NAME-one-workshop-plus` Config Sync Group now has 1 instance in it.
+You can see that the container starts up. With a refresh on the Config Sync Groups page, you will see that the `$NAME-sync-group` Config Sync Group now has 1 instance in it.
 
 <br/>
 
@@ -254,15 +254,15 @@ docker compose down
 ```bash
 ##Sample output##
 [+] Running 10/10
- ✔ Container one-workshop-oss1   Removed                                                         6.1s
- ✔ Container web3                Removed                                                         0.3s
- ✔ Container web2                Removed                                                         0.2s
- ✔ Container one-workshop-plus2  Removed                                                         6.0s
- ✔ Container web1                Removed                                                         0.2s
- ✔ Container one-workshop-oss2   Removed                                                         6.9s
- ✔ Container one-workshop-plus1  Removed                                                         6.0s
- ✔ Container one-workshop-plus3  Removed                                                         5.2s
- ✔ Container one-workshop-oss3   Removed                                                         7.0s
+ ✔ Container s.jobs-oss1         Removed                                                         6.1s
+ ✔ Container s.jobs-web3         Removed                                                         0.3s
+ ✔ Container s.jobs-web2         Removed                                                         0.2s
+ ✔ Container s.jobs-plus2        Removed                                                         6.0s
+ ✔ Container s.jobs-web1         Removed                                                         0.2s
+ ✔ Container s.jobs-oss2         Removed                                                         6.9s
+ ✔ Container s.jobs-plus1        Removed                                                         6.0s
+ ✔ Container s.jobs-plus3        Removed                                                         5.2s
+ ✔ Container s.jobs-oss3         Removed                                                         7.0s
  ✔ Network lab2_default          Removed                                                         0.1s
 ```
 
