@@ -147,46 +147,38 @@ For this lab you will run 4 Docker containers.  The first one will be used as an
     afb0b2736ab1   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r32-alpine-3.20-20240613   "/usr/bin/supervisor…"   40 seconds ago   Up 39 seconds          0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp   s.jobs-nginx-plus
     ```
 
-1. Verify `all` of your three web backend servers are working.  Using a Terminal, Docker exec into each one, and verify you get a response to a curl request.  The `Name` should be `web1`, `web2`, and `web3` respectively for each container.
+1. Verify `all` of your three web backend servers are working.  Using a Terminal, run below Docker exec curl commands hitting each backend container. Verify you get a response to the curl request.  
 
     ```bash
-    docker exec -it web1 bin/sh   # log into web1 container, then web2, then web3
-
+    docker exec -it $NAME-web1 curl -s http://localhost |grep $NAME-web1 
+    docker exec -it $NAME-web2 curl -s http://localhost |grep $NAME-web2
+    docker exec -it $NAME-web3 curl -s http://localhost |grep $NAME-web3
     ```
 
     ```bash
-    curl -s http://localhost |grep Name
+    curl -s http://localhost |grep Hostname
 
     ```
 
     ```bash
     ## Sample outputs ##
 
-    <p class="smaller"><span>Server Name:</span> <span>web1</span></p>   # web1
-
-    <p class="smaller"><span>Server Name:</span> <span>web2</span></p>   # web2
-
-    <p class="smaller"><span>Server Name:</span> <span>web3</span></p>   # web3
-
+      <p class="smaller"><span>Server Name:</span> <span>s.jobs-web1</span></p>  # web1
+      <p class="smaller"><span>Server Name:</span> <span>s.jobs-web2</span></p>  # web2
+      <p class="smaller"><span>Server Name:</span> <span>s.jobs-web3</span></p>  # web3
     ```
-
-    Check all three, just to be sure.  Quit the Docker Exec when you are finished by typing in `exit` within the container terminal.
 
 1. Test the NGINX Plus container, verify it also sends back a response to a curl request:
 
     ```bash
-    docker exec -it nginx-plus bin/bash   # log into nginx-plus container
-
-    ```
-
-    ```bash
-    curl http://localhost
+    docker exec -it $NAME-nginx-plus curl http://localhost  
 
     ```
 
     ```bash
     ## Sample output ##
-   <!DOCTYPE html>
+
+    <!DOCTYPE html>
     <html>
     <head>
     <title>Welcome to nginx!</title>
@@ -199,7 +191,7 @@ For this lab you will run 4 Docker containers.  The first one will be used as an
 
     ```
 
-    Congrats - you should see the `Welcome to nginx!` page. Quit the Docker Exec when you are finished by typing in `exit` within the container terminal.
+    Congrats - you should see the `Welcome to nginx!` page.
 
 <br/>
 
