@@ -124,7 +124,9 @@ For this lab you will run 4 Docker containers.  The first one will be used as an
     docker login private-registry.nginx.com --username=$JWT --password=none
     ```
 
-1. Using a Terminal, run Docker Compose to build and run your containers: (**NOTE:** Make sure you are within `labs/lab5` folder before running the command)
+1. Using a Terminal, run Docker Compose to build and run your containers: 
+
+    (**NOTE:** Make sure you are within `labs/lab5` folder before running the command)
 
    ```bash
     docker compose up --force-recreate -d

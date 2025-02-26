@@ -97,13 +97,17 @@ You will run some Docker containers to build out various workshop components, us
    Login Succeeded
    ```
 
-1. Run below script to generate temporary self-signed certificates that would be used by NGINX OSS instances.(**NOTE:** Make sure you are within `labs/lab2` folder before running the command)
+1. Run below script to generate temporary self-signed certificates that would be used by NGINX OSS instances.
+
+   (**NOTE:** Make sure you are within `labs/lab2` folder before running the command)
 
    ```bash
    bash generate_certs.sh
    ```
 
-1. If both ENV variables are set correctly && you are logged into the NGINX Private Registry, you can now run Docker Compose to pull and run the images. (**NOTE:** Make sure you are within `labs/lab2` folder before running the command)
+1. If both ENV variables are set correctly && you are logged into the NGINX Private Registry, you can now run Docker Compose to pull and run the images.
+
+   (**NOTE:** Make sure you are within `labs/lab2` folder before running the command)
 
    ```bash
    docker compose up --force-recreate -d
