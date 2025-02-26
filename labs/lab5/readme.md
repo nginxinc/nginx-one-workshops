@@ -140,7 +140,7 @@ For this lab you will run 4 Docker containers.  The first one will be used as an
 
     ```bash
     ## Sample output ##
-    CONTAINER ID   IMAGE                   COMMAND                  CREATED       STATUS       PORTS                                                              NAMES
+    CONTAINER ID   IMAGE                                                                             COMMAND                  CREATED       STATUS       PORTS                                                              NAMES
     aa9a9e192f7e   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   40 seconds ago   Up 39 seconds          0.0.0.0:32796->80/tcp, :::32796->80/tcp, 0.0.0.0:32794->443/tcp, :::32794->443/tcp                                    s.jobs-web3
     76e3295909f6   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   40 seconds ago   Up 39 seconds          443/tcp, 0.0.0.0:32797->80/tcp, :::32797->80/tcp, 0.0.0.0:32795->433/tcp, :::32795->433/tcp                           s.jobs-web2
     c538afe67823   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   40 seconds ago   Up 39 seconds          0.0.0.0:32799->80/tcp, :::32799->80/tcp, 0.0.0.0:32798->443/tcp, :::32798->443/tcp                                    s.jobs-web1
