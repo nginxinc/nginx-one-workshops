@@ -128,9 +128,9 @@ For this lab you will run 4 Docker containers.  The first one will be used as an
 
     (**NOTE:** Make sure you are within `labs/lab5` folder before running the command)
 
-   ```bash
+    ```bash
     docker compose up --force-recreate -d
-   ```
+    ```
 
 1. Verify all four containers are running:
 
@@ -141,11 +141,10 @@ For this lab you will run 4 Docker containers.  The first one will be used as an
     ```bash
     ## Sample output ##
     CONTAINER ID   IMAGE                   COMMAND                  CREATED       STATUS       PORTS                                                              NAMES
-    ab101e69c186   nginx-plus:workshop     "nginx -g 'daemon of…"   5 seconds ago   Up 4 seconds   0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp, 8080/tcp, 0.0.0.0:9000->9000/tcp, 9113/tcp   nginx-plus
-    d671b5befb6c   nginxinc/ingress-demo   "/docker-entrypoint.…"   5 seconds ago   Up 5 seconds   0.0.0.0:52783->80/tcp, 0.0.0.0:52782->443/tcp                                          web1
-    ec14194174bd   nginxinc/ingress-demo   "/docker-entrypoint.…"   5 seconds ago   Up 5 seconds   443/tcp, 0.0.0.0:52781->80/tcp, 0.0.0.0:52780->433/tcp                                 web2
-    08898f34ad49   nginxinc/ingress-demo   "/docker-entrypoint.…"   5 seconds ago   Up 5 seconds   0.0.0.0:52785->80/tcp, 0.0.0.0:52784->443/tcp                                          web3
-
+    aa9a9e192f7e   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   40 seconds ago   Up 39 seconds          0.0.0.0:32796->80/tcp, :::32796->80/tcp, 0.0.0.0:32794->443/tcp, :::32794->443/tcp                                    s.jobs-web3
+    76e3295909f6   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   40 seconds ago   Up 39 seconds          443/tcp, 0.0.0.0:32797->80/tcp, :::32797->80/tcp, 0.0.0.0:32795->433/tcp, :::32795->433/tcp                           s.jobs-web2
+    c538afe67823   nginxinc/ingress-demo                                                             "/docker-entrypoint.…"   40 seconds ago   Up 39 seconds          0.0.0.0:32799->80/tcp, :::32799->80/tcp, 0.0.0.0:32798->443/tcp, :::32798->443/tcp                                    s.jobs-web1
+    afb0b2736ab1   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r32-alpine-3.20-20240613   "/usr/bin/supervisor…"   40 seconds ago   Up 39 seconds          0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp   s.jobs-nginx-plus
     ```
 
 1. Verify `all` of your three web backend servers are working.  Using a Terminal, Docker exec into each one, and verify you get a response to a curl request.  The `Name` should be `web1`, `web2`, and `web3` respectively for each container.
