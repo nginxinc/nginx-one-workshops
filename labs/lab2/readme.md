@@ -55,7 +55,7 @@ You will run some Docker containers to build out various workshop components, us
 1. Using the same Terminal, set the `JWT` environment variable from your `nginx-repo.jwt` license file. This is required to pull the NGINX Plus container images from the NGINX Private Registry. If you do not have an NGINX Plus license, you can request a free 30-Day Trial license from here: <https://www.f5.com/trials/nginx-one>
 
    ```bash
-   export JWT=$(cat nginx-repo.jwt)
+   export JWT=$(cat lab2/nginx-repo.jwt)
    ```
 
    And verify it was set:
@@ -97,13 +97,13 @@ You will run some Docker containers to build out various workshop components, us
    Login Succeeded
    ```
 
-1. Run below script to generate temporary self-signed certificates that would be used by NGINX OSS instances.Ensure you are in the `/lab2` folder:
+1. Run below script to generate temporary self-signed certificates that would be used by NGINX OSS instances.(**NOTE:** Make sure you are within `labs/lab2` folder before running the command)
 
    ```bash
    bash generate_certs.sh
    ```
 
-1. If both ENV variables are set correctly && you are logged into the NGINX Private Registry, you can now run Docker Compose to pull and run the images. Ensure you are in the `/lab2` folder:
+1. If both ENV variables are set correctly && you are logged into the NGINX Private Registry, you can now run Docker Compose to pull and run the images. (**NOTE:** Make sure you are within `labs/lab2` folder before running the command)
 
    ```bash
    docker compose up --force-recreate -d

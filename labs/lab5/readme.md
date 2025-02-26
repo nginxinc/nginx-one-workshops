@@ -26,19 +26,20 @@ By the end of the lab you will be able to:
 
 ## Prerequisites
 
-- Nginx-Plus container from Lab1
-- You must have Docker installed and running
-- You must have Docker-compose installed
-- See `Lab0` for instructions on setting up your system for this Workshop
-- Familiarity with basic Linux commands and commandline tools
-- Familiarity with basic Docker concepts and commands
+- You must have an F5 Distributed Cloud(XC) Account
+- You must have enabled NGINX One service on F5 Distributed Cloud(XC)
+- See `Lab0` for instructions on setting up your system for this Workshop.
+- You have built all workshop components from previous section.
+- Familiarity with basic Linux concepts and commands
+- Familiarity with basic NGINX concepts and commands
 - Proficient with the HTTP protocol
+
 
 ## Build the Workshop Environment with Docker Compose
 
 For this lab you will run 4 Docker containers.  The first one will be used as an NGINX-Plus reverse proxy and load balancer, and other 3 will be used for backend web servers.
 
-![Lab4 diagram](media/lab4_plus-diagram.png)
+![Lab5 diagram](media/lab5_plus-diagram.png)
 
 <br/>
 
@@ -46,27 +47,27 @@ For this lab you will run 4 Docker containers.  The first one will be used as an
 
 <br/>
 
-1. NOTE:  This lab exercise uses the `nginx-plus` container that you built in Lab1.
 
-1. Inspect the `docker-compose.yml` file, located in the `labs/lab4` folder.  Notice you are running the NGINX-Plus web and Proxy container, from Lab1.  
+1. Inspect the `docker-compose.yml` file, located in the `labs/lab5` folder.  Notice you are running the NGINX-Plus web and Proxy container, from Lab1.  
 
     ```bash
     ...
 
     services:
     nginx-plus:                     # NGINX Plus Web / Load Balancer
-        hostname: nginx-plus
-        container_name: nginx-plus
-        image: nginx-plus:workshop  # From Lab1
+        environment:
+            NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
+            NGINX_AGENT_SERVER_GRPCPORT: '443'
+            NGINX_AGENT_TLS_ENABLE: 'true'
+            NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey From One Console
+        hostname: $NAME-nginx-plus
+        container_name: $NAME-nginx-plus
+        image: private-registry.nginx.com/nginx-plus/agent:nginx-plus-r32-alpine-3.20-20240613 # CVE - From Nginx Private Registry
         volumes:                    # Sync these folders to container
             - ./nginx-plus/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
             - ./nginx-plus/etc/nginx/conf.d:/etc/nginx/conf.d
             - ./nginx-plus/etc/nginx/includes:/etc/nginx/includes
             - ./nginx-plus/usr/share/nginx/html:/usr/share/nginx/html
-        links:
-            - web1:web1
-            - web2:web2
-            - web3:web3
         ports:
             - 80:80       # Open for HTTP
             - 443:443     # Open for HTTPS
@@ -80,19 +81,22 @@ For this lab you will run 4 Docker containers.  The first one will be used as an
     ```bash
     ...
     web1:
-        hostname: web1
+        hostname: $NAME-web1
+        container_name: $NAME-web1
         image: nginxinc/ingress-demo       # Image from Docker Hub
         ports:
             - "80"                           # Open for HTTP
             - "443"                          # Open for HTTPS
     web2:
-        hostname: web2
+        hostname: $NAME-web2
+        container_name: $NAME-web2
         image: nginxinc/ingress-demo
         ports:
             - "80"
             - "433"
     web3:
-        hostname: web3
+        hostname: $NAME-web3
+        container_name: $NAME-web3
         image: nginxinc/ingress-demo
         ports:
             - "80"
@@ -100,19 +104,36 @@ For this lab you will run 4 Docker containers.  The first one will be used as an
 
     ```
 
-1. Ensure you are in the `lab4` folder.  Using a Terminal, run Docker Compose to build and run your containers:
+1. Make sure your three environment variables are still set in your Visual Studio terminal. If they are not set, then refer to lab2 to set them up before proceeding to next step.
+
+    ```bash
+    # Check if below environment variables are present in your terminal
+
+    echo "----------------------------------------------"
+    echo $TOKEN
+    echo "----------------------------------------------"
+    echo $JWT
+    echo "----------------------------------------------"
+    echo $NAME
+    echo "----------------------------------------------"
+    ```
+
+1. Confirm you are still logged in to the NGINX Private Registry, using the `$JWT` environment variable for the username, as follows. (Your system may require sudo)
+
+    ```bash
+    docker login private-registry.nginx.com --username=$JWT --password=none
+    ```
+
+1. Using a Terminal, run Docker Compose to build and run your containers: (**NOTE:** Make sure you are within `labs/lab5` folder before running the command)
 
    ```bash
-    cd lab4
     docker compose up --force-recreate -d
-
    ```
 
 1. Verify all four containers are running:
 
     ```bash
-    docker ps -a
-
+    docker ps | grep $NAME
     ```
 
     ```bash
