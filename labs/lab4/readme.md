@@ -28,18 +28,21 @@ By the end of the lab you will be able to:
 
 Config Sync Groups allow you to group multiple NGINX instances and leverage an identical configuration across all instances. This feature is extremely helpful in ephemeral environments, such as Docker and Kubernetes, as the NGINX instance can pull its configuration versus needing to rebuild the NGINX container every time the configuration changes. This section will go through using this feature.
 
-- Under the `Manage` heading in the left hand column, click on the `Config Sync Groups` link.<br/>
+- Under the `Manage` heading in the left hand column, click on the `Config Sync Groups` link.
+
   ![Config Sync Groups](media/lab4_csg.png)<br/><br/>
 
-- In the resulting panel at the top, click on the `Add Config Sync Group` button.<br/>
+- In the resulting panel at the top, click on the `Add Config Sync Group` button.
+
   ![Add Config Sync Group](media/lab4_csg_add.png)<br/><br/>
 
-- A modal window will pop up and ask you to give a name for the Config Sync Group. Here you will use the name: `one-workshop-plus`<br/>
+- A modal window will pop up and ask you to give a name for the Config Sync Group. Here you will use the name: `$NAME-sync-group` (Replace $NAME with the your `initials.lastname` like you did in lab2)
+
   ![Config Sync Group Name](media/lab4_csg_name.png)<br/><br/>
 
-Click the create button. Your newly created Config Sync Group `one-workshop-plus` should be in the list.
+Click the create button. Your newly created Config Sync Group `$NAME-sync-group` should be in the list.
 
-You can now explore your Config Sync Group by selecting `one-workshop-plus`. When you select it, there are two tabs named _Details_ and _Configuration_.
+You can now explore your Config Sync Group by selecting `$NAME-sync-group`. When you select it, there are two tabs named _Details_ and _Configuration_.
 
 On the _Details_ tab, there are two views: _Details_ represents additional details of this group and _Instances_ represents the NGINX instances that are in this group.
 
@@ -52,6 +55,7 @@ On the _Configuration_ tab, there is a view that defines the NGINX configuration
 Notice that the configuration is empty when you first create a Config Sync Group. There are two ways to handle the initial configuration.
 
 - Option 1: Auto-generate the Config Sync Group's configuration by adding the first NGINX instance. The existing config from the NGINX instance will be used as the config for your Config Sync Group.
+
 - Option 2: Manually define the NGINX configurations before adding any NGINX instances using the UI text editor.
 
 ### Option 1 - Create and add an instance to the group
@@ -112,20 +116,20 @@ Start the container. We are going to modify the command shown in the console to 
 
 ```bash
 docker run \
---hostname=one-workshop-manual \
---name=one-manual \
+--hostname="$NAME"-one-manual \
+--name="$NAME"-one-manual \
 --env=NGINX_LICENSE_JWT="$JWT" \
 --env=NGINX_AGENT_SERVER_GRPCPORT=443 \
 --env=NGINX_AGENT_SERVER_HOST=agent.connect.nginx.com \
 --env=NGINX_AGENT_SERVER_TOKEN="$TOKEN" \
---env=NGINX_AGENT_INSTANCE_GROUP=one-workshop-plus \
+--env=NGINX_AGENT_INSTANCE_GROUP="$NAME"-sync-group \
 --env=NGINX_AGENT_TLS_ENABLE=true \
 --restart=always \
 --runtime=runc \
 -d private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522
 ```
 
-You can see that the container starts up. With a refresh on the Config Sync Groups page, you will see that the `one-workshop-plus` Config Sync Group now has 1 instance in it.
+You can see that the container starts up. With a refresh on the Config Sync Groups page, you will see that the `$NAME-sync-group` Config Sync Group now has 1 instance in it.
 
 <br/>
 
@@ -133,19 +137,18 @@ You can see that the container starts up. With a refresh on the Config Sync Grou
 
 <br/>
 
-You can also notice that it says you are out of sync! You did not populate the configuration manually, so the first container added will download the configuration and become the new default config. You will change this a bit later. Hey, didn't you use docker compose to start our containers in the previous labs? We can add those instances to this `Config Sync Group` even easier than what you did above - automatically!
+You can also notice that it says you are in sync! You did not populate the configuration manually, so the first container added will download the configuration and become the new default config. You will change this a bit later. Hey, didn't you use docker compose to start your containers in the previous labs? You can add those instances to this `Config Sync Group` even easier than what you did above - automatically!
 
-Let's stop your running containers by running:
+Let's stop your running containers by running: (**NOTE:** Make sure you are within `labs/lab2` folder before running the command)
 
 ```bash
-cd ../lab2
 docker compose down
 ```
 
-Now open up the _**docker-compose.yml**_ file. You can uncomment the lines numbered **14, 36, & 58**. This NGINX variable is all you need to add these to the Config Sync Group:
+Now open up the _**lab2/docker-compose.yml**_ file in an editor. You can uncomment the lines numbered **14, 36, & 58**. This NGINX variable is all you need to add these to the Config Sync Group:
 
 ```bash
-NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
+NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
 ```
 
 Let's launch the containers again and then watch the NGINX One Console to see the instances added to the Config Sync Group.
@@ -162,7 +165,7 @@ Use the refresh button and you should see the three new instances added to our c
 
 <br/>
 
-Upon being added to the Config Instance group, NGINX One Console will attempt to apply the configuration of the group to the instances in it. Here you can see the config was immediately applied to **one-plus-2** and **one-plus-3**. **one-plus-1** is the synch still in progress instance here. This shows it takes a moment as the Config Sync Group applies the configuration to each new instance. You will need to refresh the UI to make sure the configs all get applied, but give it a minute.
+Upon being added to the Config Instance group, NGINX One Console will attempt to apply the configuration of the group to the instances in it. Here you can see the sync is still in progress and so the config sync status for **$NAME-plus1**, **$NAME-plus2** and **$NAME-plus3** instances says it is `Out of Sync`. This shows it takes a moment as the Config Sync Group applies the configuration to each new instance. You will need to refresh the UI to make sure the configs all get applied, but give it a minute. Once the `Last Publication Status` status changes from `Pending` to `Succeeded` all the instances should in `In Sync` state as shown below:
 
 <br/>
 
@@ -199,13 +202,13 @@ You will notice it now says (modified) in braces next to the file we changed. At
 
 <br/>
 
-What would it look like if there was a problem when NGINX One Console checked the config? Something like this:
+What would it look like if there was a problem when NGINX One Console checked the config? Lets try to place a new `server` block within the same server block (NOTE: This is an error. As nesting Server blocks is not allowed within NGINX):
 
 ![Error Config Change](media/lab4_csg_config_error.png)
 
 <br/>
 
-Ok, you don't have any errors, so click on the green **Next** button. The following screen allows you to see a diff between the two configs. After reviewing you can click `Save and Publish`.
+Ok so lets remove the `server{}` block so that you don't have any errors. Click on the green **Next** button. The following screen allows you to see a diff between the two configs. After reviewing you can click `Save and Publish`.
 
 <br>
 
@@ -251,37 +254,28 @@ docker compose down
 ```bash
 ##Sample output##
 [+] Running 10/10
- ✔ Container one-workshop-oss1   Removed                                                         6.1s
- ✔ Container web3                Removed                                                         0.3s
- ✔ Container web2                Removed                                                         0.2s
- ✔ Container one-workshop-plus2  Removed                                                         6.0s
- ✔ Container web1                Removed                                                         0.2s
- ✔ Container one-workshop-oss2   Removed                                                         6.9s
- ✔ Container one-workshop-plus1  Removed                                                         6.0s
- ✔ Container one-workshop-plus3  Removed                                                         5.2s
- ✔ Container one-workshop-oss3   Removed                                                         7.0s
+ ✔ Container s.jobs-oss1         Removed                                                         6.1s
+ ✔ Container s.jobs-web3         Removed                                                         0.3s
+ ✔ Container s.jobs-web2         Removed                                                         0.2s
+ ✔ Container s.jobs-plus2        Removed                                                         6.0s
+ ✔ Container s.jobs-web1         Removed                                                         0.2s
+ ✔ Container s.jobs-oss2         Removed                                                         6.9s
+ ✔ Container s.jobs-plus1        Removed                                                         6.0s
+ ✔ Container s.jobs-plus3        Removed                                                         5.2s
+ ✔ Container s.jobs-oss3         Removed                                                         7.0s
  ✔ Network lab2_default          Removed                                                         0.1s
 ```
 
-To clean up the manual container we added:
+To clean up the manual container we added run below command:
 
 ```bash
-docker ps | grep manual
-f8a5fb797615   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522   "/usr/bin/supervisor…"   About an hour ago   Up About an hour   80/tcp                                                                                                                                                                         one-auto
-```
-
-**Your container id will be different.** You can stop it by using `docker stop <container id>`. Another tip, if you only have a few containers, docker will identify the container id with the first few characters (assuming they are unique). Here we use the first 3 characters and that's enough for docker to know which container we are talking about:
-
-```bash
-docker stop f8a
-f8a
+docker stop $NAME-one-manual
 ```
 
 As we are finished with this exercise we can fully remove the container image as well:
 
 ```bash
-docker rm f8a
-f8a
+docker rm $NAME-one-manual
 ```
 
 Don't forget to stop all of the NGINX containers if you are finished with them, and **Delete them from the NGINX One Console Instance inventory**.

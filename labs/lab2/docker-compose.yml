@@ -5,15 +5,15 @@
 # Chris Akker, Shouvik Dutta, Adam Currier
 #
 services:
-  basics-plus1: # Alpine NGINX Plus Web / Load Balancer
+  plus1: # Alpine NGINX Plus Web / Load Balancer
     environment:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey From One Console
-    #  NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
-    hostname: one-workshop-plus1
-    container_name: one-workshop-plus1
+      # NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
+    hostname: $NAME-plus1
+    container_name: $NAME-plus1
     image: private-registry.nginx.com/nginx-plus/agent:nginx-plus-r32-alpine-3.20-20240613 # CVE - From Nginx Private Registry
     volumes: # Sync these folders to container
       - ./nginx-plus/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -27,15 +27,15 @@ services:
       - 9113:9113 # Open for Prometheus Scraper page
     restart: always
   #
-  basics-plus2: # Alpine NGINX Plus Web / Load Balancer
+  plus2: # Alpine NGINX Plus Web / Load Balancer
     environment:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
-    #  NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
-    hostname: one-workshop-plus2
-    container_name: one-workshop-plus2
+      # NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
+    hostname: $NAME-plus2
+    container_name: $NAME-plus2
     image: private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-alpine-3.19-20240522 # CVE - From Nginx Private Registry
     volumes: # Sync these folders to container
       - ./nginx-plus/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -49,15 +49,15 @@ services:
       - '9113' # Open for Prometheus Scraper page
     restart: always
   #
-  basics-plus3: # RHEL UBI NGINX Plus Web / Load Balancer
+  plus3: # RHEL UBI NGINX Plus Web / Load Balancer
     environment:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
-    #  NGINX_AGENT_INSTANCE_GROUP: one-workshop-plus
-    hostname: one-workshop-plus3
-    container_name: one-workshop-plus3
+      # NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
+    hostname: $NAME-plus3
+    container_name: $NAME-plus3
     image: private-registry.nginx.com/nginx-plus/agent:nginx-plus-r31-ubi-9-20240522 # From Nginx Private Registry
     volumes: # Sync these folders to container
       - ./nginx-plus/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -71,14 +71,14 @@ services:
       - '9113' # Open for Prometheus Scraper page
     restart: always
   #
-  basics-oss1: # Debian NGINX OSS Web / Load Balancer
+  oss1: # Debian NGINX OSS Web / Load Balancer
     environment:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
-    hostname: one-workshop-oss1
-    container_name: one-workshop-oss1
+    hostname: $NAME-oss1
+    container_name: $NAME-oss1
     image: docker-registry.nginx.com/nginx/agent:mainline # From Docker Public Registry
     volumes: # Sync these folders to container
       - ./nginx-oss/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -93,14 +93,14 @@ services:
       - '9113' # Open for Prometheus Scraper page
     restart: always
   #
-  basics-oss2: # Alpine NGINX OSS Web / Load Balancer
+  oss2: # Alpine NGINX OSS Web / Load Balancer
     environment:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
-    hostname: one-workshop-oss2
-    container_name: one-workshop-oss2
+    hostname: $NAME-oss2
+    container_name: $NAME-oss2
     image: docker-registry.nginx.com/nginx/agent:alpine # From Docker Public Registry
     volumes: # Sync these folders to container
       - ./nginx-oss/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -115,14 +115,14 @@ services:
       - '9113' # Open for Prometheus Scraper page
     restart: always
     #
-  basics-oss3: # Older Alpine NGINX OSS Web / Load Balancer
+  oss3: # Older Alpine NGINX OSS Web / Load Balancer
     environment:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
-    hostname: one-workshop-oss3
-    container_name: one-workshop-oss3
+    hostname: $NAME-oss3
+    container_name: $NAME-oss3
     image: docker-registry.nginx.com/nginx/agent:1.26-alpine # From Docker Public Registry
     volumes: # Sync these folders to container
       - ./nginx-oss/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -138,24 +138,24 @@ services:
     restart: always
   #
   web1:
-    hostname: web1
-    container_name: web1
+    hostname: $NAME-web1
+    container_name: $NAME-web1
     platform: linux/amd64
     image: nginxinc/ingress-demo # Image from Docker Hub
     ports:
       - '80' # Open for HTTP
       - '443' # Open for HTTPS
   web2:
-    hostname: web2
-    container_name: web2
+    hostname: $NAME-web2
+    container_name: $NAME-web2
     platform: linux/amd64
     image: nginxinc/ingress-demo
     ports:
       - '80'
       - '433'
   web3:
-    hostname: web3
-    container_name: web3
+    hostname: $NAME-web3
+    container_name: $NAME-web3
     platform: linux/amd64
     image: nginxinc/ingress-demo
     ports:
