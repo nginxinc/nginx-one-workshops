@@ -823,11 +823,6 @@ Chrome | Curl
 
     ![one console Publish success](media/lab5_none_publish_success.png)
 
-   ```bash
-    docker exec -it nginx-plus bin/bash
-
-    ```
-
 1. Test and verify using curl, send a request to your website, and look at the Headers sent back:
 
     ```bash
@@ -861,11 +856,15 @@ Chrome | Curl
 
 Now you need to enable some HTTP Headers, to be added to the Request.  These are often needed to relay information between the HTTP client and the backend server. These Headers are in addition to the HTTP Protocol control headers.
 
-1. Inspect the `proxy_headers.conf` in the `labs/lab4/nginx-plus/etc/nginx/includes` folder.  You will see that some custom HTTP Headers are being added.
+1. Within `etc/nginx/includes` folder, add a new file called `proxy_headers.conf`. Click on Add button to add the file.  
+
+    ![Add proxy_headers.conf](media/lab5_none_addfile_proxyheaders.png)
+
+1. Copy/paste the below commands within `proxy_headers.conf` file.
 
     ```nginx
-    #Nginx Basics - Nov 2024
-    #Chris Akker, Shouvik Dutta, Adam Currier
+    # Nginx Basics proxy_headers.conf
+    # Nov 2024 - Chris Akker, Shouvik Dutta, Adam Currier
     #
     ## Set Headers to the proxied servers ##
 
@@ -880,7 +879,11 @@ Now you need to enable some HTTP Headers, to be added to the Request.  These are
 
     ```
 
-1. Update your `cafe.example.com.conf` file within your mounted folder (`labs/lab4/nginx-plus/etc/nginx/conf.d`) to use the `proxy_headers.conf` added to the config using an `include` directive:
+1. Save and Publish the `proxy_headers.conf` file with above content.
+
+    ![proxyheaders publish](media/lab5_none_proxyheaders_publish.png)
+
+1. Now update your `cafe.example.com.conf` file to use the `proxy_headers.conf` added to the config using an `include` directive:
 
     ```nginx
     # cafe.example.com HTTP
@@ -893,38 +896,38 @@ Now you need to enable some HTTP Headers, to be added to the Request.  These are
 
         server_name cafe.example.com;   # Set hostname to match in request
         
-        # Uncomment the zone directive below to add metrics to the Dashboard
+        # Uncomment the status_zone directive below to add metrics to the Dashboard
         status_zone cafe-VirtualServer;
 
-        access_log  /var/log/nginx/cafe.example.com.log main_ext; 
+        access_log  /var/log/nginx/cafe.example.com.log main; 
         error_log   /var/log/nginx/cafe.example.com_error.log info;
 
         location / {
+
             # Uncomment the status_zone directive below to add metrics to the Dashboard
             status_zone /;
             
-            # Uncomment to enable HTTP keepalives and Request Headers
-            include includes/keepalive.conf;       # Use HTTP/1.1 keepalives
-
-            include includes/proxy_headers.conf;   # Add Request Headers
+            # Enable HTTP keepalives
+            include includes/keepalive.conf;     # Use HTTP/1.1 keepalives
             
+            include includes/proxy_headers.conf; # Add Request Headers
+
             # New NGINX Directive, "proxy_pass", tells NGINX to proxy traffic to another server.
             
-            proxy_pass http://nginx_cafe;          # Send requests to upstreams
+            proxy_pass http://nginx_cafe;        # Must match the upstream block name
         }
 
     } 
 
     ```
 
-1. Once the content of the file has been updated and saved, Docker Exec into the nginx-plus container.
+1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
 
-   ```bash
-    docker exec -it nginx-plus bin/bash
+    ![add proxyheaders to cafe](media/lab5_none_cafe_proxyheaders_publish.png)
 
-    ```
+1. Once the content of the file has been updated and saved, you should see a pop up window as shown below.
 
-1. Test and reload your NGINX config by running `nginx -t` and `nginx -s reload` commands respectively from within the container.
+    ![one console Publish success](media/lab5_none_publish_success.png)
 
 1. Using your browser, and Dev Tools, did you find the Proxy Request Headers?
 
