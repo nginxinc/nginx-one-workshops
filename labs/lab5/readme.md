@@ -391,7 +391,7 @@ You will now configure the `NGINX Upstream Block`, which is a `list of backend s
 
         # Uncomment the zone directive below to add metrics to the Dashboard
         # zone nginx_cafe 256k;
-        
+
         # Load Balancing Algorithms supported by NGINX
         # - Round Robin (Default if nothing specified)
         # - Least Connections
@@ -592,7 +592,9 @@ Now that you have a server, location, and upstream block defined, you can add th
 
     ```
 
-1. Test and reload your NGINX config by running `nginx -t` and `nginx -s reload` commands respectively from within the container.
+1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`.
+
+    ![uncomment zone and status zone](media/lab5_none_uncomment_zone.png)
 
 1. Now check out your Plus Dashboard, at http://localhost:9000/dashboard.html.  What do you see?
 
