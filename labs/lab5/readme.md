@@ -250,13 +250,17 @@ This will require a new NGINX config file, for the Server and Location Blocks. F
 
         server_name cafe.example.com;   # Set hostname to match in request
 
+        # Uncomment the status_zone directive below to add metrics to the Dashboard
+        # status_zone cafe-VirtualServer;
+        
         access_log  /var/log/nginx/cafe.example.com.log main; 
         error_log   /var/log/nginx/cafe.example.com_error.log info;
 
-        root /usr/share/nginx/html;         # Set the root folder for the HTML and JPG files
-
         location / {
             
+            # Uncomment the status_zone directive below to add metrics to the Dashboard
+            # status_zone /;
+
             # New NGINX Directive, "proxy_pass", tells NGINX to proxy traffic to another server.
             
             proxy_pass http://web1;        # Send requests to web1
@@ -324,19 +328,24 @@ This will require a new NGINX config file, for the Server and Location Blocks. F
 
         server_name cafe.example.com;   # Set hostname to match in request
 
+        # Uncomment the status_zone directive below to add metrics to the Dashboard
+        # status_zone cafe-VirtualServer;
+
         access_log  /var/log/nginx/cafe.example.com.log main; 
         error_log   /var/log/nginx/cafe.example.com_error.log info;
 
-        root /usr/share/nginx/html;         # Set the root folder for the HTML and JPG files
-
         location / {
+
+            # Uncomment the status_zone directive below to add metrics to the Dashboard
+            # status_zone /;
             
             # New NGINX Directive, "proxy_pass", tells NGINX to proxy traffic to another website.
             
-            # proxy_pass http://web1;       # Send all request to web1
+            # proxy_pass http://web1;        # Send requests to web1
 
-            proxy_pass http://nginx.org;    # Send all requests to nginx.org website 
+            proxy_pass http://nginx.org;     # Send all requests to nginx.org website 
         }
+
     } 
     
     ```
@@ -380,6 +389,9 @@ You will now configure the `NGINX Upstream Block`, which is a `list of backend s
 
     upstream nginx_cafe {         # Upstream block, the name is "nginx_cafe"
 
+        # Uncomment the zone directive below to add metrics to the Dashboard
+        # zone nginx_cafe 256k;
+        
         # Load Balancing Algorithms supported by NGINX
         # - Round Robin (Default if nothing specified)
         # - Least Connections
@@ -421,15 +433,18 @@ You will now configure the `NGINX Upstream Block`, which is a `list of backend s
 
         server_name cafe.example.com;   # Set hostname to match in request
 
+        # Uncomment the status_zone directive below to add metrics to the Dashboard
+        # status_zone cafe-VirtualServer;
+
         access_log  /var/log/nginx/cafe.example.com.log main; 
         error_log   /var/log/nginx/cafe.example.com_error.log info;
 
-        root /usr/share/nginx/html;         # Set the root folder for the HTML and JPG files
-
         location / {
             
-            # Change the "proxy_pass" directive, tell NGINX to proxy traffic to the upstream block.  
-            # If there is more than one server, they will be load balanced
+            # Uncomment the status_zone directive below to add metrics to the Dashboard
+            # status_zone /;
+
+            # New NGINX Directive, "proxy_pass", tells NGINX to proxy traffic to another server.
             
             proxy_pass http://nginx_cafe;        # Must match the upstream block name
         }
@@ -486,7 +501,7 @@ You will now configure the `NGINX Upstream Block`, which is a `list of backend s
     >This is called an `Upstream proxy_pass`, where you are telling NGINX to Proxy the request to a list of servers in the upstream block, and load balance them.
 
     <br/>
-    
+
 1. These backend application do have the following multiple paths which can also be used for testing. Feel free to try them out:
    - [http://cafe.example.com/coffee](http://cafe.example.com/coffee)
    - [http://cafe.example.com/tea](http://cafe.example.com/tea)
