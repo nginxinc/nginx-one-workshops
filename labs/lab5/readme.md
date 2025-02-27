@@ -253,6 +253,8 @@ This will require a new NGINX config file, for the Server and Location Blocks. F
         access_log  /var/log/nginx/cafe.example.com.log main; 
         error_log   /var/log/nginx/cafe.example.com_error.log info;
 
+        root /usr/share/nginx/html;         # Set the root folder for the HTML and JPG files
+
         location / {
             
             # New NGINX Directive, "proxy_pass", tells NGINX to proxy traffic to another server.
@@ -325,6 +327,8 @@ This will require a new NGINX config file, for the Server and Location Blocks. F
         access_log  /var/log/nginx/cafe.example.com.log main; 
         error_log   /var/log/nginx/cafe.example.com_error.log info;
 
+        root /usr/share/nginx/html;         # Set the root folder for the HTML and JPG files
+
         location / {
             
             # New NGINX Directive, "proxy_pass", tells NGINX to proxy traffic to another website.
@@ -339,7 +343,7 @@ This will require a new NGINX config file, for the Server and Location Blocks. F
 
 1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
 
-    ![one console proxypass nginx.org](media/lab4_proxypass-nginx-org.png)
+    ![one console proxypass nginx.org](media/lab5_none_proxypass-nginx-org.png)
 
 1. Once the content of the file has been updated and saved, you should receive a pop up as shown below.
 
@@ -362,7 +366,11 @@ You see the `proxy_pass` working for one backend webserver, but what about the o
 
 You will now configure the `NGINX Upstream Block`, which is a `list of backend servers` that can be used by NGINX Proxy for load balancing requests.
 
-1. Within the mounted folder (`labs/lab4/nginx-plus/etc/nginx/conf.d`), create a new file called `upstreams.conf`, which will be the config file for the Upstream Block with three backends - web1, web2, and web3. Type in the below commands within the new file.
+1. Within `etc/nginx/conf.d` folder, add a new file called `upstreams.conf`. Click on `Add` button to add the file.
+
+    ![add upstreams.conf](media/lab5_none_addfile_upstreams.png)
+
+1. This new file will be the config file for the Upstream Block with three backends - web1, web2, and web3. Copy/paste the below commands within `upstreams.conf` file.
 
     ```nginx
     # NGINX Basics, Plus Proxy to three upstream NGINX containers
@@ -396,7 +404,9 @@ You will now configure the `NGINX Upstream Block`, which is a `list of backend s
 
     ```
 
-1. Save the `upstreams.conf` file with above content.
+1. Save and Publish the `upstreams.conf` file with above content.
+
+    ![one console upstreams publish](media/lab5_none_upstreams_publish.png)
 
 1. Modify the `proxy_pass` directive in `cafe.example.com.conf`, to proxy the requests to the `upstream` block called `nginx_cafe`.  And it goes without saying, you can have literally hundreds of upstream blocks for various backend apps, but each upstream block name must be unique.  (And you can have hundreds of backends, if you need that much capacity for your website).
 
@@ -425,47 +435,41 @@ You will now configure the `NGINX Upstream Block`, which is a `list of backend s
         }
 
     } 
-    
     ```
 
-1. Once the content of the file has been updated and saved, Docker Exec into the nginx-plus container.
+1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
 
-   ```bash
-    docker exec -it nginx-plus bin/bash
+    ![proxy pass nginx cafe](media/lab5_none_cafe_proxy_publish.png)
 
-    ```
+1. Once the content of the file has been updated and saved, you should receive a pop up as shown below.
 
-1. Test and reload your NGINX config by running `nginx -t` and `nginx -s reload` commands respectively from within the container.
+    ![one console Publish success](media/lab5_none_publish_success.png)
 
-1. Verify that, with updated configs, `cafe.example.com` is load balancing to `all three containers`, run the curl command at least 3 times:
+1. Test and verify that, with updated configs, `cafe.example.com` is load balancing to `all three containers`, run the curl command at least 3 times:
 
     ```bash
-    # Run curl from outside of container
-    curl -is http://cafe.example.com |grep Server     # run at least 3 times
-
+    # Run curl from outside of container (Run at least 3 times)
+    curl -s http://cafe.example.com |grep Server      
     ```
 
     ```bash
      ## Sample outputs ##
 
      # Test 1
-      Server: nginx/1.25.4
-      <p class="smaller"><span>Server Name:</span> <span>web1</span></p>   # web1
-      <p class="smaller"><span>Server Address:</span> <span><font color="green">172.28.0.4:80</font></span></p>
-
+      <p class="smaller"><span>Server Name:</span> <span>s.jobs-web1</span></p>      # web1
+      <p class="smaller"><span>Server Address:</span> <span><font color="green">172.20.0.5:80</font></span></p>
+      
      # Test 2
-      Server: nginx/1.25.4
-      <p class="smaller"><span>Server Name:</span> <span>web2</span></p>   # web2
-      <p class="smaller"><span>Server Address:</span> <span><font color="green">172.28.0.3:80</font></span></p>
-
+      <p class="smaller"><span>Server Name:</span> <span>s.jobs-web2</span></p>      # web2
+      <p class="smaller"><span>Server Address:</span> <span><font color="green">172.20.0.4:80</font></span></p>
+      
      # Test 3
-      Server: nginx/1.25.4
-      <p class="smaller"><span>Server Name:</span> <span>web3</span></p>   # web3
-      <p class="smaller"><span>Server Address:</span> <span><font color="green">172.28.0.2:80</font></span></p>
+      <p class="smaller"><span>Server Name:</span> <span>s.jobs-web3</span></p>      # web3
+      <p class="smaller"><span>Server Address:</span> <span><font color="green">172.20.0.3:80</font></span></p>
 
     ```
 
-    You should see `Server Names` like `web1`, `web2`, and `web3` as NGINX load balances all three backends - your NGINX-Plus is now a Reverse Proxy, and load balancing traffic to 3 web containers! Notice the `Server Address`, with the IP address of each upstream container.  Note:  Your IP addresses will likely be different.
+    You should see `Server Names` like `$NAME-web1`, `$NAME-web2`, and `$NAME-web3` as NGINX load balances all three backends - your NGINX-Plus is now a Reverse Proxy, and load balancing traffic to 3 web containers! Notice the `Server Address`, with the IP address of each upstream container.  Note: Your IP addresses will likely be different.
 
 1. Test again, this time using a browser, click `Refresh` at least 3 times:
 
@@ -475,10 +479,14 @@ You will now configure the `NGINX Upstream Block`, which is a `list of backend s
 
     NGINX Web1 | NGINX Web2 | NGINX Web3 
     :-------------------------:|:-------------------------:|:-------------------------:
-    ![NGINX Web1](media/lab4_nginx-web1.png)  |![NGINX Web2](media/lab4_nginx-web2.png) |![NGINX Web3](media/lab4_nginx-web3.png)
+    ![NGINX Web1](media/lab5_out-of-stock-web1.png)  |![NGINX Web2](media/lab5_out-of-stock-web2.png) |![NGINX Web3](media/lab5_out-of-stock-web3.png)
 
->This is called an `Upstream proxy_pass`, where you are telling NGINX to Proxy the request to a list of servers in the upstream block, and load balance them.
+    <br/>
 
+    >This is called an `Upstream proxy_pass`, where you are telling NGINX to Proxy the request to a list of servers in the upstream block, and load balance them.
+
+    <br/>
+    
 1. These backend application do have the following multiple paths which can also be used for testing. Feel free to try them out:
    - [http://cafe.example.com/coffee](http://cafe.example.com/coffee)
    - [http://cafe.example.com/tea](http://cafe.example.com/tea)
