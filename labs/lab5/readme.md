@@ -264,7 +264,7 @@ This will require a new NGINX config file, for the Server and Location Blocks. F
     
     ```
 
-1. Click on `Next` to proceed and then click on `Save and Publish` in the side-by-side diff page.
+1. Click on `Next` to proceed and then click on `Save and Publish` in the side-by-side differences page.
 
     ![one console Save and Publish](media/lab5_none_save_publish_btn.png)
 
@@ -309,7 +309,7 @@ This will require a new NGINX config file, for the Server and Location Blocks. F
 
 1. You can even use proxy_pass in front of a public website. Try that, with `nginx.org`. What do you think, can you use a Docker container on your desktop to deliver someone else's website? No, that `can't` be that easy, can it?
 
-1. Update the file `cafe.example.com.conf` within the same mounted folder(`labs/lab4/nginx-plus/etc/nginx/conf.d`) and change the `proxy_pass` directive as shown in below config snippet:
+1. Update the file `cafe.example.com.conf` using NGINX One Console and change the `proxy_pass` directive as shown in below config snippet:
 
     ```nginx
     # cafe.example.com HTTP
@@ -337,18 +337,17 @@ This will require a new NGINX config file, for the Server and Location Blocks. F
     
     ```
 
-1. Once the content of the file has been updated and saved, Docker Exec into the nginx-plus container.
+1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
 
-   ```bash
-    docker exec -it nginx-plus bin/bash
+    ![one console proxypass nginx.org](media/lab4_proxypass-nginx-org.png)
 
-    ```
+1. Once the content of the file has been updated and saved, you should receive a pop up as shown below.
 
-1. Test and reload your NGINX config by running `nginx -t` and `nginx -s reload` commands respectively from within the container.
+    ![one console Publish success](media/lab5_none_publish_success.png)
 
-1. Try it with Chrome, <http://cafe.example.com>.  Yes, that works alright, NGINX sends your cafe.example.com request to `nginx.org`.  No WAY, that's cool.
+1. Test the updates within browser, <http://cafe.example.com>.  Yes, that works alright, NGINX sends your cafe.example.com request to `nginx.org`.  No WAY, that's cool.
 
-    ![Proxy_pass NGINX.org](media/lab4_proxypass-nginx-org.png)
+    ![Proxy_pass NGINX.org](media/lab5_proxypass-nginx-org.png)
 
 <br/>
 
