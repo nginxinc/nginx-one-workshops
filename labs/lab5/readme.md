@@ -201,9 +201,9 @@ For this lab you will run 4 Docker containers.  The first one will be used as an
 
 1. Test your Nginx Plus Dashboard with Chrome, is it working on http://localhost:9000/dashboard.html?
 
-    If all 4 containers and the Dashboard are working as expected, you are safe to proceed with the following lab exercises.  If not, address any issues before you continue.  Remember, the Nginx Plus Dashboard configuration is in the /etc/nginx/conf.d folder, `dashboard.conf` file.  The actual /dashboard.html is in the `user/share/nginx/html` folder.
+    Remember, the Nginx Plus Dashboard configuration is in the /etc/nginx/conf.d folder, `dashboard.conf` file.  The actual /dashboard.html is in the `user/share/nginx/html` folder.
 
-    ![NGINX Dashboard](media/lab4_dashboard.png)
+    ![NGINX Dashboard](media/lab5_dashboard.png)
 
 <br/>
 
@@ -213,21 +213,31 @@ For this lab you will run 4 Docker containers.  The first one will be used as an
 
 Now that you know all 4 containers are working with the NGINX Welcome page, and the Plus Dashboard page, you can build and test the **NGINX Plus Proxy and Load Balancing** functions.  You will use a new NGINX `proxy_pass` Directive. You will first start with a Reverse Proxy configuration, test it out then add the Upstream backends and test out Load Balancing.
 
-Using your previous lab exercise experience, you will configure a new NGINX configuration for the `cafe.example.com` website.  
+You will now configure a new NGINX configuration for the `cafe.example.com` website.  
 
 This will require a new NGINX config file, for the Server and Location Blocks. Follow below steps to create the new config files:
 
-Using Visual Studio, navigate to the `labs/lab4/nginx-plus/etc/nginx/conf.d` folder. Remember, this is the default folder for NGINX HTTP configuration files that is volume mounted to the container.
+1. Using NGINX One Console, navigate to  `Instances` and then click on your `$NAME-nginx-plus` instance.
 
-1. Within this folder, create a new file called `cafe.example.com.conf`, which will be the config file for the Server and Location blocks for this new website.  
+    ![One console Instance section](media/lab5_none_instance_view.png)
 
-    However, instead of a Location block that points to a folder with html content on disk, you will tell NGINX to `proxy_pass` the request to one of your three web containers instead.  
+1. Within the`$NAME-nginx-plus` instance, navigate to `Configuration` tab and then click on the `Edit Configuration` button to add a new file.
 
-    >This will show you how to unlock the amazing power of NGINX...
-    >>it can serve it's own WEB content,
-    >>> or **content from another web server!**
+    ![One console Edit Configuration](media/lab5_none_edit_config.png)
 
-1. Copy/paste the example provided here, in your `cafe.example.com.conf` file.  
+1. You will add a new file to the `etc/nginx/conf.d` folder. To do so click on `Add File` button. And then provide the new file name with full path: `etc/nginx/conf.d/cafe.example.com.conf` as shown below. Click on `Add` button to add the file. 
+
+    ![One Console add file btn](media/lab5_none_addfile_btn.png)
+
+    ![One Console add file name](media/lab5_none_addfile_name.png)
+
+    This config file will store the Server and Location blocks for the new website. However, instead of a Location block that points to a folder with html content on disk, you will tell NGINX to `proxy_pass` the request to one of your three web containers instead.  
+
+    This will show you how to unlock the amazing power of NGINX...
+    - it can serve it's own WEB content
+    - it can also serve content from **another web server!**
+
+1. Copy/paste the example provided here, in your `cafe.example.com.conf` file. (Ignore the configuration recommendations for now. You will address them later in this lab.)
 
     ```nginx
     # cafe.example.com HTTP
@@ -254,54 +264,50 @@ Using Visual Studio, navigate to the `labs/lab4/nginx-plus/etc/nginx/conf.d` fol
     
     ```
 
-1. Once the content of the file has been saved, Docker Exec into the nginx-plus container.
+1. Click on `Next` to proceed and then click on `Save and Publish` in the side-by-side diff page.
+
+    ![one console Save and Publish](media/lab5_none_save_publish_btn.png)
+
+1. Once the content of the file has been saved, you should receive a pop up as shown below.
+
+    ![one console Publish success](media/lab5_none_publish_success.png)
+
+1. Time to Test!!! Go back to Visual Studio Terminal and run below commands to test if your new `proxy_pass` configuration is working as expected. Run this command several times.
 
    ```bash
-    docker exec -it nginx-plus bin/bash
-
-    ```
-
-1. As the `labs/lab4/nginx-plus/etc/nginx/conf.d` folder is volume mounted to the `nginx-plus` container, the new file that you created should appear within the container under `/etc/nginx/conf.d` folder, verify this.
-
-1. Test and reload your NGINX config by running `nginx -t` and `nginx -s reload` commands respectively from within the container.
-
-1. Test if your Proxy_pass configuration is working, using curl several times, and your browser.
-
-    ```bash
-    # Run curl from outside of container
-    curl -s http://cafe.example.com |grep Server
-
+    docker exec -it $NAME-nginx-plus curl -s http://cafe.example.com |grep Server
     ```
 
     ```bash
      ## Sample outputs ##
       
      #Test 1
-      Server: nginx/1.25.4
-      <p class="smaller"><span>Server Name:</span> <span>web1</span></p>   # web1
-      <p class="smaller"><span>Server Address:</span> <span><font color="green">172.28.0.4:80</font></span></p>
+      <p class="smaller"><span>Server Name:</span> <span>s.jobs-web1</span></p>
+      <p class="smaller"><span>Server Address:</span> <span><font color="green">172.20.0.5:80</font></span></p>
       
      #Test 2
-      Server: nginx/1.25.4
-      <p class="smaller"><span>Server Name:</span> <span>web1</span></p>   # web1
-      <p class="smaller"><span>Server Address:</span> <span><font color="green">172.28.0.4:80</font></span></p>
+      <p class="smaller"><span>Server Name:</span> <span>s.jobs-web1</span></p>
+      <p class="smaller"><span>Server Address:</span> <span><font color="green">172.20.0.5:80</font></span></p>
 
      #Test 3
-      Server: nginx/1.25.4
-      <p class="smaller"><span>Server Name:</span> <span>web1</span></p>   # web1
-      <p class="smaller"><span>Server Address:</span> <span><font color="green">172.28.0.4:80</font></span></p>
+      <p class="smaller"><span>Server Name:</span> <span>s.jobs-web1</span></p>
+      <p class="smaller"><span>Server Address:</span> <span><font color="green">172.20.0.5:80</font></span></p>
 
     ```
 
-    Likewise, your browser refreshes should show you the "Out of stock" graphic and webpage for web1.  
-    
-    ![Lab4 Web1](media/lab4_nginx-web1.png)
-    
+1. Test it out in browser. Similar to curl, your browser refreshes should show you the "Out of stock" graphic and webpage for $NAME-web1.  
+
+    ![out of Stock Web1](media/lab5_out-of-stock-web1.png)
+
     Optional Exercise: If you like, change the `proxy_pass` to `web2` or `web3`, and see what happens.
+
+    <br/>
 
     >This is called a `Direct proxy_pass`, where you are telling NGINX to Proxy the request to another web server.  You can also use an FQDN name, or an IP:port with proxy_pass.  In this lab environment, Docker DNS is providing the IP for web1.
 
-1. You can even use proxy_pass in front of a public website.  Try that, with `nginx.org`. What do you think, can you use a Docker container on your desktop to deliver someone else's website?  No, that `can't` be that easy, can it ?
+    <br/>
+
+1. You can even use proxy_pass in front of a public website. Try that, with `nginx.org`. What do you think, can you use a Docker container on your desktop to deliver someone else's website? No, that `can't` be that easy, can it?
 
 1. Update the file `cafe.example.com.conf` within the same mounted folder(`labs/lab4/nginx-plus/etc/nginx/conf.d`) and change the `proxy_pass` directive as shown in below config snippet:
 
