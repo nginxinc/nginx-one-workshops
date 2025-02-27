@@ -274,7 +274,7 @@ This will require a new NGINX config file, for the Server and Location Blocks. F
 
     ![one console Save and Publish](media/lab5_none_save_publish_btn.png)
 
-1. Once the content of the file has been saved, you should receive a pop up as shown below.
+1. Once the content of the file has been saved, you should see a pop up window as shown below.
 
     ![one console Publish success](media/lab5_none_publish_success.png)
 
@@ -354,7 +354,7 @@ This will require a new NGINX config file, for the Server and Location Blocks. F
 
     ![one console proxypass nginx.org](media/lab5_none_proxypass-nginx-org.png)
 
-1. Once the content of the file has been updated and saved, you should receive a pop up as shown below.
+1. Once the content of the file has been updated and saved, you should see a pop up window as shown below.
 
     ![one console Publish success](media/lab5_none_publish_success.png)
 
@@ -456,7 +456,7 @@ You will now configure the `NGINX Upstream Block`, which is a `list of backend s
 
     ![proxy pass nginx cafe](media/lab5_none_cafe_proxy_publish.png)
 
-1. Once the content of the file has been updated and saved, you should receive a pop up as shown below.
+1. Once the content of the file has been updated and saved, you should see a pop up window as shown below.
 
     ![one console Publish success](media/lab5_none_publish_success.png)
 
@@ -749,15 +749,15 @@ Chrome | Curl
 
 <br/>
 
-1. Inspect the `keepalive.conf`, located in the `labs/lab4/nginx-plus/etc/nginx/includes` folder.  Notice that there are three Directives and Headers required for HTTP/1.1 to work correctly:
+1. Within `etc/nginx/includes` folder, add a new file called `keepalive.conf`. Click on `Add` button to add the file. Notice you are putting `keepalive.conf` in `etc/nginx/includes` folder and not the regualar `etc/nginx/conf.d` folder. It is recommended to create seperate config files for reusable configurations and use `include` directive to inject them where they are needed. This makes your configuration more human redable.
 
-    - HTTP Protocol = Use the `$proxy_protocol_version` variable to set it to `1.1`.
-    - HTTP Connection Header = should be blank, `""`, the default is `Close`.
-    - HTTP Host = the HTTP/1.1 protocol requires the Host Header be set, `$host`
+    ![Add keeplive.conf](media/lab5_none_addfile_keepalive.png)
+
+1. Copy/paste the below commands within `keepalive.conf` file.
 
     ```nginx
-    #Nginx Basics - Feb 2024
-    #Chris Akker, Shouvik Dutta, Adam Currier
+    # Nginx Basics keepalive.conf
+    # Nov 2024 - Chris Akker, Shouvik Dutta, Adam Currier
     #
     # Default is HTTP/1.0 to upstreams, HTTP keepalives needed for HTTP/1.1
     proxy_http_version 1.1;
@@ -770,7 +770,17 @@ Chrome | Curl
 
     ```
 
-1. Update your `cafe.example.com.conf` file within your mounted folder (`labs/lab4/nginx-plus/etc/nginx/conf.d`) to use the HTTP/1.1 protocol to communicate with the Upstreams. You will make use of an `include` directive here:
+    Notice that there are three Directives and Headers required for HTTP/1.1 to work correctly:
+
+    - HTTP Protocol = Use the `$proxy_protocol_version` variable to set it to `1.1`.
+    - HTTP Connection Header = should be blank, `""`, the default is `Close`.
+    - HTTP Host = the HTTP/1.1 protocol requires the Host Header be set, `$host`
+
+1. Save and Publish the `keepalive.conf` file with above content.
+
+    ![keepalive publish](media/lab5_none_keepalive_publish.png)
+
+1. Now update your `cafe.example.com.conf` file to use the HTTP/1.1 protocol to communicate with the Upstreams. You will make use of an `include` directive here:
 
     ```nginx
     # cafe.example.com HTTP
@@ -783,38 +793,42 @@ Chrome | Curl
 
         server_name cafe.example.com;   # Set hostname to match in request
         
-        # Uncomment the zone directive below to add metrics to the Dashboard
+        # Uncomment the status_zone directive below to add metrics to the Dashboard
         status_zone cafe-VirtualServer;
 
-        access_log  /var/log/nginx/cafe.example.com.log main_ext; 
+        access_log  /var/log/nginx/cafe.example.com.log main; 
         error_log   /var/log/nginx/cafe.example.com_error.log info;
 
         location / {
+
             # Uncomment the status_zone directive below to add metrics to the Dashboard
             status_zone /;
             
-            # Uncomment to enable HTTP keepalives
+            # Enable HTTP keepalives
             include includes/keepalive.conf;     # Use HTTP/1.1 keepalives
             
             # New NGINX Directive, "proxy_pass", tells NGINX to proxy traffic to another server.
             
-            proxy_pass http://nginx_cafe;        # Send requests to upstreams
+            proxy_pass http://nginx_cafe;        # Must match the upstream block name
         }
 
     } 
-
     ```
 
-1. Once the content of the file has been updated and saved, Docker Exec into the nginx-plus container.
+1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
+
+    ![add keeplive to cafe](media/lab5_none_cafe_keepalive_publish.png)
+
+1. Once the content of the file has been updated and saved, you should see a pop up window as shown below.
+
+    ![one console Publish success](media/lab5_none_publish_success.png)
 
    ```bash
     docker exec -it nginx-plus bin/bash
 
     ```
 
-1. Test and reload your NGINX config by running `nginx -t` and `nginx -s reload` commands respectively from within the container.
-
-1. Using curl, send a request to your website, and look at the Headers sent back:
+1. Test and verify using curl, send a request to your website, and look at the Headers sent back:
 
     ```bash
     # Run curl from outside of container
@@ -824,19 +838,20 @@ Chrome | Curl
 
     ```bash
     ##Sample output##
+
     HTTP/1.1 200 OK                          # protocol version is 1.1
-    Server: nginx/1.25.4
-    Date: Sat, 17 Feb 2024 01:41:01 GMT
+    Server: nginx/1.25.5
+    Date: Thu, 27 Feb 2025 23:14:36 GMT
     Content-Type: text/html; charset=utf-8
     Connection: keep-alive                   # Connection header = keep-alive
-    Expires: Sat, 17 Feb 2024 01:41:00 GMT
+    Expires: Thu, 27 Feb 2025 23:14:35 GMT
     Cache-Control: no-cache
 
     ```
 
 1. Using your browser, open its "Dev Tools", or Right-Click "Inspect" option, so you can see the browser's debugging metadata.  Visit your website, <http://cafe.example.com>.  If you click on the Network Tab, and then the first object, you will see the Request and Response Headers, and should find `Connection:` = `keep-alive` in both the Request and the Response Headers.
 
-    ![Chrome keep-alive](media/lab4_chrome-keepalive.png)
+    ![Chrome keep-alive](media/lab5_chrome-keepalive.png)
 
 <br/>
 
