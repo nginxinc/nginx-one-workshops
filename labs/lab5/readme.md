@@ -398,8 +398,8 @@ You will now configure the `NGINX Upstream Block`, which is a `list of backend s
         # - IP Hash
         # - Hash (Any generic Hash)     
 
-        # Uncomment for Least Connections algorithm      
-        # least_conn;
+        # Uncomment for Least Time Last Byte algorithm
+        # least_time last_byte;
 
         # From Docker-Compose:
         server web1:80;
@@ -947,11 +947,18 @@ Different backend applications may benefit from using different load balancing t
 
 1. NGINX's default Load Balancing algorithm is round-robin, if not specified in the upstream block.  In this next lab exercise, you will use the Plus `least_time last_byte` algorithm to send more traffic to different backends based on the response time.  
 
-1. Update your `upstreams.conf` file within your mounted folder (`labs/lab4/nginx-plus/etc/nginx/conf.d`) to enable Least Time Last Byte, as follows:
+1. Using Nginx One Console, update your `upstreams.conf` file to enable Least Time Last Byte, as follows:
 
     ```nginx
+    # NGINX Basics, Plus Proxy to three upstream NGINX containers
+    # Nov 2024 - Chris Akker, Shouvik Dutta, Adam Currier
+    #
+    # nginx_cafe servers
 
-    upstream nginx_cafe {
+    upstream nginx_cafe {         # Upstream block, the name is "nginx_cafe"
+
+        # Uncomment the zone directive below to add metrics to the Dashboard
+        zone nginx_cafe 256k;
 
         # Load Balancing Algorithms supported by NGINX
         # - Round Robin (Default if nothing specified)
@@ -959,16 +966,15 @@ Different backend applications may benefit from using different load balancing t
         # - IP Hash
         # - Hash (Any generic Hash)     
 
-        
         # Uncomment for Least Time Last Byte algorithm
         least_time last_byte;
 
-        # Docker-compose:
+        # From Docker-Compose:
         server web1:80;
         server web2:80;
         server web3:80;
-                            
-        # Uncomment for IP Hash persistence
+
+        #Uncomment for IP Hash persistence
         # ip_hash;
 
         # Uncomment for keepalive TCP connections to upstreams
@@ -978,51 +984,43 @@ Different backend applications may benefit from using different load balancing t
 
     ```
 
-1. Once the content of the file has been updated and saved, Docker Exec into the nginx-plus container.
+1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
 
-   ```bash
-    docker exec -it nginx-plus bin/bash
+    ![update LB algo in upstreams](media/lab5_none_upstreams_least_time_publish.png)
 
-    ```
+1. Once the content of the file has been updated and saved, you should see a pop up window as shown below.
 
-1. Test and reload your NGINX config by running `nginx -t` and `nginx -s reload` commands respectively from within the container.
+    ![one console Publish success](media/lab5_none_publish_success.png)
 
 1. While watching your NGINX Plus Dashboard at <http://localhost:9000/dashboard.html>, run the `wrk` load generation tool at your nginx-plus LoadBalancer:  
 
     `wrk` load generation tool is a docker container that will download and run, with 4 threads, at 200 connections, for 1 minute:
 
     ```bash
-    docker run --name wrk --network=lab4_default --rm williamyeh/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://nginx-plus/coffee
+    docker run --name wrk --network=lab5_default --rm elswork/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://$NAME-nginx-plus/coffee
 
     ```
 
-    Or, if you have an ARM processor (Mac M1/2), try this:
-
-    ```bash
-    docker run --name wrk --network=lab4_default --rm elswork/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://nginx-plus/coffee
-
-    ```
-
-    In the `HTTP Upstreams` page, you should notice about 200 Active Connections, and the number of `server requests` should be increasing rapidly. 
+    In the `HTTP Upstreams` page, you should notice about 200 Active Connections, and the number of `server requests` should be increasing rapidly.
 
     After the 1 minute run of `wrk` load generation tool has finished, you should see a Summary of the statistics.  It should look similar to this:
 
     ```bash
     ##Sample output##
-    Running 1m test @ http://nginx-plus/coffee
+    Running 1m test @ http://s.jobs-nginx-plus/coffee
     4 threads and 200 connections
     Thread Stats   Avg      Stdev     Max   +/- Stdev
-        Latency    68.41ms   30.72ms   1.28s    98.85%
-        Req/Sec   747.52     81.56     2.11k    84.40%
-    178597 requests in 1.00m, 284.27MB read
-    Requests/sec:   2872.08                     # Good performance ?
-    Transfer/sec:      4.73MB
+        Latency   170.33ms  130.60ms   1.38s    60.66%
+        Req/Sec   297.60    324.02     1.72k    82.64%
+    71007 requests in 1.00m, 111.87MB read
+    Requests/sec:   1182.59                     # Good performance ?
+    Transfer/sec:      1.86MB
 
     ```
 
-    Well, that performance looks pretty good, about ~2900 HTTP Reqs/second (how much do you get?).  But NGINX can do better.  You will enable TCP keepalives to the Upstreams.  This Directive will tell NGINX to create a `pool of TCP connections to each Upstream`, and use that established connection pool to rapid-fire HTTP requests to the backends.  `No delays waiting for the TCP 3-way handshakes!`  It is considered a Best Practice to enable keepalives to the Upstream servers.
+    Well, that performance looks pretty good, about ~1200 HTTP Reqs/second (how much do you get?).  But NGINX can do better.  You will enable TCP keepalives to the Upstreams.  This Directive will tell NGINX to create a `pool of TCP connections to each Upstream`, and use that established connection pool to rapid-fire HTTP requests to the backends.  `No delays waiting for the TCP 3-way handshakes!`  It is considered a Best Practice to enable keepalives to the Upstream servers.
 
-1. Update your `upstreams.conf` file within your mounted folder (`labs/lab4/nginx-plus/etc/nginx/conf.d`) and uncomment the `keepalives 16` line.
+1. Using Nginx One Console, update your `upstreams.conf` file to uncomment the `keepalives 16` line.
 
     ```nginx
     ...snip
@@ -1045,14 +1043,13 @@ Different backend applications may benefit from using different load balancing t
 
     ```
 
-1. Once the content of the file has been updated and saved, Docker Exec into the nginx-plus container.
+1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
 
-   ```bash
-    docker exec -it nginx-plus bin/bash
+    ![update LB algo in upstreams](media/lab5_none_upstreams_keepalive16_publish.png)
 
-    ```
+1. Once the content of the file has been updated and saved, you should see a pop up window as shown below.
 
-1. Test and reload your NGINX config by running `nginx -t` and `nginx -s reload` commands respectively from within the container.
+    ![one console Publish success](media/lab5_none_publish_success.png)
 
 1. Run the `wrk` load generator again. You should now have `least_time last_byte` and `keepalive` both **enabled**.
 
@@ -1060,24 +1057,23 @@ Different backend applications may benefit from using different load balancing t
 
     ```bash
     ##Sample output##
-    Running 1m test @ http://nginx-plus/coffee
+    Running 1m test @ http://s.jobs-nginx-plus/coffee
     4 threads and 200 connections
     Thread Stats   Avg      Stdev     Max   +/- Stdev
-        Latency    43.90ms   47.06ms   1.18s    98.98%
-        Req/Sec     1.24k   118.64     1.88k    77.34%
-    297076 requests in 1.00m, 473.63MB read
-    Requests/sec:   7046.17       # NICE, much better!
-    Transfer/sec:      9.89MB
-
+        Latency    41.68ms   29.71ms 434.89ms   91.38%
+        Req/Sec     1.33k   435.08     2.45k    77.17%
+    318197 requests in 1.00m, 501.50MB read
+    Requests/sec:   5298.94         # NICE, much better!
+    Transfer/sec:      8.35MB
     ```
 
-    >>Wow, more that **DOUBLE the performance**, with Upstream `keepalive` enabled - over 6,000 HTTP Reqs/second.  Did you see a performance increase??  Your mileage here will vary of course, depending on what kind of machine you are using for these Docker containers.
+    >>Wow, **around FOUR times the performance**, with Upstream `keepalive` enabled - over 5300 HTTP Reqs/second.  Did you see a performance increase??  Your mileage here will vary of course, depending on what kind of machine you are using for these Docker containers.
 
-    ![Cafe with Keepalive](media/lab4_cafe-perf-keepalive.png)
+    ![Cafe with Keepalive](media/lab5_cafe-perf-keepalive.png)
 
     >But this points out a very important concept to be aware of: NGINX uses HTTP/1.0 to all upstreams by default.  HTTP/1.0 is limited to a single TCP connection for a single HTTP object on the web page.  If you have hundreds of web objects, you will need hundreds of TCP connections.  This is a large waste of time and resources, so adding TCP Keepalives and HTTP/1.1 will make a significant improvement in performance in most cases.
 
-Optional Exercise: In this next lab exercise, you will use the `weighted` algorithm to send more traffic to different backends. 
+Optional Exercise: In this next lab exercise, you will use the `weighted` algorithm to send more traffic to different backends.
 
 1. Update your `upstreams.conf` file within your mounted folder (`labs/lab4/nginx-plus/etc/nginx/conf.d`) to modify the `server`entries to set an administrative ratio, as follows:
 
@@ -1115,7 +1111,7 @@ Optional Exercise: In this next lab exercise, you will use the `weighted` algori
 1. For a fun test, hit it again with `wrk`...what do you observe?  Do admin weights help or hurt performance?  
 
     ![Cafe Weighted Dashboard](media/lab4_cafe-perf-weighted.png)
-    
+
     Only the results will tell you for sure, checking the Docker Desktop Dashboard - looks like the CPU ratio on the web containers matches the `weight` values for the Upstreams.
 
     ![Docker Dashboard](media/lab4_docker-perf-weighted.png)
