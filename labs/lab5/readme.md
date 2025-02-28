@@ -1342,14 +1342,10 @@ With NGINX, there are several configuration options for this, but in this next l
 
 If you need to find the `answers` to the lab exercises, you will find the final NGINX configuration files for all the exercises in the `labs/lab5/final` folder.  Use them for reference to compare how you completed the labs.
 
->**Congratulations, you are now a member of Team NGINX !**
-
-![NGINX Logo](media/nginx-logo.png)
-
->If you are finished with this lab, you can use Docker Compose to shut down your test environment. Make sure you are in the `lab4` folder:
+>If you are finished with this lab, you can use Docker Compose to shut down your test environment. Make sure you are in the `lab5` folder:
 
 ```bash
-cd lab4
+cd lab5
 docker compose down
 
 ```
@@ -1357,11 +1353,11 @@ docker compose down
 ```bash
 ##Sample output##
 Running 5/5
-Container nginx-plus         Removed
-Container web2               Removed
-Container web3               Removed
-Container web1               Removed                            
-Network lab4_default         Removed
+Container s.jobs-nginx-plus         Removed
+Container s.jobs-web2               Removed
+Container s.jobs-web3               Removed
+Container s.jobs-web1               Removed                            
+Network lab5_default                Removed
 
 ```
 
