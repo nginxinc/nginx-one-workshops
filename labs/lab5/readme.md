@@ -1045,7 +1045,7 @@ Different backend applications may benefit from using different load balancing t
 
 1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
 
-    ![update LB algo in upstreams](media/lab5_none_upstreams_keepalive16_publish.png)
+    ![update keepalive in upstreams](media/lab5_none_upstreams_keepalive16_publish.png)
 
 1. Once the content of the file has been updated and saved, you should see a pop up window as shown below.
 
@@ -1085,8 +1085,6 @@ Different backend applications may benefit from using different load balancing t
     ...snip
 
         # Docker-compose:
-        # Add weights to all three servers
-
         server web1:80 weight=1;   
         server web2:80 weight=3;
         server web3:80 weight=6;
@@ -1103,7 +1101,7 @@ Different backend applications may benefit from using different load balancing t
 
 1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
 
-    ![update LB algo in upstreams](media/lab5_none_upstreams_server-weights_publish.png)
+    ![update server-weights in upstream](media/lab5_none_upstreams_server-weights_publish.png)
 
 1. Once the content of the file has been updated and saved, you should see a pop up window as shown below.
 
@@ -1139,75 +1137,93 @@ Different backend applications may benefit from using different load balancing t
 
     **NOTE:**  The NGINX default setting for `worker_processes` is `auto`, which means one Worker for every CPU core in the machine.  However, some Virtualization platforms, and Docker will often set this value to 1, something to be aware of and check.
 
-1. Save the `nginx.conf` file with above changes.
+1. Also update your `upstreams.conf` file to remove the `server weight=x` parameter from all three servers, and verify the load balancing algorithm is set to `least_time last_byte` .
 
-1. Also update your `upstreams.conf` file within your mounted folder (`labs/lab4/nginx-plus/etc/nginx/conf.d`) to remove the `server weight=x` parameter from all three servers, and set the load balancing algorithm back to `least_time last_byte` if you completed the Optional Exercise.  
+    ```nginx
+    ...snip
 
-1. Once the both the files has been updated and saved, Docker Exec into the nginx-plus container.
+        # Uncomment for Least Time Last Byte algorithm
+        least_time last_byte;
 
-   (**NOTE:** nginx.conf file is also volume mounted to the container so all local changes should be reflected in your container)
+        # Docker-compose:
+        server web1:80;   
+        server web2:80;
+        server web3:80;
+        
+        # Uncomment for IP Hash persistence
+        # ip_hash;
 
-   ```bash
-    docker exec -it nginx-plus bin/bash
+        # Uncomment for keepalive TCP connections to upstreams
+        keepalive 16;
+
+    }
 
     ```
 
-1. Test and reload your NGINX config by running `nginx -t` and `nginx -s reload` commands respectively from within the container.
+1. Once the both the files has been updated validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
 
-1. You should now have `4 workers`, `least_time last_byte` and `keepalive` **enabled**.  Run the WRK test again. **CRANK IT UP!**
+    ![update worker processes in nginx.conf](media/lab5_none_nginx_worker-processes_publish.png)
 
-    Within the `nginx-plus` container, run `top` to see the NGINX Workers at work.  Should look something like this:
+1. Once the content of the file has been updated and saved, you should see a pop up window as shown below.
+
+    ![one console Publish success](media/lab5_none_publish_success.png)
+
+1. You should now have `4 workers`, `least_time last_byte` and `keepalive` **enabled**.  Run the `wrk` load generation tool again. **CRANK IT UP!**
 
     ```bash
-    top
+     docker run --name wrk --network=lab5_default --rm elswork/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://$NAME-nginx-plus/coffee
+    ```
 
+    Within the `$NAME-nginx-plus` container, run `top` to see the NGINX Workers at work.  Should look something like this:
+
+    ```bash
+    docker exec -it $NAME-nginx-plus top
     ```
 
     ```bash
     ##Sample output##
-    Mem: 4273520K used, 3863844K free, 5364K shrd, 30348K buff, 3166924K cached
-    CPU:  18% usr  35% sys   0% nic  11% idle   0% io   0% irq  33% sirq
-    Load average: 13.75 4.73 3.71 17/703 63
+    Mem: 4894752K used, 11506784K free, 101004K shrd, 128764K buff, 2330160K cached
+    CPU:  33% usr  38% sys   0% nic   1% idle   0% io   0% irq  25% sirq
+    Load average: 6.25 2.86 1.20 13/1251 31249
     PID  PPID USER     STAT   VSZ %VSZ CPU %CPU COMMAND
-    61     1 nginx    R     9964   0%  10   7% nginx: worker process
-    59     1 nginx    R     9988   0%   9   7% nginx: worker process
-    60     1 nginx    R     9972   0%   3   7% nginx: worker process
-    62     1 nginx    R     9920   0%   1   7% nginx: worker process
-    1     0 root     S     9036   0%   4   0% nginx: master process nginx -g daemon off;
-    30     0 root     S     1672   0%  10   0% /bin/sh
-    63    30 root     R     1600   0%   3   0% top
+        9     1 root     R    1216m   7%   1   9% /usr/bin/nginx-agent
+    31044     8 nginx    R    11472   0%   0   6% nginx: worker process
+    31047     8 nginx    R    11688   0%   3   6% nginx: worker process
+    31045     8 nginx    R    11264   0%   0   6% nginx: worker process
+    31046     8 nginx    R    11568   0%   3   6% nginx: worker process
+        8     1 root     S    10472   0%   0   0% nginx: master process /usr/sbin/nginx -g daemon off;
+        1     0 root     S    31224   0%   2   0% {supervisord} /usr/bin/python3 /usr/bin/supervisord -c /etc/supervisord.conf -u root --n
+        7     1 root     S     1628   0%   2   0% sh -c while true; do \ echo "READY"; \ read line; \ echo $line | grep -q EXIT  && test -
+    31224     0 root     R     1624   0%   3   0% top
 
     ```
 
 1. Run the `wrk` load generator again for 1 minute.
 
-   ```bash
-   docker run --name wrk --network=lab4_default --rm williamyeh/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://nginx-plus/coffee
-
-   ```
+    ```bash
+     docker run --name wrk --network=lab5_default --rm elswork/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://$NAME-nginx-plus/coffee
+    ```
 
    After the 1 minute run of `wrk` load generation tool has finished, you should see a Summary of the statistics.  It should look similar to this:
 
     ```bash
     ##Sample output##
-    Running 1m test @ http://nginx-plus/coffee
+    Running 1m test @ http://s.jobs-nginx-plus/coffee
     4 threads and 200 connections
     Thread Stats   Avg      Stdev     Max   +/- Stdev
-        Latency    25.02ms   17.42ms 292.98ms   78.38%
-        Req/Sec     2.13k   379.32     4.39k    77.92%
-    508114 requests in 1.00m, 810.35MB read
-    Requests/sec:   8456.93        # Even better w/ 4 cores
-    Transfer/sec:     13.49MB
+        Latency    32.27ms   25.45ms 482.19ms   83.75%
+        Req/Sec     1.71k   471.19     3.72k    64.48%
+    409418 requests in 1.00m, 645.32MB read
+    Requests/sec:   6916.35         # Even better w/ 4 cores
+    Transfer/sec:     10.74MB
 
     ```
 
-    Over 8,000 Requests/Second from a little Docker container...not too shabby!  
+    Around 7,000 Requests/Second from a little Docker container...not too shabby!  
 
-    Was your Docker Desktop humming along, with the CPU fan on full blast?! NGINX is making it work hard.
+    <br/>
 
-    ![Docker Dashboard](media/lab4_docker-perf-4core.png)
-
-    Summary:  NGINX can and will use whatever hardware resources you provide.  And as you can see, you were shown just a few settings, but there are **MANY** NGINX configuration parameters that affect performance.  Only time, experience, and rigorous testing will determine which NGINX Directives and values will work best for Load Balancing your applications.
+    >**Summary:**  NGINX can and will use whatever hardware resources you provide.  And as you can see, you were shown just a few settings, but there are **MANY** NGINX configuration parameters that affect performance.  Only time, experience, and rigorous testing will determine which NGINX Directives and values will work best for Load Balancing your applications.
 
 <br/>
 
