@@ -1067,11 +1067,14 @@ Different backend applications may benefit from using different load balancing t
     Transfer/sec:      8.35MB
     ```
 
-    >>Wow, **around FOUR times the performance**, with Upstream `keepalive` enabled - over 5300 HTTP Reqs/second.  Did you see a performance increase??  Your mileage here will vary of course, depending on what kind of machine you are using for these Docker containers.
+    <br/>
+    >Wow, **around FOUR times the performance**, with Upstream `keepalive` enabled - over 5300 HTTP Reqs/second.  Did you see a performance increase??  Your mileage here will vary of course, depending on what kind of machine you are using for these Docker containers.
 
     ![Cafe with Keepalive](media/lab5_cafe-perf-keepalive.png)
 
     >But this points out a very important concept to be aware of: NGINX uses HTTP/1.0 to all upstreams by default.  HTTP/1.0 is limited to a single TCP connection for a single HTTP object on the web page.  If you have hundreds of web objects, you will need hundreds of TCP connections.  This is a large waste of time and resources, so adding TCP Keepalives and HTTP/1.1 will make a significant improvement in performance in most cases.
+
+    <br/>
 
 Optional Exercise: In this next lab exercise, you will use the `weighted` algorithm to send more traffic to different backends.
 
