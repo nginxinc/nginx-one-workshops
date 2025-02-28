@@ -1068,6 +1068,7 @@ Different backend applications may benefit from using different load balancing t
     ```
 
     <br/>
+
     >Wow, **around FOUR times the performance**, with Upstream `keepalive` enabled - over 5300 HTTP Reqs/second.  Did you see a performance increase??  Your mileage here will vary of course, depending on what kind of machine you are using for these Docker containers.
 
     ![Cafe with Keepalive](media/lab5_cafe-perf-keepalive.png)
