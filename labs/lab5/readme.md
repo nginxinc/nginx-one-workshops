@@ -406,8 +406,9 @@ You will now configure the `NGINX Upstream Block`, which is a `list of backend s
         server web2:80;
         server web3:80;
 
-        #Uncomment for IP Hash persistence
-        # ip_hash;
+        # Uncomment for Cookie persistence
+        # sticky cookie srv_id expires=1m domain=.example.com path=/;
+
 
         # Uncomment for keepalive TCP connections to upstreams
         # keepalive 16;
@@ -582,8 +583,8 @@ Now that you have a server, location, and upstream block defined, you can add th
             server web2:80;
             server web3:80;
 
-            #Uncomment for IP Hash persistence
-            # ip_hash;
+            # Uncomment for Cookie persistence
+            # sticky cookie srv_id expires=1m domain=.example.com path=/;
 
             # Uncomment for keepalive TCP connections to upstreams
             # keepalive 16;
@@ -974,8 +975,8 @@ Different backend applications may benefit from using different load balancing t
         server web2:80;
         server web3:80;
 
-        #Uncomment for IP Hash persistence
-        # ip_hash;
+        # Uncomment for Cookie persistence
+        # sticky cookie srv_id expires=1m domain=.example.com path=/;
 
         # Uncomment for keepalive TCP connections to upstreams
         # keepalive 16;
@@ -1033,8 +1034,8 @@ Different backend applications may benefit from using different load balancing t
         server web2:80;
         server web3:80;
                             
-        # Uncomment for IP Hash persistence
-        # ip_hash;
+        # Uncomment for Cookie persistence
+        # sticky cookie srv_id expires=1m domain=.example.com path=/;
 
         # Uncomment for keepalive TCP connections to upstreams
         keepalive 16;
@@ -1089,8 +1090,8 @@ Different backend applications may benefit from using different load balancing t
         server web2:80 weight=3;
         server web3:80 weight=6;
         
-        # Uncomment for IP Hash persistence
-        # ip_hash;
+        # Uncomment for Cookie persistence
+        # sticky cookie srv_id expires=1m domain=.example.com path=/;
 
         # Uncomment for keepalive TCP connections to upstreams
         keepalive 16;
@@ -1110,6 +1111,11 @@ Different backend applications may benefit from using different load balancing t
 1. Test again with curl and your browser, you should see a response distribution similar to the server weights. 10% to web1, 30% to web2, and 60% to web3.
 
 1. For a fun test, hit it again with `wrk`...what do you observe?  Do admin weights help or hurt performance?  
+
+    ```bash
+    docker run --name wrk --network=lab5_default --rm elswork/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://$NAME-nginx-plus/coffee
+
+    ```
 
     ![Cafe Weighted Dashboard](media/lab5_cafe-perf-weighted.png)
 
@@ -1150,8 +1156,8 @@ Different backend applications may benefit from using different load balancing t
         server web2:80;
         server web3:80;
         
-        # Uncomment for IP Hash persistence
-        # ip_hash;
+        # Uncomment for Cookie persistence
+        # sticky cookie srv_id expires=1m domain=.example.com path=/;
 
         # Uncomment for keepalive TCP connections to upstreams
         keepalive 16;
@@ -1235,7 +1241,7 @@ With many legacy applications, the HTTP client and server must create a temporal
 
 With NGINX, there are several configuration options for this, but in this next lab exercise, you will use the Plus feature called `sticky`.  This will allow NGINX to send requests to the same backend based on a Set-Cookie that Nginx sends to the Client, and the client sends back to Nginx.
 
-1. Update your `upstreams.conf` file within your mounted folder (`labs/lab4/nginx-plus/etc/nginx/conf.d`) to include `sticky cookie` persistance, as follows:
+1. Using NGINX One console, update your `upstreams.conf` to include `sticky cookie` persistance, as follows:
 
     ```nginx
     # NGINX Basics, Plus Proxy to three upstream NGINX containers
@@ -1254,10 +1260,6 @@ With NGINX, there are several configuration options for this, but in this next l
         # - IP Hash
         # - Hash (Any generic Hash)
 
-        # Load Balancing Algorithms supported by NGINX Plus
-        # - Least Time Last Byte / Header
-        # - Random Two     
-
         # Uncomment for Least Time Last Byte algorithm      
         least_time last_byte;
 
@@ -1266,8 +1268,9 @@ With NGINX, there are several configuration options for this, but in this next l
         server web2:80;
         server web3:80;
 
-        #Uncomment for Cookie persistence
+        # Uncomment for Cookie persistence
         sticky cookie srv_id expires=1m domain=.example.com path=/;
+
 
         # Uncomment for keepalive TCP connections to upstreams
         keepalive 16;
@@ -1276,21 +1279,20 @@ With NGINX, there are several configuration options for this, but in this next l
 
     ```
 
-1. The sticky cookie Directive sets the following:
+    The sticky cookie Directive sets the following:
 
     - name of the cookie, `srv_id`
     - the expiration, `1m`, set to 1 minute for testing only
     - the domain, `.example.com`
     - the path, `/`
 
-1. Once the content of the file has been updated and saved, Docker Exec into the nginx-plus container.
+1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
 
-   ```bash
-    docker exec -it nginx-plus bin/bash
+    ![update sticky cookie in upstreams](media/lab5_none_upstreams_stick-cookie_publish.png)
 
-    ```
+1. Once the content of the file has been updated and saved, you should see a pop up window as shown below.
 
-1. Test and reload your NGINX config by running `nginx -t` and `nginx -s reload` commands respectively from within the container.
+    ![one console Publish success](media/lab5_none_publish_success.png)
 
 1. Test out `sticky cookie` persistence with your browser.  Watching the Plus Dashboard Upstreams, you should now find that NGINX will always send your request to the same backend, it will no longer load balance your requests to all three backends.  If you wait over 1 minute and try again, does it pick a new Upstream?  Why?
 
@@ -1312,26 +1314,25 @@ With NGINX, there are several configuration options for this, but in this next l
     curl -I http://cafe.example.com
 
     ```
+
     ```bash
     ## Sample Output ##
     HTTP/1.1 200 OK
     Server: nginx/1.25.5
-    Date: Thu, 14 Nov 2024 19:37:24 GMT
+    Date: Fri, 28 Feb 2025 18:34:51 GMT
     Content-Type: text/html; charset=utf-8
     Connection: keep-alive
-    Set-Cookie: srv_id=3c04d077c672b3de5197b7c663803ec3; expires=Thu, 14-Nov-24 19:38:24 GMT; max-age=60; domain=.example.com; path=/
-    Expires: Thu, 14 Nov 2024 19:37:23 GMT
+    Set-Cookie: srv_id=e5e058108bf51b40a80786ae6d8cd0b8; expires=Fri, 28-Feb-25 18:35:51 GMT; max-age=60; domain=.example.com; path=/
+    Expires: Fri, 28 Feb 2025 18:34:50 GMT
     Cache-Control: no-cache
-
     ```
 
     Then try curl with the cookie, like this example:
-    
+
     ```bash
-    curl -s --cookie "srv_id=3c04d077c672b3de5197b7c663803ec3" http://cafe.example.com |grep Server   ## Try several times
+    curl -s --cookie "srv_id=e5e058108bf51b40a80786ae6d8cd0b8" http://cafe.example.com |grep Server   ## Try several times
 
     ```
-    
 
 1. Now try the `wrk` load generation tool again, with the Sticky Cookie enabled, what happens ?
 
@@ -1339,7 +1340,7 @@ With NGINX, there are several configuration options for this, but in this next l
 
 <br/>
 
-If you need to find the `answers` to the lab exercises, you will find the final NGINX configuration files for all the exercises in the `labs/lab4/final` folder.  Use them for reference to compare how you completed the labs.
+If you need to find the `answers` to the lab exercises, you will find the final NGINX configuration files for all the exercises in the `labs/lab5/final` folder.  Use them for reference to compare how you completed the labs.
 
 >**Congratulations, you are now a member of Team NGINX !**
 
