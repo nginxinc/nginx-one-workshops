@@ -1376,7 +1376,7 @@ Network lab5_default                Removed
 - [NGINX Sticky Cookie](https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#enabling-session-persistence)
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
-- [WRK Docker image](https://registry.hub.docker.com/r/williamyeh/wrk)
+- [WRK Docker image](https://registry.hub.docker.com/r/elswork/wrk)
 
 <br/>
 
