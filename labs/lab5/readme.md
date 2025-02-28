@@ -947,7 +947,7 @@ Different backend applications may benefit from using different load balancing t
 
 1. NGINX's default Load Balancing algorithm is round-robin, if not specified in the upstream block.  In this next lab exercise, you will use the Plus `least_time last_byte` algorithm to send more traffic to different backends based on the response time.  
 
-1. Using Nginx One Console, update your `upstreams.conf` file to enable Least Time Last Byte, as follows:
+1. Using NGINX One Console, update your `upstreams.conf` file to enable Least Time Last Byte, as follows:
 
     ```nginx
     # NGINX Basics, Plus Proxy to three upstream NGINX containers
@@ -1020,7 +1020,7 @@ Different backend applications may benefit from using different load balancing t
 
     Well, that performance looks pretty good, about ~1200 HTTP Reqs/second (how much do you get?).  But NGINX can do better.  You will enable TCP keepalives to the Upstreams.  This Directive will tell NGINX to create a `pool of TCP connections to each Upstream`, and use that established connection pool to rapid-fire HTTP requests to the backends.  `No delays waiting for the TCP 3-way handshakes!`  It is considered a Best Practice to enable keepalives to the Upstream servers.
 
-1. Using Nginx One Console, update your `upstreams.conf` file to uncomment the `keepalives 16` line.
+1. Using NGINX One Console, update your `upstreams.conf` file to uncomment the `keepalives 16` line.
 
     ```nginx
     ...snip
@@ -1077,9 +1077,9 @@ Different backend applications may benefit from using different load balancing t
 
     <br/>
 
-Optional Exercise: In this next lab exercise, you will use the `weighted` algorithm to send more traffic to different backends.
+**(Optional Exercise)**: In this next lab exercise, you will use the `weighted` algorithm to send more traffic to different backends.
 
-1. Update your `upstreams.conf` file within your mounted folder (`labs/lab4/nginx-plus/etc/nginx/conf.d`) to modify the `server`entries to set an administrative ratio, as follows:
+1. Using NGINX One Console, update your `upstreams.conf` file to modify the `server` entries to set an administrative ratio, as follows:
 
     ```nginx
     ...snip
@@ -1101,30 +1101,25 @@ Optional Exercise: In this next lab exercise, you will use the `weighted` algori
 
     ```
 
-1. Once the content of the file has been updated and saved, Docker Exec into the nginx-plus container.
+1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
 
-   ```bash
-    docker exec -it nginx-plus bin/bash
+    ![update LB algo in upstreams](media/lab5_none_upstreams_server-weights_publish.png)
 
-    ```
+1. Once the content of the file has been updated and saved, you should see a pop up window as shown below.
 
-1. Test and reload your NGINX config by running `nginx -t` and `nginx -s reload` commands respectively from within the container.
+    ![one console Publish success](media/lab5_none_publish_success.png)
 
 1. Test again with curl and your browser, you should see a response distribution similar to the server weights. 10% to web1, 30% to web2, and 60% to web3.
 
 1. For a fun test, hit it again with `wrk`...what do you observe?  Do admin weights help or hurt performance?  
 
-    ![Cafe Weighted Dashboard](media/lab4_cafe-perf-weighted.png)
-
-    Only the results will tell you for sure, checking the Docker Desktop Dashboard - looks like the CPU ratio on the web containers matches the `weight` values for the Upstreams.
-
-    ![Docker Dashboard](media/lab4_docker-perf-weighted.png)
+    ![Cafe Weighted Dashboard](media/lab5_cafe-perf-weighted.png)
 
     So that is not too bad for a single CPU docker container.  But didn't you hear that NGINX performance improves with the number of CPUs in the machine?
 
-Can NGINX go faster?   Yes, if you give it more resources.  Let's try `adding some CPU horsepower` and see what happens!!
+    Can NGINX go faster? Yes, if you give it more resources.  Let's try `adding some CPU horsepower` and see what happens!!
 
-1. Check your `nginx.conf` file within `labs/lab4/nginx-plus` folder... does it say `worker_processes   1;` near the top?  Hmmm, NGINX is configured to use only one Worker and therefore only one CPU core.  You will change it to `FOUR`, and re-test.  Assuming you have at least 4 cores that Docker and NGINX can use:
+1. Within NGINX One Console, check your `nginx.conf` file... does it say `worker_processes 1;` near the top?  Hmmm, NGINX is configured to use only one Worker and therefore only one CPU core.  You will change it to `FOUR`, and re-test.  Assuming you have at least 4 cores that Docker and NGINX can use:
 
     ```nginx
     user  nginx;
