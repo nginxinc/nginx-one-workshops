@@ -368,17 +368,40 @@ At the end of lab5 exercise, you have a working NGINX Proxy, and several backend
 
 <br/>
 
-
 ## Nginx Plus Active HealthChecks
 
 In this section, you will enable active Plus Healthchecks. Active healthchecks probe your backend applications with requests in a timely fashion to check if they are up and healthy. If the upstream fails the healthchecks, it is marked Down, and will not be used for NEW connections.  Existing connections/requests are left intact.  These checks can be completely customized to match the backend application.
 
-1. Inspect and edit the `cafe.example.com.conf` file. At the bottom of the file, uncomment lines ~34-45 to enable the active healthchecks.
+1. Using NGINX One Console, within `etc/nginx/conf.d` folder, add a new file called `status_ok.conf`. Click on `Add` button to add the file.
+
+    ![add status_ok.conf](media/lab6_none_addfile_statusok.png)
+
+1. This new file will be used by healthcheck to perform a custom response check. Copy/paste the below commands within `status_ok.conf` file.
+
+    ```nginx
+    # NGINX Basics, status_ok.conf
+    # Nov 2024 - Chris Akker, Shouvik Dutta, Adam Currier
+    #
+    # Simple health check expecting http 200 and correct Content-Type
+    match status_ok {
+        status 200;
+        header Content-Type = "text/html; charset=utf-8";  # For the nginx-cafe html
+    }
+    ```
+
+1. Save and Publish the `status_ok.conf` file with above content.
+
+    ![one console status_ok publish](media/lab6_none_statusok_publish.png)
+
+1. Now inspect and edit the `cafe.example.com.conf` file. At the bottom of the file, add below `location` block to enable the active healthchecks.
 
    ```nginx
     # cafe.example.com HTTP
+    # NGINX Basics Workshop
+    # Nov 2024, Chris Akker, Shouvik Dutta, Adam Currier
+    #
     server {
-        ...
+    ...snip
 
         # Active Healthchecks
         location @health_check {
@@ -387,8 +410,8 @@ In this section, you will enable active Plus Healthchecks. Active healthchecks p
                 proxy_pass http://nginx_cafe;
                 health_check interval=5s fails=3 passes=2 uri=/ match=status_ok;    
 
-                # Health check logs are boring but errors are interesting
-                access_log  /var/log/nginx/health_check.log  main;
+                # Health check access logs are boring but errors are interesting
+                # access_log  /var/log/nginx/health_check.log  main;
                 access_log off;
                 error_log  /var/log/nginx/error.log error;
         }
@@ -412,17 +435,17 @@ In this section, you will enable active Plus Healthchecks. Active healthchecks p
     # Simple health check expecting http 200 and correct Content-Type
     match status_ok {
         status 200;
-        header Content-Type = "text/html; charset=utf-8"; # For the nginx-cafe html
+        header Content-Type = "text/html; charset=utf-8";  # For the nginx-cafe html
     }
     ```
 
-1. Once you have edited the config file, reload your NGINX config:
+1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
 
-   ```bash
-   nginx -t
-   nginx -s reload
+    ![Add healthcheck on cafe config](media/lab6_none_cafe_healthcheck_publish.png)
 
-   ```
+1. Once the content of the file has been updated and saved, you should see a pop up window as shown below.
+
+    ![one console Publish success](media/lab6_none_publish_success.png)
 
 1. Inspect your dashboard: [http://localhost:9000/dashboard.html](http://localhost:9000/dashboard.html). You will find the healthcheck status and metrics under the HTTP Upstreams tab.
    ![health check](media/health-check-all-up.png)  
@@ -430,9 +453,11 @@ In this section, you will enable active Plus Healthchecks. Active healthchecks p
 1. Using terminal on your local machine, issue the following docker command to stop one of the backend nginx cafe containers to trigger a health check failure.
 
    ```bash
-   docker ps
-   docker stop web3 
+   docker ps | grep $NAME
+   ```
 
+   ```bash
+   docker stop $NAME-web3 
    ```
 
 1. Once you have stopped the container, switch back to the browser and check the status of the backend servers.
@@ -442,27 +467,30 @@ In this section, you will enable active Plus Healthchecks. Active healthchecks p
 
     Refresh your browser at http://cafe.example.com several times, you will not see web3 responding, because Nginx is not load balancing any request to it.
 
-1. NGINX also records health check failures in the `/var/log/nginx/error.log` file, go take a look
+1. NGINX also records health check failures in the `/var/log/nginx/error.log` file which is symlinked to `/dev/stderr` within our docker setup. If you run below command you can see the error.log content.
 
    ```bash
-   docker exec -it nginx-plus more /var/log/nginx/error.log
+   docker log $NAME-nginx-plus
 
    ```
 
    ```bash
    ## Sample Output ##
-   2024/02/13 17:16:07 [error] 70-70: upstream timed out (110: Connection timed out) while connecting to upstream, health check "status_ok" of peer 192.168.96.4:80 in upstream "nginx_cafe"
-
-    2024/02/13 17:16:15 [error] 70-70: connect() failed (113: No route to host) while connecting to upstream, health check "status_ok" of peer 192.168.96.4:80 in upstream "nginx_cafe"
-
+   2025/03/03 17:40:47 [error] 1227#1227: upstream timed out (110: Operation timed out) while connecting to upstream, health check "status_ok" of peer 172.18.0.4:80 in upstream "nginx_cafe"
+    2025/03/03 17:40:55 [error] 1227#1227: connect() failed (113: Host is unreachable) while connecting to upstream, health check "status_ok" of peer 172.18.0.4:80 in upstream "nginx_cafe"
+    2025/03/03 17:41:03 [error] 1227#1227: connect() failed (113: Host is unreachable) while connecting to upstream, health check "status_ok" of peer 172.18.0.4:80 in upstream "nginx_cafe"
+    2025/03/03 17:41:11 [error] 1227#1227: connect() failed (113: Host is unreachable) while connecting to upstream, health check "status_ok" of peer 172.18.0.4:80 in upstream "nginx_cafe"
+    
+    ....
+   
    ```
 
-   Notice there are two errors. One for TCP connection error and the other one is for failed HTTP health check request.  These two Nginx Errors, #110 and #113, are the `first` thing you should look for when troubleshooting upstreams, if you have healthchecks enabled.
+   Notice there are multiple errors. The first error(`#110`) is for TCP connection error and the others(`#113`) following it are for failed HTTP health check request.  These Nginx Errors, #110 and #113, are the `first` thing you should look for when troubleshooting upstreams, if you have healthchecks enabled.
 
-1. Once you have investigated and resolved the issues with `web3` backend server you can start it again using below command.
+1. Once you have investigated and resolved the issues with `$NAME-web3` backend server you can start it again using below command.
 
    ```bash
-    docker start web3
+    docker start $NAME-web3
 
    ```
 
