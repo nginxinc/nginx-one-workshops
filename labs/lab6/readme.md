@@ -437,36 +437,38 @@ In this section, you will make use of NGINX Plus API to get current statistics r
 
     ```
 
+<br/>
 
 ## Wrap Up
 
-> If you need to find the `answers` to the lab exercises, you will find the final NGINX configuration files for all the exercises in the `labs/lab6/final` folder.  Use them for reference to compare how you completed the labs.
+1. If you need to find the `answers` to the lab exercises, you will find the final NGINX configuration files for all the exercises in the `labs/lab6/final` folder.  Use them for reference to compare how you completed the labs.
 
-> If `wrk` load generation tool is still running, then you can stop it by pressing `Ctrl + C`.
+1. If `wrk` load generation tool is still running, then you can stop it by pressing `Ctrl + C`.
 
-> If you are finished with this lab, you can use Docker Compose to shut down your test environment. 
+1. If you are finished with this lab, you can use Docker Compose to shut down your test environment. 
 
-(**NOTE:** Make sure you are within `labs/lab5` folder before running the command)
+    (**NOTE:** Make sure you are within `labs/lab5` folder before running the command)
 
-```bash
-docker compose down
-```
+    ```bash
+    docker compose down
+    ```
 
-```bash
-##Sample output##
-Running 5/5
-Container s.jobs-nginx-plus         Removed
-Container s.jobs-web2               Removed
-Container s.jobs-web3               Removed
-Container s.jobs-web1               Removed                            
-Network lab5_default                Removed
+    ```bash
+    ##Sample output##
+    Running 5/5
+    Container s.jobs-nginx-plus         Removed
+    Container s.jobs-web2               Removed
+    Container s.jobs-web3               Removed
+    Container s.jobs-web1               Removed                            
+    Network lab5_default                Removed
 
-```
+    ```
 
-Don't forget to stop all of the NGINX containers if you are finished with them, and **Delete them from the NGINX One Console Instance inventory**.
-
+1. Don't forget to stop all of the NGINX containers if you are finished with them, and **Delete them from the NGINX One Console Instance inventory**.
 
 **This completes Lab6.**
+
+<br/>
 
 ## References
 

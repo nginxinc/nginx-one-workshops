@@ -1216,26 +1216,11 @@ With NGINX, there are several configuration options for this, but in this next l
 
 <br/>
 
-If you need to find the `answers` to the lab exercises, you will find the final NGINX configuration files for all the exercises in the `labs/lab5/final` folder.  Use them for reference to compare how you completed the labs.
+## Wrap Up
 
->If you are finished with this lab, you can use Docker Compose to shut down your test environment. Make sure you are in the `lab5` folder:
+1. If you need to find the `answers` to the lab exercises, you will find the final NGINX configuration files for all the exercises in the `labs/lab5/final` folder.  Use them for reference to compare how you completed the labs.
 
-```bash
-cd lab5
-docker compose down
-
-```
-
-```bash
-##Sample output##
-Running 5/5
-Container s.jobs-nginx-plus         Removed
-Container s.jobs-web2               Removed
-Container s.jobs-web3               Removed
-Container s.jobs-web1               Removed                            
-Network lab5_default                Removed
-
-```
+1. If you are finished with this lab move to the next lab. Please donot shut down your test environment as you would be using the same environment in lab6.
 
 **This completes Lab5.**
 
