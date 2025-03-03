@@ -350,7 +350,7 @@ In this section, you will manage your backend servers dynamically using the NGIN
     ```
 
 1. If you check your NGINX Plus Dashboard, you will notice the `web3` server has turned back `green` and is also marked as `up`. You will also notice that it is now again taking equal amount of active traffic.
-   
+
    ![disabled web3](media/dashboard_enabled_web3.png)
 
 ### NGINX Live Activity Monitoring JSON feed
