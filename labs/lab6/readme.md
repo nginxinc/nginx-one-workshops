@@ -431,14 +431,14 @@ In this section, you will enable active Plus Healthchecks. Active healthchecks p
     - uri=/ : uri to check is the root (/)
     - match=status_ok : match condition is using a custom response check that is defined in the `status_ok.conf` file.  *The Upstream Response must contain an HTTP 200 status code, and must also return the Content-Type header with `text/html`.*
 
-    ```nginx
-    # Simple health check expecting http 200 and correct Content-Type
-    match status_ok {
-        status 200;
-        header Content-Type = "text/html; charset=utf-8";  # For the nginx-cafe html
-    }
+        ```nginx
+        # Simple health check expecting http 200 and correct Content-Type
+        match status_ok {
+            status 200;
+            header Content-Type = "text/html; charset=utf-8";  # For the nginx-cafe html
+        }
 
-    ```
+        ```
 
 1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
 
@@ -453,10 +453,6 @@ In this section, you will enable active Plus Healthchecks. Active healthchecks p
     ![health check](media/health-check-all-up.png)  
 
 1. Using terminal on your local machine, issue the following docker command to stop one of the backend nginx cafe containers to trigger a health check failure.
-
-    ```bash
-    docker ps | grep $NAME
-    ```
 
     ```bash
     docker stop $NAME-web3 
@@ -503,79 +499,16 @@ In this section, you will enable active Plus Healthchecks. Active healthchecks p
 
 <br/>
 
-## NGINX Dynamic Reconfiguration
-
-In this section, you will explore how NGINX Plus can be reconfigured without dropping any traffic. You will run an HTTP load generation tool (wrk) that will simulate a live website with a high volume of traffic. You will make several changes and reload NGINX while observing the NGINX Plus real-time dashboard.
-
-1. Keep NGINX Plus dashboard open in your browser. You will be looking at this Dashboard often in this section.
-
-1. Start the `wrk` load generation tool by downloading and running the following docker container.
-
-   ```bash
-    docker run --network=lab5_default --rm williamyeh/wrk -t4 -c200 -d5m -H 'Host: cafe.example.com' --timeout 2s http://nginx-plus/coffee
-
-   ```
-
-    The above command will run the wrk load generation tool for 5 minutes with 200 active connections hitting the `/coffee` path.
-
-1. Inspect and edit the `upstreams.conf` file, uncomment the `least_time last_byte` load balancing algorithm which is an advance algorithm available in NGINX Plus, that monitors the response time of each backend application server and then selects the fastest backend server for serving new request coming to NGINX proxy. This is a popular feature when there is a large difference in response time for your backend servers, like when you are using different performance hardware types.
-
-   ```nginx
-    # nginx-cafe servers 
-    upstream nginx_cafe {
-
-        # Load Balancing Algorithms supported by NGINX
-        # - Round Robin (Default if nothing specified)
-        # - Least Connections
-        # - IP Hash
-        # - Hash (Any generic Hash)     
-        # - Least Time (NGINX Plus only)
-        
-        # Uncomment to enable least_time load balancing algorithm
-        least_time last_byte; # Other Options: header|last_byte|last_byte inflight
-
-        ...
-    }
-
-   ```
-
-1. Once you have edited the config file save and test your NGINX config:
-
-   ```bash
-   nginx -t
-
-   ```
-
-1. While watching the NGINX Plus dashboard `Workers` Tab, reload NGINX:
-
-   ```bash
-   nginx -s reload
-
-   ```
-
-   What did you observe?
-   - You will observe that Nginx created New Workers (the PIDs changed) and `no traffic is dropped`. The statistics are reset to zero. Using the new algorithm, NGINX should now be sending more traffic to faster backends.
-
-        (**NOTE:** In lab environment, this is difficult to demonstrate as all the containers are on the same network with same resource allocation)
-
-    There is detailed explanation of what happens when you perform a reload in lab2. To recap, with NGINX Plus, new Worker processes are created, and begin using the new configuration immediately for all new connections and requests. The old Workers are **allowed to complete their previous task**, and then close their TCP connections naturally, **traffic in flight is not dropped!** The Nginx Master process terminates the old Workers after they finish their work and close all their connections.
-
-    Optional BONUX Exercise:  Change the number of Nginx Workers from 4 to 2, and reload Nginx while under load.   What happens?  Change it back to 4 and reload again, what happens?  Did your wrk loadtest complete without any errors?
-
-    >This is an Enterprise Plus feature, you must have this for high-volume production workloads.  Very few other Load Balancers can do this Dynamic Reloading without dropping any traffic.
-
-<br/>
-
 ## NGINX Dynamic Upstream Management
 
-In this section, you will manage your backend servers dynamically using the NGINX Plus API. `Web3` server in your workshop environment needs to undergo emergency maintainance - oh crap! But it is currently handling live active traffic. In this section you are tasked to remove it from load balancing without dropping any active traffic. And once maintainance is done, add it back so that it can handle live traffic again.
+In this section, you will manage your backend servers dynamically using the NGINX Plus API. `$NAME-Web3` server in your workshop environment needs to undergo emergency maintainance - oh crap! But it is currently handling live active traffic. In this section you are tasked to remove it from load balancing without dropping any active traffic. And once maintainance is done, add it back so that it can handle live traffic again.
 
 1. Keep NGINX Plus dashboard open in your browser. You will be looking at the dashboard often in this section.
 
 1. Start the `wrk` load generation tool by downloading and running the following docker container.
 
    ```bash
-    docker run --network=lab5_default --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s http://nginx-plus/coffee
+    docker run --network=lab5_default --rm elswork/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s http://$NAME-nginx-plus/coffee
 
    ```
 
@@ -721,25 +654,34 @@ In this section, you will make use of NGINX Plus API to get current statistics r
 
     ```
 
+
+## Wrap Up
+
+> If you need to find the `answers` to the lab exercises, you will find the final NGINX configuration files for all the exercises in the `labs/lab6/final` folder.  Use them for reference to compare how you completed the labs.
+
 > If `wrk` load generation tool is still running, then you can stop it by pressing `Ctrl + C`.
 
->If you are finished with this lab, you can use Docker Compose to shut down your test environment. Make sure you are in the `lab5` folder:
+> If you are finished with this lab, you can use Docker Compose to shut down your test environment. 
+
+(**NOTE:** Make sure you are within `labs/lab5` folder before running the command)
 
 ```bash
-cd lab5
 docker compose down
 ```
 
 ```bash
 ##Sample output##
 Running 5/5
-Container nginx-plus         Removed
-Container web2               Removed
-Container web3               Removed
-Container web1               Removed                            
-Network lab5_default         Removed
+Container s.jobs-nginx-plus         Removed
+Container s.jobs-web2               Removed
+Container s.jobs-web3               Removed
+Container s.jobs-web1               Removed                            
+Network lab5_default                Removed
 
 ```
+
+Don't forget to stop all of the NGINX containers if you are finished with them, and **Delete them from the NGINX One Console Instance inventory**.
+
 
 **This completes Lab6.**
 
