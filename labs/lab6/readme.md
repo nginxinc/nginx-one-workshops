@@ -395,7 +395,7 @@ In this section, you will enable active Plus Healthchecks. Active healthchecks p
 
 1. Now inspect and edit the `cafe.example.com.conf` file. At the bottom of the file, add below `location` block to enable the active healthchecks.
 
-   ```nginx
+    ```nginx
     # cafe.example.com HTTP
     # NGINX Basics Workshop
     # Nov 2024, Chris Akker, Shouvik Dutta, Adam Currier
@@ -417,19 +417,19 @@ In this section, you will enable active Plus Healthchecks. Active healthchecks p
         }
     }
 
-   ```
+    ```
 
-   In the above config, the health_check parameters mean the following:
+    In the above config, the health_check parameters mean the following:
 
-   - location @health_check : internal named location, not exposed externally
-   - internal : only accessible by Nginx itself
-   - proxy_set_header : set the Host Header in the health check
-   - proxy_pass : which upstreams to check
-   - interval=5s : check every 5 secs
-   - fails=3 :  mark server down after 3 failures
-   - passes=2 : mark server up after 2 success
-   - uri=/ : uri to check is the root (/)
-   - match=status_ok : match condition is using a custom response check that is defined in the `status_ok.conf` file.  *The Upstream Response must contain an HTTP 200 status code, and must also return the Content-Type header with `text/html`.*
+    - location @health_check : internal named location, not exposed externally
+    - internal : only accessible by Nginx itself
+    - proxy_set_header : set the Host Header in the health check
+    - proxy_pass : which upstreams to check
+    - interval=5s : check every 5 secs
+    - fails=3 :  mark server down after 3 failures
+    - passes=2 : mark server up after 2 success
+    - uri=/ : uri to check is the root (/)
+    - match=status_ok : match condition is using a custom response check that is defined in the `status_ok.conf` file.  *The Upstream Response must contain an HTTP 200 status code, and must also return the Content-Type header with `text/html`.*
 
     ```nginx
     # Simple health check expecting http 200 and correct Content-Type
@@ -437,6 +437,7 @@ In this section, you will enable active Plus Healthchecks. Active healthchecks p
         status 200;
         header Content-Type = "text/html; charset=utf-8";  # For the nginx-cafe html
     }
+
     ```
 
 1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
@@ -448,19 +449,21 @@ In this section, you will enable active Plus Healthchecks. Active healthchecks p
     ![one console Publish success](media/lab6_none_publish_success.png)
 
 1. Inspect your dashboard: [http://localhost:9000/dashboard.html](http://localhost:9000/dashboard.html). You will find the healthcheck status and metrics under the HTTP Upstreams tab.
-   ![health check](media/health-check-all-up.png)  
+
+    ![health check](media/health-check-all-up.png)  
 
 1. Using terminal on your local machine, issue the following docker command to stop one of the backend nginx cafe containers to trigger a health check failure.
 
-   ```bash
-   docker ps | grep $NAME
-   ```
+    ```bash
+    docker ps | grep $NAME
+    ```
 
-   ```bash
-   docker stop $NAME-web3 
-   ```
+    ```bash
+    docker stop $NAME-web3 
+    ```
 
 1. Once you have stopped the container, switch back to the browser and check the status of the backend servers.
+
    ![health check one down](media/health-check-one-down.png)
 
     In the above screenshot, `DT` column specifies the down time for a particular backend server. `x` in `Last` column within the `Health monitors` section indicate that the last health check failed and Nginx is not sending any active traffic to this backend server.
@@ -469,33 +472,34 @@ In this section, you will enable active Plus Healthchecks. Active healthchecks p
 
 1. NGINX also records health check failures in the `/var/log/nginx/error.log` file which is symlinked to `/dev/stderr` within our docker setup. If you run below command you can see the error.log content.
 
-   ```bash
-   docker log $NAME-nginx-plus
+    ```bash
+    docker log $NAME-nginx-plus
 
-   ```
+    ```
 
-   ```bash
-   ## Sample Output ##
-   2025/03/03 17:40:47 [error] 1227#1227: upstream timed out (110: Operation timed out) while connecting to upstream, health check "status_ok" of peer 172.18.0.4:80 in upstream "nginx_cafe"
+    ```bash
+    ## Sample Output ##
+    2025/03/03 17:40:47 [error] 1227#1227: upstream timed out (110: Operation timed out) while connecting to upstream, health check "status_ok" of peer 172.18.0.4:80 in upstream "nginx_cafe"
     2025/03/03 17:40:55 [error] 1227#1227: connect() failed (113: Host is unreachable) while connecting to upstream, health check "status_ok" of peer 172.18.0.4:80 in upstream "nginx_cafe"
     2025/03/03 17:41:03 [error] 1227#1227: connect() failed (113: Host is unreachable) while connecting to upstream, health check "status_ok" of peer 172.18.0.4:80 in upstream "nginx_cafe"
     2025/03/03 17:41:11 [error] 1227#1227: connect() failed (113: Host is unreachable) while connecting to upstream, health check "status_ok" of peer 172.18.0.4:80 in upstream "nginx_cafe"
     
-    ....
+    ...
    
-   ```
+    ```
 
-   Notice there are multiple errors. The first error(`#110`) is for TCP connection error and the others(`#113`) following it are for failed HTTP health check request.  These Nginx Errors, #110 and #113, are the `first` thing you should look for when troubleshooting upstreams, if you have healthchecks enabled.
+    Notice there are multiple errors. The first error(`#110`) is for TCP connection error and the others(`#113`) following it are for failed HTTP health check request.  These Nginx Errors, #110 and #113, are the `first` thing you should look for when troubleshooting upstreams, if you have healthchecks enabled.
 
 1. Once you have investigated and resolved the issues with `$NAME-web3` backend server you can start it again using below command.
 
-   ```bash
+    ```bash
     docker start $NAME-web3
 
-   ```
+    ```
 
-   After 2 successive health checks, NGINX will detect `web3` backend server is healthy again and begin sending active traffic to it. Observe the NGINX Plus dashboard. You can see that the status of `web3` backend server is now green.
-   ![health check one up](media/health-check-one-up.png)
+    After 2 successive health checks, NGINX will detect `web3` backend server is healthy again and begin sending active traffic to it. Observe the NGINX Plus dashboard. You can see that the status of `web3` backend server is now green.
+
+    ![health check one up](media/health-check-one-up.png)
 
 <br/>
 
