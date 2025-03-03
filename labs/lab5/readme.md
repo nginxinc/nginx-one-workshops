@@ -1246,7 +1246,6 @@ Network lab5_default                Removed
 - [NGINX Plus](https://docs.nginx.com/nginx/)
 - [NGINX Admin Guide](https://docs.nginx.com/nginx/admin-guide/)
 - [NGINX Technical Specs](https://docs.nginx.com/nginx/technical-specs/)
-- [NGINX Variables](https://nginx.org/en/docs/varindex.html)
 - [NGINX Load Balancing Methods](https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#choosing-a-load-balancing-method)
 - [NGINX Sticky Cookie](https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/#enabling-session-persistence)
 - [Docker](https://www.docker.com/)

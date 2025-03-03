@@ -251,7 +251,7 @@ By the end of the lab you will be able to:
 
 At the end of lab5 exercise, you have a working NGINX Proxy, and several backends. You will now continue adding and using additional NGINX Directives, Variables, and testing them out.  In order to better see the results of these new Directives on your proxied traffic, you need better and more information in your Access logs.  The default NGINX `main` access log_format only contains a fraction of the information you need, so you will  `extend` it to include more information, especially about the Upstream backend servers.
 
-1. In this next exercise, you will use a new `log_format` which has additional $variables added the access.log, so you can see this metadata.  You will use the Best Practice of defining the log format ONCE, but potentially use it in many Server blocks.
+1. In this next exercise, you will use a new `log_format` which has additional $variables added to the access.log, so you can see this metadata.  You will use the Best Practice of defining the log format ONCE, but potentially use it in many Server blocks.
 
 1. Inspect the `main` access log_format that is the default when you install NGINX.  You will find it in the `/etc/nginx/nginx.conf` file.  As you can see, there is `nothing` in this log format about the Upstreams, Headers, or other details you need.
 
@@ -262,7 +262,7 @@ At the end of lab5 exercise, you have a working NGINX Proxy, and several backend
                     '$status $body_bytes_sent "$http_referer" '
                     '"$http_user_agent" "$http_x_forwarded_for"';
 
-                    # nothing above on Upstreams, how do you even know which server handled the request ???
+    # nothing above on Upstreams, how do you even know which server handled the request ???
 
     ...
 
@@ -294,10 +294,10 @@ At the end of lab5 exercise, you have a working NGINX Proxy, and several backend
                             
     ```
 
-1. You will use the Extended log_format for the next few exercises.  Update your `cafe.example.com.conf` file within your mounted folder (`labs/lab4/nginx-plus/etc/nginx/conf.d`) to use the `main_ext` log format:
+1. You will use the Extended log_format for the next few exercises.  Using NGINX One Console, update your `cafe.example.com.conf` file to use the `main_ext` log format:
 
     ```nginx
-    # cars.example.com HTTP
+    # cafe.example.com HTTP
     # NGINX Basics Workshop
     # Nov 2024, Chris Akker, Shouvik Dutta, Adam Currier
     #
@@ -306,6 +306,8 @@ At the end of lab5 exercise, you have a working NGINX Proxy, and several backend
         listen 80;      # Listening on port 80 on all IP addresses on this machine
 
         server_name cafe.example.com;   # Set hostname to match in request
+        
+        # Uncomment the status_zone directive below to add metrics to the Dashboard
         status_zone cafe-VirtualServer;
 
         access_log  /var/log/nginx/cafe.example.com.log main_ext;         # Change this to "main_ext"
@@ -315,20 +317,18 @@ At the end of lab5 exercise, you have a working NGINX Proxy, and several backend
 
     ```
 
-1. Once the content of the file has been updated and saved, Docker Exec into the nginx-plus container.
+1. Validate your changes in the side-by-side differences page. If everything looks good, click on `Save and Publish`
 
-   ```bash
-    docker exec -it nginx-plus bin/bash
+    ![update log format on cafe config](media/lab6_none_cafe_log_format_publish.png)
 
-    ```
+1. Once the content of the file has been updated and saved, you should see a pop up window as shown below.
 
-1. Test and reload your NGINX config by running `nginx -t` and `nginx -s reload` commands respectively from within the container.
+    ![one console Publish success](media/lab6_none_publish_success.png)
 
-1. Test your new log format.  Docker Exec into your nginx-plus container.  Tail the `/var/log/nginx/cafe.example.com.log` access log file, and you will see the new Extended Log Format.
+1. Test your new log format.  Docker Exec into your `$NAME-nginx-plus` container.  Tail the `/var/log/nginx/cafe.example.com.log` access log file, and you will see the new Extended Log Format.
 
     ```bash
-    docker exec -it nginx-plus bin/bash
-    tail -f /var/log/nginx/cafe.example.com.log
+    docker exec -it $NAME-nginx-plus tail -f /var/log/nginx/cafe.example.com.log
 
     ```
 
@@ -340,25 +340,25 @@ At the end of lab5 exercise, you have a working NGINX Proxy, and several backend
      ##Sample output##
 
      # Raw Output
-     remote_addr="192.168.65.1", [time_local=19/Feb/2024:19:14:32 +0000], request="GET / HTTP/1.1", status="200", http_referer="-", body_bytes_sent="651", Host="cafe.example.com", sn="cafe.example.com", request_time=0.001, http_user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36", http_x_forwarded_for="-", request_length="471", upstream_address="172.18.0.3:80", upstream_status="200", upstream_connect_time="0.000", upstream_header_time="0.000", upstream_response_time="0.000", upstream_response_length="651",
+     remote_addr="172.18.0.1", [time_local=03/Mar/2025:16:51:29 +0000], request="GET / HTTP/1.1", status="200", http_referer="-", body_bytes_sent="649", Host="cafe.example.com", sn="cafe.example.com", request_time=0.001, http_user_agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36", http_x_forwarded_for="-", request_length="421", upstream_address="172.18.0.3:80", upstream_status="200", upstream_connect_time="0.000", upstream_header_time="0.001", upstream_response_time="0.001", upstream_response_length="649", 
 
      # Formatted output with Line Breaks to make it more readable
-     remote_addr="192.168.65.1", 
-     [time_local=19/Feb/2024:19:14:32 +0000], 
+     remote_addr="172.18.0.1", 
+     [time_local=03/Mar/2025:16:51:29 +0000], 
      request="GET / HTTP/1.1", status="200", 
      http_referer="-", 
-     body_bytes_sent="651", 
+     body_bytes_sent="649", 
      Host="cafe.example.com", 
      sn="cafe.example.com", 
      request_time=0.001, 
-     http_user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36", 
+     http_user_agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36", 
      http_x_forwarded_for="-", 
-     request_length="471",
+     request_length="421", 
      upstream_address="172.18.0.3:80", # Nice, now you know what backend was selected
      upstream_status="200", 
      upstream_connect_time="0.000", 
-     upstream_header_time="0.000", 
-     upstream_response_time="0.000", upstream_response_length="651",   
+     upstream_header_time="0.001", 
+     upstream_response_time="0.001", upstream_response_length="649",
 
     ```
 
@@ -717,6 +717,7 @@ Network lab5_default         Removed
 - [NGINX Admin Guide](https://docs.nginx.com/nginx/admin-guide/)
 - [NGINX Technical Specs](https://docs.nginx.com/nginx/technical-specs/)
 - [NGINX Access Logging](https://nginx.org/en/docs/http/ngx_http_log_module.html#access_log)
+- [NGINX Variables](https://nginx.org/en/docs/varindex.html)
 - [NGINX Plus API Module](https://nginx.org/en/docs/http/ngx_http_api_module.html)
 - [NGINX Plus Dynamic Upstreams]( https://docs.nginx.com/nginx/admin-guide/load-balancer/dynamic-configuration-api/)
 
