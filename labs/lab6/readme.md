@@ -2,46 +2,30 @@
 
 ## Introduction
 
-You will now build the Plus version of NGINX, using a license.  You will need a subscription license, and both SSL .crt and .key files.  These files provide access to the `NGINX Plus repository` where the Plus binary files are located.  These are not publicly accessible, you must have a valid Certificate and Key for repo access.  This new NGINX Plus container will be used for the rest of the Lab exercises, adding Plus features and options to your environment.
-
-## Learning Objectives
-
-By the end of the lab you will be able to:
-
-- Run an `NGINX Plus Docker` image
-- Run NGINX Webserver image, adding it to your lab environment
-- Verify all containers are working
-- Enable and test Nginx Plus Active Healthchecks
-- Test Dynamic Configuration Reloads
-- Test Dynamic Upstreams with the Plus API
+In this lab, you will look into enhanced logs. You will also enable Active healthchecks. You will also test out dynamic configuration reloads and Dynamic upstreams with Plus API. You will continue working on the containers that you built in the previous Lab Exercises. It is important to run these containers correctly to complete the exercises and receive the most benefit from the Workshop.
 
 NGINX Plus | Docker
 :-------------------------:|:-------------------------:
 ![NGINX Plus](media/nginx-plus-icon.png)  |![Docker](media/docker-icon2.png)
 
-## What is NGINX Plus?  
+## Learning Objectives
 
-NGINX Plus is the `Commercial version of NGINX`, adding additional Enterprise features on top of the base NGINX OSS build. Here is a Summary list of the Plus features:
+By the end of the lab you will be able to:
 
-- Dynamic reconfiguration reloads with no downtime
-- Dynamic NGINX software updates with no downtime
-- Dynamic DNS resolution and DNS Service discovery
-- NGINX Plus API w/statistics and dashboard, over 240 metrics for TCP/HTTPS
-- NGINX JavaScript Prometheus exporter libraries
-- Dynamic Upstreams
-- Key Value store
-- Cache Purge API controls
-- NGINX Clustering for High Availability
-- JWT processing with OIDC for user authentication
-- App Protect Firewall WAF
+- Configure NGINX Extended Access Logging
+- Enable and test Nginx Plus Active Healthchecks
+- Test Dynamic Configuration Reloads
+- Test Dynamic Upstreams with the Plus API
 
 ## Prerequisites
 
-- Nginx-Plus container from Lab1
-- You must have Docker installed and running
-- You must have Docker-compose installed
-- (Optional) You should have `Visual Studio Thunder Client` extension tool to make calls to NGINX Plus API.
-- (Optional) You should have Visual Studio Code installed to work through the NGINX configuration files.
+- You must have an F5 Distributed Cloud(XC) Account
+- You must have enabled NGINX One service on F5 Distributed Cloud(XC)
+- You have built all workshop components from previous section
+- Familiarity with basic Linux concepts and commands
+- Familiarity with basic NGINX concepts and commandsNginx-Plus container from Lab1
+- (Optional) You should have Visual Studio Code installed to work through the NGINX configuration files
+- (Optional) You should have `Visual Studio Thunder Client` extension tool to make calls to NGINX Plus API
 - See `Lab0` for instructions on setting up your system for this Workshop
 
 <br/>
@@ -262,6 +246,128 @@ NGINX Plus is the `Commercial version of NGINX`, adding additional Enterprise fe
     Go back to the NGINX Plus Dashboard, to observe the metrics changing.
 
 <br/>
+
+## NGINX Extended Access Logging
+
+At the end of lab5 exercise, you have a working NGINX Proxy, and several backends. You will now continue adding and using additional NGINX Directives, Variables, and testing them out.  In order to better see the results of these new Directives on your proxied traffic, you need better and more information in your Access logs.  The default NGINX `main` access log_format only contains a fraction of the information you need, so you will  `extend` it to include more information, especially about the Upstream backend servers.
+
+1. In this next exercise, you will use a new `log_format` which has additional $variables added the access.log, so you can see this metadata.  You will use the Best Practice of defining the log format ONCE, but potentially use it in many Server blocks.
+
+1. Inspect the `main` access log_format that is the default when you install NGINX.  You will find it in the `/etc/nginx/nginx.conf` file.  As you can see, there is `nothing` in this log format about the Upstreams, Headers, or other details you need.
+
+    ```nginx
+    ...snip from /etc/nginx/nginx.conf
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';
+
+                    # nothing above on Upstreams, how do you even know which server handled the request ???
+
+    ...
+
+    ```
+
+1. Inspect the `main_ext.conf` configuration file, located in the `/etc/nginx/includes/log_formats` folder.  You will see there are many added $variables, some are for the request, some for proxy functions, some for the response, and several are about the Upstream (so you know which backend was chosen and used for a request).  NGINX has `hundreds` of $variables you can use, depending on what you need to see.
+
+    ```nginx
+    # Extended Log Format
+    # Nginx Basics
+    log_format  main_ext    'remote_addr="$remote_addr", '
+                            '[time_local=$time_local], '
+                            'request="$request", '
+                            'status="$status", '
+                            'http_referer="$http_referer", '
+                            'body_bytes_sent="$body_bytes_sent", '
+                            'Host="$host", '
+                            'sn="$server_name", '
+                            'request_time=$request_time, '
+                            'http_user_agent="$http_user_agent", '
+                            'http_x_forwarded_for="$http_x_forwarded_for", '
+                            'request_length="$request_length", '
+                            'upstream_address="$upstream_addr", '
+                            'upstream_status="$upstream_status", '
+                            'upstream_connect_time="$upstream_connect_time", '
+                            'upstream_header_time="$upstream_header_time", '
+                            'upstream_response_time="$upstream_response_time", '
+                            'upstream_response_length="$upstream_response_length", ';
+                            
+    ```
+
+1. You will use the Extended log_format for the next few exercises.  Update your `cafe.example.com.conf` file within your mounted folder (`labs/lab4/nginx-plus/etc/nginx/conf.d`) to use the `main_ext` log format:
+
+    ```nginx
+    # cars.example.com HTTP
+    # NGINX Basics Workshop
+    # Nov 2024, Chris Akker, Shouvik Dutta, Adam Currier
+    #
+    server {
+        
+        listen 80;      # Listening on port 80 on all IP addresses on this machine
+
+        server_name cafe.example.com;   # Set hostname to match in request
+        status_zone cafe-VirtualServer;
+
+        access_log  /var/log/nginx/cafe.example.com.log main_ext;         # Change this to "main_ext"
+        error_log   /var/log/nginx/cafe.example.com_error.log info;
+
+    ...snip
+
+    ```
+
+1. Once the content of the file has been updated and saved, Docker Exec into the nginx-plus container.
+
+   ```bash
+    docker exec -it nginx-plus bin/bash
+
+    ```
+
+1. Test and reload your NGINX config by running `nginx -t` and `nginx -s reload` commands respectively from within the container.
+
+1. Test your new log format.  Docker Exec into your nginx-plus container.  Tail the `/var/log/nginx/cafe.example.com.log` access log file, and you will see the new Extended Log Format.
+
+    ```bash
+    docker exec -it nginx-plus bin/bash
+    tail -f /var/log/nginx/cafe.example.com.log
+
+    ```
+
+1. While watching your new log format, use curl or your browser, and hit the `cafe.example.com` website a few times.
+
+    It should look something like this (comments and line breaks added for clarity):
+
+    ```bash
+     ##Sample output##
+
+     # Raw Output
+     remote_addr="192.168.65.1", [time_local=19/Feb/2024:19:14:32 +0000], request="GET / HTTP/1.1", status="200", http_referer="-", body_bytes_sent="651", Host="cafe.example.com", sn="cafe.example.com", request_time=0.001, http_user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36", http_x_forwarded_for="-", request_length="471", upstream_address="172.18.0.3:80", upstream_status="200", upstream_connect_time="0.000", upstream_header_time="0.000", upstream_response_time="0.000", upstream_response_length="651",
+
+     # Formatted output with Line Breaks to make it more readable
+     remote_addr="192.168.65.1", 
+     [time_local=19/Feb/2024:19:14:32 +0000], 
+     request="GET / HTTP/1.1", status="200", 
+     http_referer="-", 
+     body_bytes_sent="651", 
+     Host="cafe.example.com", 
+     sn="cafe.example.com", 
+     request_time=0.001, 
+     http_user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36", 
+     http_x_forwarded_for="-", 
+     request_length="471",
+     upstream_address="172.18.0.3:80", # Nice, now you know what backend was selected
+     upstream_status="200", 
+     upstream_connect_time="0.000", 
+     upstream_header_time="0.000", 
+     upstream_response_time="0.000", upstream_response_length="651",   
+
+    ```
+
+    As you can see here, NGINX has `many $variables` that you can use, to customize the Access log_format to meet your needs.  You will find a link to NGINX Access Logging, and ALL the NGINX Variables that are availabe in the [References](#references) section below.
+
+    It should also be pointed out, that you can use different log formats for different Hosts, Server Blocks, or even different Location Blocks, you are not limited to just one log_format.
+
+<br/>
+
 
 ## Nginx Plus Active HealthChecks
 
@@ -610,6 +716,7 @@ Network lab5_default         Removed
 - [NGINX Plus](https://docs.nginx.com/nginx/)
 - [NGINX Admin Guide](https://docs.nginx.com/nginx/admin-guide/)
 - [NGINX Technical Specs](https://docs.nginx.com/nginx/technical-specs/)
+- [NGINX Access Logging](https://nginx.org/en/docs/http/ngx_http_log_module.html#access_log)
 - [NGINX Plus API Module](https://nginx.org/en/docs/http/ngx_http_api_module.html)
 - [NGINX Plus Dynamic Upstreams]( https://docs.nginx.com/nginx/admin-guide/load-balancer/dynamic-configuration-api/)
 

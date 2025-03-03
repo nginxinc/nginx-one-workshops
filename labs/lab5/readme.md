@@ -18,7 +18,6 @@ By the end of the lab you will be able to:
 - Build your Workshop enviroment with Docker Compose
 - Verify Container build with NGINX tests
 - Configure NGINX for Proxy and Load Balancing
-- Configure NGINX Extended Access Logging
 - Explore NGINX load balancing algorithms
 - Run an HTTP Load Test tool
 - Configure and test Persistence
