@@ -280,7 +280,7 @@ This will require a new NGINX config file, for the Server and Location Blocks. F
 1. Time to Test!!! Go back to Visual Studio Terminal and run below commands to test if your new `proxy_pass` configuration is working as expected. Run this command several times.
 
    ```bash
-    docker exec -it $NAME-nginx-plus curl -s http://cafe.example.com |grep Server
+    curl -s http://cafe.example.com |grep Server
     ```
 
     ```bash
@@ -1247,4 +1247,4 @@ With NGINX, there are several configuration options for this, but in this next l
 
 -------------
 
-Navigate to ([Lab6](../lab6/readme.md) | [Main Menu](../readme.md))
+Navigate to ([Lab6](../lab6/readme.md) | [LabGuide](../readme.md))
