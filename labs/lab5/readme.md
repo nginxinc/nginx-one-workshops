@@ -1247,4 +1247,4 @@ With NGINX, there are several configuration options for this, but in this next l
 
 -------------
 
-Navigate to ([Lab6](../lab6/readme.md) | [Main Menu](../readme.md))
+Navigate to ([Lab6](../lab6/readme.md) | [LabGuide](../readme.md))
