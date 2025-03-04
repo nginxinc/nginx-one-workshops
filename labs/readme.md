@@ -72,11 +72,12 @@ Choose one of the [Lab 0: Workshop pre-work](#lab-0-workshop-pre-work-choose-any
 ### Lab 6: NGINX Plus Logs, Logging and Troubleshooting
 - [Lab 6: NGINX Plus Logs, Logging and Troubleshooting](lab6/readme.md)
 
-### Lab 7: Upgrade Dataplane NGINX Plus Instances to R33
-- [Lab 7: Upgrade Dataplane NGINX Plus Instances to R33](lab7/readme.md)
+### Lab 7: Monitoring NGINX Plus with Prometheus and Grafana
+- [Lab 7: Monitoring NGINX Plus with Prometheus and Grafana](lab7/readme.md)
 
-### Lab 8: Monitoring NGINX Plus with Prometheus and Grafana
-- [Lab 8: Monitoring NGINX Plus with Prometheus and Grafana](lab8/readme.md)
+### Lab 8: Upgrade Dataplane NGINX Plus Instances to R33
+- [Lab 8: Upgrade Dataplane NGINX Plus Instances to R33](lab8/readme.md)
+
 
 <br/>
 
