@@ -20,7 +20,7 @@ By the end of the lab you will be able to:
 - Test the Grafana Server
 - View Grafana Dashboard
 
-## Pre-Requisites
+## Prerequisites
 
 - Nginx-Plus container from Lab1
 - You must have Docker installed and running
@@ -32,12 +32,12 @@ By the end of the lab you will be able to:
 - Familiarity with Prometheus
 - Familiartiy with Grafana
 
-As part of your Dockerfile, your NGINX Plus container already has the added `NGINX Java Script and NGINX Prometheus dynamic module` installed during the build process.  Refer to the /lab1/nginx-plus/Dockerfile if you want to check it out.
+As part of your Dockerfile, your NGINX Plus container already has the added `NGINX Java Script and NGINX Prometheus dynamic modules` installed during the build process.  Refer to the /lab1/nginx-plus/Dockerfile if you want to check it out.
 
 1. Ensure you are in the `lab7` folder.  Using a Terminal, run Docker Compose to build and run all the containers.
 
     ```bash
-     cd lab6
+     cd lab7
      docker compose up --force-recreate -d
 
     ```
@@ -61,14 +61,14 @@ As part of your Dockerfile, your NGINX Plus container already has the added `NGI
 
     ...snip
 
-        # Uncomment for Prometheus scraper page output
+        # Uncomment for Prometheus scraper page output buffer
         subrequest_output_buffer_size 32k;       # Added for Prometheus
 
     ...snip
 
     ```
 
-1. Inspect the `prometheus.conf` file in the `labs/lab6/nginx-plus/etc/nginx/conf.d` folder.  This is the NGINX config file which opens up port 9113, and provides access to the scraper page.  Uncomment all the lines to enable this.
+1. Inspect the `prometheus.conf` file in the `labs/lab7/nginx-plus/etc/nginx/conf.d` folder.  This is the NGINX config file which opens up port 9113, and provides access to the scraper page.  Uncomment all the lines to enable this.
 
     ```nginx
     # NGINX Plus Prometheus configuration, for HTTP scraper page
@@ -107,7 +107,7 @@ As part of your Dockerfile, your NGINX Plus container already has the added `NGI
 1. Start the WRK load generation tool.  This will provide some traffic to the nginx-plus container, so the statistics will be increasing.
 
     ```bash
-    docker run --name wrk --network=lab6_default --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s http://nginx-plus/coffee
+    docker run --name wrk --network=lab7_default --rm elswork/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s http://nginx-plus/coffee
 
     ```
 
@@ -125,6 +125,8 @@ As part of your Dockerfile, your NGINX Plus container already has the added `NGI
 
 ![prometheus](media/prometheus-icon.png)  |![grafana](media/grafana-icon.png)
 --- | ---
+
+In this section, you will use and explore two Docker containers for the Prometheus and Grafana servers.  These servers will collect and display various metrics from the Nginx Plus container.  You will also run a load test to create some traffic and watch the metrics Dashboards in real-time.
 
 1. Inspect your `docker-compose.yml` file, you will see it includes 2 additional Docker containers for this lab, one for a Prometheus server, and one for a Grafana server.  These have been configured to run for you, but the images will be pulled from public repos.
 
@@ -183,15 +185,15 @@ As part of your Dockerfile, your NGINX Plus container already has the added `NGI
 
 <br/>
 
-Prometheus is a software package that can watch and collect statistics from many different NGINX instances. The Prometheus server will collect the statistics from the scraper page that you enabled in the previous section.
+Prometheus is a software package that can watch and collect statistics from many different NGINX instances. The Prometheus server will collect the NGINX Plus statistics from the scraper page that you enabled in the previous section.
 
 <br/>
 
-1. Using Chrome, navigate to <http://localhost:9090>. You should see a Prometheus webpage like this one. Search for `nginxplus_` in the query box to see a list of all the Nginx Plus statistics that Prometheus is collecting for you.  Select `nginxplus_http_requests_total` from the list, click on Graph, and then click the "Execute" Button.  Change the Time window if needed. This will provide a graph similar to this one:
+1. Using Chrome, navigate to <http://localhost:9090>. You should see a Prometheus webpage like this one. Enter in `nginxplus_` in the query box to see a list of all the Nginx Plus statistics that Prometheus is collecting for you.  Select `nginxplus_http_requests_total` from the list, click on Graph, and then click the "Execute" Button.  Change the Time window if needed. This will provide a graph similar to this one:
 
     ![Prom Graph](media/lab7_prometheus-graph.png)
 
-    Take a few minutes to explore other metrics available from NGINX Plus.  What are the Upstream Response Times of your 3 backend web servers???
+    Take a few minutes to explore other metrics available from NGINX Plus.  What are the HTTP Upstream Response Times of your 3 backend web servers???
 
 <br/>
 
@@ -199,7 +201,7 @@ Prometheus is a software package that can watch and collect statistics from many
 
 <br/>
 
-Grafana is a data visualization tool, which contains a time series database and graphical web presentation tools. Grafana imports the Prometheus scraper page statistics into it's database, and allows you to create Dashboards of the statistics that are important to you.
+Grafana is a data visualization tool, which contains a time-series database and graphical web presentation tools. Grafana uses the Prometheus scraper page statistics as a DataSource, and allows you to create Dashboards of the statistics that are important to you.
 
 1. Log into the Web console access for Grafana at <http://localhost:3000>.  The default Login should be user/pass of `admin/admin`.  This will present the main Grafana page.
 
@@ -211,10 +213,10 @@ Grafana is a data visualization tool, which contains a time series database and 
 
 1. Scroll to the bottom and click `Save and Test`. You should see a green `Successfully queried the Prometheus API` message.  Click the Home page link to return the main menu.
 
-1. Import the provided `labs/lab7/NGINX-Basics.json` file to see statistics like the NGINX Plus HTTP Requests Per Second and Upstream Response Times.  
+1. Grafana Dashboard definitions can be saved as JSON files. Import the provided `labs/lab7/NGINX-Basics.json` file to see statistics like the NGINX Plus HTTP Requests Per Second and Upstream Response Times.  
 
     - Click on Create New Dashboard from Home page and then `Import dashboard`.  
-    - Copy and Paste the `labs/lab7/NGINX-Basics.json` file provided.
+    - Copy and Paste the contents of the `labs/lab7/NGINX-Basics.json` file provided.
     - Click on the `Load` button.
     - Set the data source to `prometheus` and then click on the `Import` button.
     - Sometimes you have change the datasource, Dashboard ID, Name, or other settings for it to Import properly.
@@ -225,7 +227,7 @@ Grafana is a data visualization tool, which contains a time series database and 
 
     There are many different Grafana Dashboards available, and you have the option to create and build dashboards to suite your needs.  NGINX Plus provides over 240 metrics for TCP, HTTP, SSL, Virtual Servers, Locations, Rate Limits, and Upstreams.
 
-    Take a few minutes to explore Grafana, and you can also import Dashboards that other people have created, by exploring the Grafana website and searching for "nginx".
+    Take a few minutes to explore Grafana, and you can also import shared Dashboards that other people have created, by exploring the Grafana website and searching for "nginx".
 
 <br/>
 
