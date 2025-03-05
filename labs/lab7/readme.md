@@ -18,11 +18,11 @@ By the end of the lab you will be able to:
 - Create Prometheus Exporter configuration
 - Test the Prometheus Server
 - Test the Grafana Server
-- View Grafana Dashboard
+- Import and View a simple NGINX Grafana Dashboard
 
 ## Prerequisites
 
-- Nginx-Plus container from Lab1
+- Nginx-Plus container from Lab5
 - You must have Docker installed and running
 - You must have Docker-compose installed
 - See `Lab0` for instructions on setting up your system for this Workshop
@@ -98,7 +98,7 @@ As part of your Dockerfile, your NGINX Plus container already has the added `NGI
 1. Once the contents of both files has been updated and saved, Docker Exec into the nginx-plus container.
 
     ```bash
-    docker exec -it nginx-plus bin/bash
+    docker exec -it $NAME-nginx-plus bin/bash
      
     ```
 
@@ -107,7 +107,7 @@ As part of your Dockerfile, your NGINX Plus container already has the added `NGI
 1. Start the WRK load generation tool.  This will provide some traffic to the nginx-plus container, so the statistics will be increasing.
 
     ```bash
-    docker run --name wrk --network=lab7_default --rm elswork/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s http://nginx-plus/coffee
+    docker run --name wrk --network=lab7_default --rm elswork/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s http://$NAME-nginx-plus/coffee
 
     ```
 
@@ -221,11 +221,11 @@ Grafana is a data visualization tool, which contains a time-series database and 
     - Set the data source to `prometheus` and then click on the `Import` button.
     - Sometimes you have change the datasource, Dashboard ID, Name, or other settings for it to Import properly.
 
-    You should see a Grafana Dashboard like this one:
+    You should see a Grafana Dashboard similar to this one:
 
     ![Grafana Dashboard](media/lab7_grafana-dashboard.png)
 
-    There are many different Grafana Dashboards available, and you have the option to create and build dashboards to suite your needs.  NGINX Plus provides over 240 metrics for TCP, HTTP, SSL, Virtual Servers, Locations, Rate Limits, and Upstreams.
+    There are many different Grafana Dashboards available, and you have the option to create and build dashboards to suite your needs.  NGINX Plus provides over 240 metrics for Nginx, TCP, HTTP, TLS, Virtual Servers, Locations, Rate Limits, and Upstreams.
 
     Take a few minutes to explore Grafana, and you can also import shared Dashboards that other people have created, by exploring the Grafana website and searching for "nginx".
 
