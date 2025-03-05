@@ -32,9 +32,34 @@ By the end of the lab you will be able to:
 - Familiarity with Prometheus
 - Familiartiy with Grafana
 
-As part of your Dockerfile, your NGINX Plus container already has the added `NGINX Java Script and NGINX Prometheus dynamic modules` installed during the build process.  Refer to the /lab1/nginx-plus/Dockerfile if you want to check it out.
+<br/>
 
-1. Ensure you are in the `lab7` folder.  Using a Terminal, run Docker Compose to build and run all the containers.
+As part of your Docker image, your NGINX Plus container already has the required `NGINX Java Script and NGINX Prometheus dynamic modules` needed for Prometheus installed for you.  If you are curious, Docker Exec into your Nginx Plus container, and look in the `/etc/nginx/modules` folder for the modules available.
+
+*NOTE:  Make sure you `docker compose down` any running containers from previous labs before starting this lab.*
+
+1. Make sure your three environment variables are still set in your Visual Studio terminal. If they are not set, then refer to Lab2 to set them up before proceeding to next step.
+
+    ```bash
+    # Check if below environment variables are present in your terminal
+
+    echo "----------------------------------------------"
+    echo $TOKEN
+    echo "----------------------------------------------"
+    echo $JWT
+    echo "----------------------------------------------"
+    echo $NAME
+    echo "----------------------------------------------"
+    ```
+
+1. Confirm you are still logged in to the NGINX Private Registry, using the `$JWT` environment variable for the username, as follows. (Your system may require sudo)
+
+    ```bash
+    docker login private-registry.nginx.com --username=$JWT --password=none
+
+    ```
+
+1. Ensure you are in the `lab7` folder.  Using a Terminal, run Docker Compose to run all the containers.
 
     ```bash
      cd lab7
@@ -42,7 +67,18 @@ As part of your Dockerfile, your NGINX Plus container already has the added `NGI
 
     ```
 
-1. Edit your `nginx.conf` file, you will make 2 changes.
+1. Verify all SIX of your containers have started.
+
+```bash
+docker ps -a
+
+## Sample output ##
+
+<< need output here >>
+
+```
+
+1. Using the One Console, edit your `nginx.conf` file, you will make 2 changes.
 
     - Uncomment Line #8 to enable the `ngx_http_js_module` module.
     - Uncomment Line #37 to set a parameter for an NGINX buffer called `subrequest_output_buffer_size`.
@@ -68,7 +104,9 @@ As part of your Dockerfile, your NGINX Plus container already has the added `NGI
 
     ```
 
-1. Inspect the `prometheus.conf` file in the `labs/lab7/nginx-plus/etc/nginx/conf.d` folder.  This is the NGINX config file which opens up port 9113, and provides access to the scraper page.  Uncomment all the lines to enable this.
+<< ss here >>
+
+1. Inspect the `prometheus.conf` file in the `/etc/nginx/conf.d` folder.  This is the NGINX config file which opens up port 9113, and provides access to the scraper page.  Uncomment all the lines to enable this.
 
     ```nginx
     # NGINX Plus Prometheus configuration, for HTTP scraper page
@@ -95,12 +133,8 @@ As part of your Dockerfile, your NGINX Plus container already has the added `NGI
 
     ```
 
-1. Once the contents of both files has been updated and saved, Docker Exec into the nginx-plus container.
+1. Once the contents of both files has been updated, click Next and Publish your changes to enable Prometheus NJS and the scraper page on port 9113.
 
-    ```bash
-    docker exec -it $NAME-nginx-plus bin/bash
-     
-    ```
 
 1. Test and reload your NGINX config by running `nginx -t` and `nginx -s reload` commands respectively from within the container.
 

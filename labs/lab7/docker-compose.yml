@@ -12,7 +12,8 @@ services:
       NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey From One Console
     hostname: $NAME-nginx-plus
     container_name: $NAME-nginx-plus
-    image: private-registry.nginx.com/nginx-plus/agent:nginx-plus-r32-alpine-3.20-20240613 # CVE - From Nginx Private Registry
+    #image: private-registry.nginx.com/nginx-plus/agent:nginx-plus-r32-alpine-3.20-20240613 # CVE - From Nginx Private Registry
+    image: private-registry.nginx.com/nginx-plus/modules:r32-prometheus-alpine # CVE - From Nginx Private Registry
     volumes:  # Sync these folders to container
         - ./nginx-plus/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
         - ./nginx-plus/etc/nginx/conf.d:/etc/nginx/conf.d
