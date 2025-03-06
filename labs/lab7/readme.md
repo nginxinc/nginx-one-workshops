@@ -89,7 +89,7 @@ As part of your Docker image, your NGINX Plus container already has the required
 
     ```
 
-1. Using the One Console, find your `<$NAME>-nginx-plus` under Manager > Instance.  Click on the name, Configuration, then Edit your `nginx.conf` file, you will make 2 changes.
+1. Using the One Console, find your `<$NAME>-nginx-plus` under Manage > Instance.  Click on the name, Configuration, then Edit your `nginx.conf` file, you will make 2 changes.
 
     - Uncomment Line #8 to enable the `ngx_http_js_module` module.
     - Uncomment Line #37 to set a parameter for an NGINX buffer called `subrequest_output_buffer_size`.
