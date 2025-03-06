@@ -72,22 +72,22 @@ As part of your Docker image, your NGINX Plus container already has the required
 
 1. Verify all SIX of your Lab7 containers have started (ignore the Guacamole container).
 
-```bash
-docker ps
+    ```bash
+    docker ps
 
-```
+    ```
 
-```bash
-## Sample output ##
-CONTAINER ID   IMAGE                                                               COMMAND                  CREATED        STATUS       PORTS                                                                                                                                                            NAMES
-8664bad14c05   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r32-debian   "/docker-entrypoint.…"   4 hours ago    Up 4 hours   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp, 0.0.0.0:9113->9113/tcp, :::9113->9113/tcp   $NAME-nginx-plus
-302cdf1a17dc   nginxinc/ingress-demo                                               "/docker-entrypoint.…"   4 hours ago    Up 4 hours   443/tcp, 0.0.0.0:32779->80/tcp, :::32779->80/tcp, 0.0.0.0:32777->433/tcp, :::32777->433/tcp                                                                      $NAME-web2
-a39caa99adf0   nginxinc/ingress-demo                                               "/docker-entrypoint.…"   4 hours ago    Up 4 hours   0.0.0.0:32775->80/tcp, :::32775->80/tcp, 0.0.0.0:32774->443/tcp, :::32774->443/tcp                                                                               $NAME-web3
-173bab90ecfa   nginxinc/ingress-demo                                               "/docker-entrypoint.…"   4 hours ago    Up 4 hours   0.0.0.0:32778->80/tcp, :::32778->80/tcp, 0.0.0.0:32776->443/tcp, :::32776->443/tcp                                                                               $NAME-web1
-cc9ba360acff   prom/prometheus                                                     "/bin/prometheus --c…"   4 hours ago    Up 4 hours   0.0.0.0:9090->9090/tcp, :::9090->9090/tcp                                                                                                                        prometheus
-7bb2da3684cd   grafana/grafana                                                     "/run.sh"                4 hours ago    Up 4 hours   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp                                                                                                                        grafana
+    ```bash
+    ## Sample output ##
+    CONTAINER ID   IMAGE                                                               COMMAND                  CREATED        STATUS       PORTS                                                                                                                                                            NAMES
+    8664bad14c05   private-registry.nginx.com/nginx-plus/agent:nginx-plus-r32-debian   "/docker-entrypoint.…"   4 hours ago    Up 4 hours   0.0.0.0:80->80/tcp, :::80->80/tcp, 0.0.0.0:443->443/tcp, :::443->443/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp, 0.0.0.0:9113->9113/tcp, :::9113->9113/tcp   $NAME-nginx-plus
+    302cdf1a17dc   nginxinc/ingress-demo                                               "/docker-entrypoint.…"   4 hours ago    Up 4 hours   443/tcp, 0.0.0.0:32779->80/tcp, :::32779->80/tcp, 0.0.0.0:32777->433/tcp, :::32777->433/tcp                                                                      $NAME-web2
+    a39caa99adf0   nginxinc/ingress-demo                                               "/docker-entrypoint.…"   4 hours ago    Up 4 hours   0.0.0.0:32775->80/tcp, :::32775->80/tcp, 0.0.0.0:32774->443/tcp, :::32774->443/tcp                                                                               $NAME-web3
+    173bab90ecfa   nginxinc/ingress-demo                                               "/docker-entrypoint.…"   4 hours ago    Up 4 hours   0.0.0.0:32778->80/tcp, :::32778->80/tcp, 0.0.0.0:32776->443/tcp, :::32776->443/tcp                                                                               $NAME-web1
+    cc9ba360acff   prom/prometheus                                                     "/bin/prometheus --c…"   4 hours ago    Up 4 hours   0.0.0.0:9090->9090/tcp, :::9090->9090/tcp                                                                                                                        prometheus
+    7bb2da3684cd   grafana/grafana                                                     "/run.sh"                4 hours ago    Up 4 hours   0.0.0.0:3000->3000/tcp, :::3000->3000/tcp                                                                                                                        grafana
 
-```
+    ```
 
 1. Using the One Console, find your `<$NAME>-nginx-plus` under Manager > Instance.  Click on the name, Configuration, then Edit your `nginx.conf` file, you will make 2 changes.
 
