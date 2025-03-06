@@ -4,7 +4,7 @@
 
 In this lab, you will be exploring the integration between NGINX Plus, Prometheus and Grafana.
 
-This Solution requires the use of the NGINX provided Javascript and Prometheus modules to collect metrics from the NGINX Plus API, and export those metrics as an HTTP html/text page, commonly called the `scaper page` because it scrapes statistics for publication.  The metrics on this export page are then read and imported into Prometheus and Grafana's time-series database.  Once these metrics are in the database, you can create many different Dashboards, set Thresholds, Alerts, and other types of graphs for Visualization and Reporting.  As you can imagine, there are literally hundreds of Grafana dashboards written by users of NGINX that you can try out for free.  Grafana also allows you to create and edit your own Dashboards.
+This Solution requires the use of the NGINX provided Javascript and Prometheus modules to collect metrics from the NGINX Plus API, and export those metrics as an HTTP html/text page, commonly called the `scaper page` because it scrapes statistics for publication.  The metrics on this export page are then read and imported into a Prometheus time-series database.  Once these metrics are in the database, you can use Grafana to create many different Dashboards, set Thresholds, Alerts, and other types of graphs for Visualization and Reporting.  As you can imagine, there are literally hundreds of Grafana dashboards written by users of NGINX that you can try out for free.  Grafana also allows you to create and edit your own Dashboards.  You will enable Prometheus on Nginx, and use Docker containers to collect and display Nginx metrics.
 
 NGINX Plus | Prometheus | Grafana
 :-------------------------:|:-------------------------:|:-----:
@@ -14,7 +14,7 @@ NGINX Plus | Prometheus | Grafana
 
 By the end of the lab you will be able to:
 
-- Enable and configure NGINX Java Script
+- Enable and configure NGINX Javascript (NJS)
 - Create Prometheus Exporter configuration
 - Test the Prometheus Server
 - Test the Grafana Server
@@ -89,7 +89,7 @@ cc9ba360acff   prom/prometheus                                                  
 
 ```
 
-1. Using the One Console, find your `<$NAME>-nginx-plus` Instance.  Click on the name, Configuration, then Edit your `nginx.conf` file, you will make 2 changes.
+1. Using the One Console, find your `<$NAME>-nginx-plus` under Manager > Instance.  Click on the name, Configuration, then Edit your `nginx.conf` file, you will make 2 changes.
 
     - Uncomment Line #8 to enable the `ngx_http_js_module` module.
     - Uncomment Line #37 to set a parameter for an NGINX buffer called `subrequest_output_buffer_size`.
@@ -98,7 +98,7 @@ cc9ba360acff   prom/prometheus                                                  
     ...snip
 
     user  nginx;
-    worker_processes  auto;
+    worker_processes  1;
 
     error_log  /var/log/nginx/error.log info;
     pid        /var/run/nginx.pid;
@@ -121,9 +121,9 @@ cc9ba360acff   prom/prometheus                                                  
 
     ```nginx
     # NGINX Plus Prometheus configuration, for HTTP scraper page
-    # Chris Akker, Shouvik Dutta - Feb 2024
+    # Chris Akker, Shouvik Dutta, Adam Currier - Mar 2025
     # https://www.nginx.com/blog/how-to-visualize-nginx-plus-with-prometheus-and-grafana/
-    # Nginx Basics
+    # Nginx One
     #
     # Uncomment all lines below
     js_import /usr/share/nginx-plus-module-prometheus/prometheus.js;
@@ -148,10 +148,10 @@ cc9ba360acff   prom/prometheus                                                  
 
 1. After your edits are completed, click Next and Publish your changes to enable Prometheus NJS and the scraper page on port 9113.
 
-1. Start the WRK load generation tool.  This will provide some traffic to the $NAME-nginx-plus container, so the statistics will be increasing.  You may have to change $NAME to your name, like `http://s.jobs-nginx-plus/coffee'.
+1. Start the WRK load generation tool.  This will provide some traffic to the $NAME-nginx-plus container, so the statistics will be increasing.  You may have to change $NAME to your name, like `s.jobs-nginx-plus'.
 
     ```bash
-    docker run --name wrk --network=lab7_default --rm elswork/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s http://$NAME-nginx-plus/coffee
+    docker run --name wrk --network=lab7_default --rm elswork/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s http://s.jobs-nginx-plus/coffee
 
     ```
 
