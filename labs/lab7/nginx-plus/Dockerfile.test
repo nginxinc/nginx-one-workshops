@@ -5,18 +5,19 @@
 FROM private-registry.nginx.com/nginx-plus/agent:r32
 COPY --from=private-registry.nginx.com/nginx-plus/modules:r32-prometheus-debian usr/ /usr/
 #
-# Download the apt configuration to `/etc/apt/apt.conf.d`:
-RUN wget -P /etc/apt/apt.conf.d https://cs.nginx.com/static/files/90pkgs-nginx
 #
 # Install prerequisite packages:
 RUN apt-get update && apt-get install -y apt-transport-https lsb-release ca-certificates curl wget gnupg2 net-tools vim tree openssl jq
 #
+# Download the apt configuration to `/etc/apt/apt.conf.d`:
+RUN wget -P /etc/apt/apt.conf.d https://cs.nginx.com/static/files/90pkgs-nginx
+#    
 # Copy certificate files and dhparams
-COPY etc/ssl /etc/ssl
+# COPY etc/ssl /etc/ssl
 #
 # COPY /etc/nginx (Nginx configuration) directory
 COPY etc/nginx /etc/nginx
-RUN chown -R nginx:nginx /etc/nginx \
+RUN chown -R nginx:nginx /etc/nginx
 # # Forward request logs to Docker log collector:
 # && ln -sf /dev/stdout /var/log/nginx/access.log \
 # && ln -sf /dev/stderr /var/log/nginx/error.log \
