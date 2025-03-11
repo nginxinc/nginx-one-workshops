@@ -315,13 +315,13 @@ Grafana is a popular data visualization tool, which can link to a time-series da
     ```bash
     ##Sample output##
     Running 5/5
-    Container nginx-plus         Removed
-    Container web2               Removed
-    Container prometheus         Removed
-    Container web3               Removed
-    Container web1               Removed
-    Container grafana            Removed                            
-    Network lab7_default         Removed
+    Container s.jobs-nginx-plus         Removed
+    Container s.jobs-web2               Removed
+    Container prometheus                Removed
+    Container s.jobs-web3               Removed
+    Container s.jobs-web1               Removed
+    Container grafana                   Removed                            
+    Network lab7_default                Removed
 
     ```
 
