@@ -1,3 +1,7 @@
+# Prometheus config file
+# Chris Akker, Shouvik Dutta, Adam Currier - Mar 2025
+# prometheus.yml
+#
 global:
   scrape_interval: 15s 
   
@@ -10,4 +14,4 @@ scrape_configs:
     scrape_interval: 5s
 
     static_configs:
-      - targets: ['nginx-plus:9113']  # NGINX Plus container
+      - targets: ['nginx-plus:9113']   # NGINX Plus container
