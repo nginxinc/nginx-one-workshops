@@ -104,4 +104,4 @@ That wraps the pre-requisites.
 
 -------------
 
-Navigate to ([Lab1](../lab1/readme.md) | [Main Menu](../readme.md))
+Navigate to ([Lab1](../lab1/readme.md) | [LabGuide](../readme.md))

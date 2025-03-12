@@ -155,11 +155,6 @@ For this lab you will run 4 Docker containers.  The first one will be used as an
     ```
 
     ```bash
-    curl -s http://localhost |grep Hostname
-
-    ```
-
-    ```bash
     ## Sample outputs ##
 
       <p class="smaller"><span>Server Name:</span> <span>s.jobs-web1</span></p>  # web1
@@ -884,7 +879,7 @@ Different backend applications may benefit from using different load balancing t
 
     ```bash
     ##Sample output##
-    Running 1m test @ http://s.jobs-nginx-plus/coffee
+    Running 1m test @ http://nginx-plus/coffee
     4 threads and 200 connections
     Thread Stats   Avg      Stdev     Max   +/- Stdev
         Latency   170.33ms  130.60ms   1.38s    60.66%
@@ -934,7 +929,7 @@ Different backend applications may benefit from using different load balancing t
 
     ```bash
     ##Sample output##
-    Running 1m test @ http://s.jobs-nginx-plus/coffee
+    Running 1m test @ http://nginx-plus/coffee
     4 threads and 200 connections
     Thread Stats   Avg      Stdev     Max   +/- Stdev
         Latency    41.68ms   29.71ms 434.89ms   91.38%
@@ -1090,7 +1085,7 @@ Different backend applications may benefit from using different load balancing t
 
     ```bash
     ##Sample output##
-    Running 1m test @ http://s.jobs-nginx-plus/coffee
+    Running 1m test @ http://nginx-plus/coffee
     4 threads and 200 connections
     Thread Stats   Avg      Stdev     Max   +/- Stdev
         Latency    32.27ms   25.45ms 482.19ms   83.75%
