@@ -1,4 +1,4 @@
-# NGINX Plus Logs, Logging and Troubleshooting
+# NGINX Plus Logs, Health Checks and API
 
 ## Introduction
 
@@ -252,7 +252,7 @@ In this section, you will enable active Plus Healthchecks. Active healthchecks p
 1. NGINX also records health check failures in the `/var/log/nginx/error.log` file which is symlinked to `/dev/stderr` within our docker setup. If you run below command you can see the error.log content.
 
     ```bash
-    docker log $NAME-nginx-plus
+    docker logs $NAME-nginx-plus
 
     ```
 
@@ -291,7 +291,7 @@ In this section, you will manage your backend servers dynamically using the NGIN
 1. Start the `wrk` load generation tool by downloading and running the following docker container.
 
    ```bash
-    docker run --network=lab5_default --rm elswork/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s http://$NAME-nginx-plus/coffee
+    docker run --network=lab5_default --rm elswork/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s http://nginx-plus/coffee
 
    ```
 

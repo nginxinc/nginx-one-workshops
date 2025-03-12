@@ -69,8 +69,8 @@ Choose one of the [Lab 0: Workshop pre-work](#lab-0-workshop-pre-work-choose-any
 ### Lab 5: NGINX Reverse Proxy and HTTP Load Balancing
 - [Lab 5: NGINX Reverse Proxy and HTTP Load Balancing](lab5/readme.md)
 
-### Lab 6: NGINX Plus Logs, Logging and Troubleshooting
-- [Lab 6: NGINX Plus Logs, Logging and Troubleshooting](lab6/readme.md)
+### Lab 6: NGINX Plus Logs, Health Checks and API
+- [Lab 6: NGINX Plus Logs, Health Checks and API](lab6/readme.md)
 
 ### Lab 7: Monitoring NGINX Plus with Prometheus and Grafana
 - [Lab 7: Monitoring NGINX Plus with Prometheus and Grafana](lab7/readme.md)
