@@ -874,7 +874,7 @@ Different backend applications may benefit from using different load balancing t
     `wrk` load generation tool is a docker container that will download and run, with 4 threads, at 200 connections, for 1 minute:
 
     ```bash
-    docker run --name wrk --network=lab5_default --rm elswork/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://$NAME-nginx-plus/coffee
+    docker run --name wrk --network=lab5_default --rm elswork/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://nginx-plus/coffee
 
     ```
 
@@ -950,7 +950,7 @@ Different backend applications may benefit from using different load balancing t
 
     ![Cafe with Keepalive](media/lab5_cafe-perf-keepalive.png)
 
-    >But this points out a very important concept to be aware of: NGINX uses HTTP/1.0 to all upstreams by default.  HTTP/1.0 is limited to a single TCP connection for a single HTTP object on the web page.  If you have hundreds of web objects, you will need hundreds of TCP connections.  This is a large waste of time and resources, so adding TCP Keepalives and HTTP/1.1 will make a significant improvement in performance in most cases.
+    >**But this points out a very important concept to be aware of: NGINX uses HTTP/1.0 to all upstreams by default.**  HTTP/1.0 is limited to a single TCP connection for a single HTTP object on the web page.  If you have hundreds of web objects, you will need hundreds of TCP connections.  This is a large waste of time and resources, so adding TCP Keepalives and HTTP/1.1 will make a significant improvement in performance in most cases.
 
     <br/>
 
@@ -989,7 +989,7 @@ Different backend applications may benefit from using different load balancing t
 1. For a fun test, hit it again with `wrk`...what do you observe?  Do admin weights help or hurt performance?  
 
     ```bash
-    docker run --name wrk --network=lab5_default --rm elswork/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://$NAME-nginx-plus/coffee
+    docker run --name wrk --network=lab5_default --rm elswork/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://nginx-plus/coffee
 
     ```
 
@@ -1053,7 +1053,7 @@ Different backend applications may benefit from using different load balancing t
 1. You should now have `4 workers`, `least_time last_byte` and `keepalive` **enabled**.  Run the `wrk` load generation tool again. **CRANK IT UP!**
 
     ```bash
-     docker run --name wrk --network=lab5_default --rm elswork/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://$NAME-nginx-plus/coffee
+     docker run --name wrk --network=lab5_default --rm elswork/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://nginx-plus/coffee
     ```
 
     Within the `$NAME-nginx-plus` container, run `top` to see the NGINX Workers at work.  Should look something like this:
@@ -1083,7 +1083,7 @@ Different backend applications may benefit from using different load balancing t
 1. Run the `wrk` load generator again for 1 minute.
 
     ```bash
-     docker run --name wrk --network=lab5_default --rm elswork/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://$NAME-nginx-plus/coffee
+     docker run --name wrk --network=lab5_default --rm elswork/wrk -t4 -c200 -d1m -H 'Host: cafe.example.com' --timeout 2s http://nginx-plus/coffee
     ```
 
    After the 1 minute run of `wrk` load generation tool has finished, you should see a Summary of the statistics.  It should look similar to this:
