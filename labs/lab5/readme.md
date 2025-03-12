@@ -1220,7 +1220,7 @@ With NGINX, there are several configuration options for this, but in this next l
 
 1. If you need to find the `answers` to the lab exercises, you will find the final NGINX configuration files for all the exercises in the `labs/lab5/final` folder.  Use them for reference to compare how you completed the labs.
 
-1. If you are finished with this lab move to the next lab. Please donot shut down your test environment as you would be using the same environment in lab6.
+1. If you are finished with this lab move to the next lab. Please do not shut down your test environment as you would be using the same environment in Lab6.
 
 **This completes Lab5.**
 
