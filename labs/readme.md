@@ -75,8 +75,8 @@ Choose one of the [Lab 0: Workshop pre-work](#lab-0-workshop-pre-work-choose-any
 ### Lab 7: Monitoring NGINX Plus with Prometheus and Grafana
 - [Lab 7: Monitoring NGINX Plus with Prometheus and Grafana](lab7/readme.md)
 
-### Lab 8: Upgrade Dataplane NGINX Plus Instances to R33
-- [Lab 8: Upgrade Dataplane NGINX Plus Instances to R33](lab8/readme.md)
+### Lab 8: NGINX Instance Manager and Upgrading NGINX Plus Instances to R33
+- [Lab 8: NGINX Instance Manager and Upgrading NGINX Plus Instances to R33](lab8/readme.md)
 
 
 <br/>
