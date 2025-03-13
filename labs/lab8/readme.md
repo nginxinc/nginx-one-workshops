@@ -46,15 +46,39 @@ ubuntu@nim:~/Documents/nginx-one-workshops/labs/lab8$
 Download your NGINX One .jwt, .crt and .key files from MyF5 and place into the nginx-plus folder as outlined below. You may need to rename them. If you are using the F5 UDF Lab environment, these files have been placed there ahead of time, please confirm they are present on your system.
 
 ```bash
-tree nginx-plus
-
+ubuntu@nim:~/Documents/nginx-one-workshops/labs/lab8$ tree nginx-plus
 nginx-plus
 ├── etc
-│   └── license.jwt
+│   ├── license.jwt
+│   └── nginx
+│       ├── conf.d
+│       │   ├── cafe.example.com.conf
+│       │   ├── dashboard.conf
+│       │   ├── default.conf
+│       │   ├── status_ok.conf
+│       │   └── upstreams.conf
+│       ├── includes
+│       │   ├── keepalive.conf
+│       │   ├── log_formats
+│       │   │   └── main_ext.conf
+│       │   └── proxy_headers.conf
+│       └── nginx.conf
 ├── nginx-repo.crt
-└── nginx-repo.key
+├── nginx-repo.key
+└── usr
+    └── share
+        └── nginx
+            └── html
+                ├── dashboard.html
+                ├── gtr.html
+                ├── gtr.jpg
+                ├── index.html
+                ├── nsx.html
+                ├── nsx.jpg
+                ├── rcf.html
+                └── rcf.jpg
 
-1 directory, 3 files
+9 directories, 20 files
 ```
 
 With the license files in place we will now register our docker engine with the private NGINX registry so that we are authorized to pull official docker images from it. Use the following command:
@@ -177,9 +201,12 @@ You'll see there is a button to `Enable Continuous Connection` which sends the u
 
 # Stand up a NGINX Plus instance on R32
 
-As a lab exercise we will create an NGINX instance that is pinned to R32. This will show you how some environments are set up (who weren't ready to move to the R33 release). From the jumphost you can use the terminal to get to the command line to do an install. You can also use Webshell to the Nplus server of RDP directly to it. No matter how you connect, let's run the following commands:
+As a lab exercise we will create an NGINX instance that is pinned to R32. This will show you how some environments are set up (who weren't ready to move to the R33 release). From the jumphost you can use the terminal to get to the command line to do an install. You can also use Webshell to the Nplus server or RDP directly to it. From the VS Studio Terminal window, run the following commands.
+
+**Note: If you are using the F5 UDF environment, these files have been placed there ahead of time for your convenience and you can continue below without doing the next step.
 
 ```bash
+ssh nplus
 cd ~/Documents
 
 sudo mkdir -p /etc/nginx/
@@ -188,7 +215,8 @@ sudo cp /license/license.jwt /etc/nginx/license.jwt
 sudo mkdir -p /etc/ssl/nginx
 sudo cp /license/nginx-repo.* /etc/ssl/nginx/
 ```
-If you are using the3 F5 UDF environment, these files have been placed there ahead of time for your convenience and you can continue below without doing the above step.
+
+With the cert and key in place we can go ahead with the install. Let's do the pre-work:
 
 ```bash
 sudo apt update
@@ -215,7 +243,7 @@ https://pkgs.nginx.com/plus/ubuntu jammy nginx-plus"
 https://pkgs.nginx.com/plus/R32/ubuntu jammy nginx-plus"
 ```
 
-Now run the commands to install NGINX Plus:
+Run the commands to install NGINX Plus:
 
 ```bash
 sudo wget -P /etc/apt/apt.conf.d https://cs.nginx.com/static/files/90pkgs-nginx
@@ -240,40 +268,41 @@ sudo systemctl start nginx
 
 # Create an Instance Group on NIM
 
-Now that NGINX Plus is installed, let's go back to the jumphost and log into the NIM console. Open Chrome and go to (https://10.1.1.5 credentials are: admin/admin)
+Now that NGINX Plus is installed, let's go back to the jumphost and log into the NIM console. Open Chrome and go to (https://10.1.1.5 credentials are: admin/admin)/
+
+From the left menu select Instance Groups then Add.  Fill out the Name as you have been fo r the earlier labs, the Gisplay NAme can be anything you want, as is the description (feel free to modify these).
 
 ![NIM Instance Group](media/nim-ig-screen-1.png)
 
+After you save the instance group, we need to connect the instance to this Instance Group in NIM
 
-![NIM Instance Group](media/nim-ig-screen-2.png)
+
 
 ## Install NGINX agent and add NGINX Plus to NIM
 
-In the NIM Console, click on the Instances menu in the left hand side.  You will notice it gives you the instructions to run on your NGINX instance machine, to add agent and register it. The command it shows us in the screenshot is:
+In the NIM Console, click on the Instances menu in the left hand side. You will notice it gives you the instructions to run on your NGINX instance machine, to add agent and register it. 
+
+![NIM Agent Install](media/nim-agent-install.png)
+
+The command it shows us in the screenshot is:
 
 ```bash
-curl -k https://10.1.1.5/install/nginx-agent | sudo sh
+curl https://10.1.1.5/install/nginx-agent | sudo sh
 ```
 
-We need to get terminal access to teh NPlus machine.  We can use XRDP, WebShell, or from the VS Studio terminal issue this command:
+We need to get terminal access to the NPlus machine. The easiest method is to open VS Studio terminal and issue this command:
 
 ```bash
 ssh nplus
 ```
 
-We are going to modify the curl command. When this test nginx instance gets added we want it to go directly into the NIM Instance Group without doing anything extra. To do that, we modify the single curl command to two lines that look like:
-
-```bash
-curl -k https://10.1.1.5/install/nginx-agent > install.sh
-sudo sh ./install.sh --instance-group s.jobs-nginx-plus
-```
-
-We will verify this in the NIM console, but before we leave this system, you can see that it added one line to the /etc/nginx-agent/agent-dynamic.conf file:
+We can get this instance to go into a NIM Instance Group with a small config change. We can add one line to the config /etc/nginx-agent/agent-dynamic.conf file:
 
 ```bash
 cd  /etc/nginx-agent 
-cat agent-dynamic.conf 
+sudo vi agent-dynamic.conf 
 ```
+add the following line to the bottom of the file (use your name in place of s.jobs meaning the one you used for the group above):
 
 ```bash
     instance_group: s.jobs-nginx-plus
@@ -291,34 +320,35 @@ Similar to how One Console handles things, when the first instance is added to a
 > [!IMPORTANT]  
 > We are going to talk about air-gapped systems in a little bit which affect how you install and report usage to F5. First let's introduce some other scenarios into NIM instance groups.
 
-
-We have an Instance Group, let's discover the instances that we can place into it. In the left hand menu you will see a `Scan` button.  Clicking on that brings up the discovery interface.  Here we will search by ip address/subnet to find any instances that we can manage.
-
-We have a systems(s) added to the resource group, let's show how we can push out config changes and even new files. To do an upgrade on an R32 system, there needs to be a license.jwt file placed in the /etc/nginx folder. This prevents accidental upgrades to R33 or later from happening. Putting the file in place we can then go and upgrade each system.
+We have a system added to the instance group, let's show how we can push out config changes and even new files. To do an upgrade on an R32 system, there needs to be a license.jwt file placed in the /etc/nginx folder. This prevents accidental upgrades to R33 or later from happening. Putting the file in place we can then go and upgrade each system. In the next section let's show how we can get R33 into a docker environment and upgrade our installed `nplus` instance.
 
 # Install an R33 instance.
 
 Release 33 of NGINX now requires NGINX Agent to be installed along with a license for NGINX One (Not to be confused with the NGINX One Console we are working with today). It is not as painful as some have been led to believe. Let's add a new R33 instance to our lab setup.
 
-First we need the NGINX One `license.jwt` file which you can get from [my.f5.com](https://my.f5.com). Create a new file in the lab8 folder called `license.jwt` and paste the contents into it. If you are in the F5 UDF environment, this has been done for you. Add that to a CLI variable as you did with the original JWT token:
+First we need the NGINX One `license.jwt` file which you can get from [my.f5.com](https://my.f5.com). Create a new file in the lab8 folder called `license.jwt` and paste the contents into it. If you are in the F5 UDF environment, this has been done for you. The JWT token should still be set from the earlier lab, but you can check it.  If it is not there, add that to a CLI variable as you did with the original JWT token:
 
 ```bash
+echo $JWT
+# If the result is empty, set it the JWT variable again. 
 export JWT=$(cat license.jwt)
-# We just updated the JWT variable to the R33 JWT file. Confirm the other two variables are still set:
+
+#Confirm the other two variables are still set:
 echo $NAME
 echo $TOKEN
+
 # If they are not set, go ahead and set them again:
 export NAME=s.jobs
 export TOKEN=<insert the token key for One Console that you used previously>
 ```
 
-As we updated the JWT token, we need to login to docker with the new credentials:
+If you updated the JWT token, you will need to login to docker again.  skip if everything was still set from before:
 
 ```bash
 docker login private-registry.nginx.com --username=$JWT --password=none
 ```
 
-In this lab we re-use a docker-compose.yml file from lab2 to deploy our containers and register with the One Console. This time we will now add an R33 (latest) version of the NGINX Plus container. Open the docker-compose file in VS Code.
+In this portion of the lab we re-use a docker-compose.yml file from lab2 to deploy our containers and register with the One Console. This time we will now add an R33 (latest) version of the NGINX Plus container. Open the docker-compose file in VS Code.
 
 ```bash
 vi lab8/docker-compose.yml
@@ -331,7 +361,7 @@ Starting on line 74 let's enter this block of code:
 ```bash
 plus4: # Debian R33 NGINX Plus Web / Load Balancer
     environment:
-      NGINX_AGENT_SERVER_HOST: '10.1.1.5'
+      NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
       NGINX_LICENSE_JWT: $JWT
@@ -350,14 +380,15 @@ plus4: # Debian R33 NGINX Plus Web / Load Balancer
       - '9000' # Open for API / Dashboard page
       - '9113' # Open for Prometheus Scraper page
     restart: always
-	#
+  #
 ```
 
-Save your edits. You'll notice a couple of changes from the other blocks (besides the name). The first is the environment variable called `NGINX_LICENSE_JWT: $JWT` This is what authorizes the pulling of this specific image. The second change is the image name `private-registry.nginx.com/nginx-plus/agent:debian` which pulls the NGINX Plus with Agent installed. We will be able to see this in the One Console once deployed.
+Save your edits. You'll notice a couple of changes from the other blocks (besides the name). The first is the environment variable called `NGINX_LICENSE_JWT: $JWT` This is what authorizes the pulling of this specific image. The second change is the image name `private-registry.nginx.com/nginx-plus/agent:debian` which pulls the debian version of the NGINX Plus with Agent installed. We will be able to see this in the One Console once deployed.
 
-Now that this file is edited, save it and let's restart the containers. Issue the following commands:
+Now that this file is edited, save it and let's restart the containers. Let's generate the certs as we did in lab2, then issue the following commands:
 
 ```bash
+bash generate_certs.sh
 docker compose down
 docker compose up --force-recreate -d
 ```
@@ -392,8 +423,6 @@ Make sure you aren't too aggressive with the auto cleanup as sometimes it is goo
 </details>
 
 
-
-
 Now that we cleaned things up we can see the plus4 instance in our `Instances` interface.  
 
 ![NGINX Plus](media/r33-plus4-deployed.png)
@@ -402,28 +431,111 @@ If we click on the instance name, now we can see the NGINX version as well as th
 
 ![NGINX Plus](media/r33-plus4-with-agent.png)
 
-That's how easy it is to deploy an R33 instance and have it registered with One Console. Using A/B testing practices, you can move the traffic from and R332 container to the R33 instance.  We can now clean up the One Console environment by issuing:
+That's how easy it is to deploy an R33 instance and have it registered with One Console. Using A/B testing practices, you can move the traffic from and R332 container to the R33 instance. We can now clean up the One Console environment by issuing:
 
 ```bash
 docker compose down
 ```
 
-# Upgrade NGINX Plus from R32 to R33
-What about upgrading a non container NGINX instance?  Let's take the previous R32 install we had and upgrade it.  This time through the NIM console.
+# Upgrade NGINX Plus from R32 to R33 - Part Two
+What about upgrading a non-container NGINX instance? Let's take the previous R32 install we had and upgrade it. This time we will do it through the NIM console.
 
- - Login to system
- - Confirm license file was pushed via console
- - Check apt source (to make sure it wasn't pinned)
- - Upgrade to R33
- - Confirm in NIM that the system was upgraded.
+On the `nplus` system there is a directory for the NGINX One license files. The path is `~/Downloads/license`
 
+In the UDF environment, the files are already there. Login to the Jumphost system and check via the Visual Studio terminal:
+
+```bash
+cd Downloads/
+tree license/
+```
+
+```bash
+#Sample Output
+license/
+├── license.jwt
+├── nginx-repo.crt
+└── nginx-repo.key
+
+0 directories, 3 files
+```
+In the NIM Console, accessed through Chrome (https://10.1.1.5 credentials are: admin/admin) we will create a new file.
+
+Pull up the Instance Group  - we can see there is one Instance (nplus) that is in the group.  
+
+![NGINX Plus](media/nim-ig-screen-3.png)
+
+Click on the group name and it will bring up the config. This was the initial config pulled from the first instance that was added. We can add our own files to this and we will now.  Click on the `+ Add File` button.
+
+![NGINX Plus](media/nim-upgrade-1.png)
+
+The upgrade license file needs to be put in a certain location which is `/etc/nginx/license.jwt`. Type in that file name (including the path) and hit the green `Create` button.
+
+![NGINX Plus](media/nim-upgrade-2.png)
+
+Copy the value from the ~/Downloads/license/license.jwt and enter it into this file in the NIM file. Click the `Publish` button.
+
+![NGINX Plus](media/nim-upgrade-3.png)
+
+This will bring up a confirmation screen and we will select the green `Publish` button.
+
+![NGINX Plus](media/nim-upgrade-4.png)
+
+On pressing Publish, that file was pushed out to the remote system. Let's confirm that.
+
+![NGINX Plus](media/nim-upgrade-5.png)
+
+In Visual studio terminal, you should still be on the `nplus` system.  If not, do a `ssh nplus` and then we can check to see if the license file is there:
+
+![NGINX Plus](media/nim-upgrade-6.png)
+
+This can be a huge help in the upgrade process, as we can put 100's of instances into the instance group, then push the license.jwt file out to all of them automatically making them ready for an upgrade. Let's go ahead and upgrade the instance as we are on the server already. For our example, we pinned the release to R32.  When upgrading a system, you will not be sure if the system was pinned, so let's check:
+
+![NGINX Plus](media/nim-upgrade-7.png)
+
+This URL does contains R32, so it is pinned.  Let's remove that:
+
+![NGINX Plus](media/nim-upgrade-8.png)
+
+Save this file once edited.
+
+![NGINX Plus](media/nim-upgrade-9.png)
+
+Now we can do an upgrade:
+
+```bash
+sudo apt update
+sudo apt upgrade nginx-plus
+```
+
+Confirm in NIM that the system was upgraded. Click on the `Instances` menu on the left-hand side and you will see the instance was upgraded:
+
+![NGINX Plus](media/nim-upgrade-10.png)
+
+There is a lot more to cover with NIM and metrics, etc. It was noted previously that the reporting requirement for being offline would be covered. Here are the basics of reporting from your NIM instance - we will presume the instance has internet access even if the nginx instance do not.
+
+Once a system is upgraded to R33, configure it for usage report.
+
+You can do this via NIM - edit the file nginx.conf in the NIM interface:
+
+We are going uncomment the block at the bottom of the page. Without comments it is simply:
+
+```bash
+mgmt {
+  usage_report endpoint=10.1.1.5;
+}
+```
+
+With the comments we see in the existing file, uncomment lines 60, 61 & 75.
+
+![NGINX Plus](media/nim-metrics-1.png)
+
+You will now be able to send your R33 Telemetry to F5 with the automatic submission previously set in this lab. For offline environments, please refer to docs.nginx.com for the current methodology. A future lab will cover that scenario and some of the advanced features of NIM/
 
 
 **This completes Lab8.**
 
 ## References
 
-- [NGINX Instance Manager Docs](https://docs.nginx.com/nginx-instance-manager)
 
 
 ### Authors
@@ -434,4 +546,4 @@ What about upgrading a non container NGINX instance?  Let's take the previous R3
 
 -------------
 
-Navigate to ([LabGuide](../readme.md))
+Navigate to ([Lab8](../lab8/readme.md) | [Main Menu](../readme.md))
