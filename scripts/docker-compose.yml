@@ -1,0 +1,19 @@
+# NGINX One Workshop, Dec 2024
+# Chris Akker, Shouvik Dutta, Adam Currier
+# User Management Script run
+#
+services:
+  csv_api_container:
+    build: .
+    container_name: csv_api_container
+    volumes:
+      - ./csv_files/input.csv:/app/input.csv
+      - ./csv_files/adhoc.csv:/app/adhoc.csv
+    restart: on-failure
+    environment:
+      AUTH_TOKEN: $API_TOKEN
+      REQUEST: add              # Change to 'add' or 'update' or 'delete'
+      MODE: adhoc            # Change to 'single' or 'multiple' or 'adhoc'
+      FIRSTNAME: Steve        # Only used if MODE=single
+      LASTNAME: Jobs           # Only used if MODE=single
+      EMAIL: s.jobs@sjobs.com  # Only used if MODE=single
