@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this lab, you will use NGINX One Console and explore various features within NGINX One Console. You will then dive deep into those features and explore further.  You will even ask the One Console AI Assistant to help you with Nginx directives, variables, and best practices.
+In this lab, you will use NGINX One Console and explore various features within NGINX One Console. You will then dive deep into those features and explore further.  You will also use the NGINX One AI Assistant to help you with Nginx directives, variables, and best practices.
 
 <br/>
 
