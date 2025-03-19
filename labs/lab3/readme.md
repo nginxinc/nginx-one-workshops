@@ -43,11 +43,15 @@ Within NGINX One Console service, click on the Overview Dashboard, to see the Su
 - Network Throughput metrics
 - Summary of HTTP 400/500 Response Codes
 
+<br/>
+
 ### Availability
 
 This Panel is pretty self explanatory, which of your NGINX Instances is online and communicating with the Console. Click on the `Online, Offline, or Unavailable` links for more details. You can add a `Filter` to assist with sorting/displaying your Instances. Notice there is a `Last Reported Time` column, so you know when the instance last did a handshake with the Console. Under `Actions`, you can go directly to the Configuration tool, or Delete the Instance.
 
 ![NGINX Availability](media/lab3_none-availability.png)
+
+<br/>
 
 ### NGINX Versions
 
@@ -55,11 +59,15 @@ This Panel shows a Summary of which NGINX Versions are in use and by how many in
 
 ![NGINX versions](media/lab3_none-nginx-versions.png)
 
+<br/>
+
 ### Operating Systems
 
 This Panel shows a Summary of which Linux Distros are in use and by how many instances. Sure, you could write YABS - yet another bash script - to SSH into every Instance, and query `uname` and collect the versions yourself ... but why not use the Console's Easy Button instead? As the number of people, teams, and projects grow using NGINX, the OS Version sprawl can become an issue. The Console lets you see this level of detail quite easily. And it makes it easy to find Linux versions that may not be approved by Security for Production, or need a patch applied.
 
 ![Linux versions](media/lab3_none-linux-versions.png)
+
+<br/>
 
 ### Certificates Overview
 
@@ -67,11 +75,15 @@ This Panel shows a Summary of the TLS Certificate expiration Status, using each 
 
 ![Certs](media/lab3_none-certs.png)
 
+<br/>
+
 ### Configuration Recommendations Overview
 
 This Panel shows some possible improvements that could be made to your current running NGINX configs. Some are Security related, or an Optimization, or a Best Practice from the experts that built NGINX. Clicking on each of these will give you additional details and provide an easy way to edit / update your NGINX configs. You will do this in the next Exercise.
 
 ![Config recommendations](media/lab3_none-config-recommendations.png)
+
+<br/>
 
 ### CVEs Overview
 
@@ -79,11 +91,13 @@ This Panel is a great tool to show you the CVEs that you might have in your NGIN
 
 ![CVEs](media/lab3_none-cves.png)
 
-Click on your `$NAME-plus2` Instance, you should see a list of all the CVEs identified by NGINX One Console CVE scanner. NOTE: *This list may not include ALL CVEs*, rather just the list that NGINX One Console knows about at the time of the last scan.
+Click on your `$NAME-plus1` or `$NAME-plus2` Instance, you should see a list of all the CVEs identified by NGINX One Console CVE scanner. NOTE: *This list may not include ALL CVEs*, rather just the list that NGINX One Console knows about at the time of the last scan.
 
 Plus1 | Plus2
 :-------------------------:|:-------------------------:
 ![Container CVEs](media/lab3_plus1-cves.png) | ![Container CVEs](media/lab3_plus2-cves.png)
+
+<br/>
 
 ### CPU, RAM, Disk Utilization
 
@@ -94,11 +108,15 @@ CPU | RAM | Disk
 :-------------------------:|:-------------------------:|:---------------:
 ![Cpu](media/lab3_none-cpu.png) | ![Ram](media/lab3_none-ram.png) | ![Disk](media/lab3_none-disk.png)
 
+<br/>
+
 ### Unsuccessful Response Codes
 
 The NGINX Agent scans the Access logs and summarizes the number of 4xx and 5xx HTTP Return codes found, and reports this information to the NGINX One Console. There is `Time Selector` and a `See All` button for this Panel as well.
 
 ![Response Codes](media/lab3_none-response-codes.png)
+
+<br/>
 
 ### Top Network Usage
 
@@ -251,7 +269,7 @@ Ok, so now what?? You can fix all these. Just Click the `Edit Configuration` Pen
 
     >How cool is that?
 
-    >>But wait, you have an `Open Support Ticket for a Slow Server`, you wonder... can the NGINX AI Assitant help me with NGINX Logging?  YES IT CAN!!
+    >>But wait a sec, you have an `Open Support Ticket for a Slow Server`, you wonder... can the NGINX AI Assitant help me with NGINX Logging?  YES IT CAN!!
 
     Check out the Extended logging format, found in the `/etc/nginx/includes/log_formats/main_ext.conf` file.  What do you find - several `$upstream` logging variables? Now highlight `$upstream_response_time` and Click AI Assistant.  A detailed explanation of this logging variable is at your fingertips.
 
