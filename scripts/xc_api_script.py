@@ -80,6 +80,7 @@ def process_single_user():
         sys.exit(1)
     make_api_call(firstname, lastname, email)
 
+# Function to test max users that can be added/deleted
 def test_max_users():
     for i in range(20):
         email = "s.jobs+" + str(i) + "@sjobs.com"
