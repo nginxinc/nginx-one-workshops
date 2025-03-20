@@ -217,8 +217,8 @@ Fix the Expired Certificate! If you want to create a new certificate, say with a
     ...
     # Update the following 2 lines for NGINX cert and key directives and file locations
 
-        ssl_certificate /etc/ssl/nginx/s.jobs-91.crt;
-        ssl_certificate_key /etc/ssl/nginx/s.jobs-91.key;
+        ssl_certificate /etc/ssl/nginx/s.jobs-91-day.crt;
+        ssl_certificate_key /etc/ssl/nginx/s.jobs-91-day.key;
 
     ...
 
