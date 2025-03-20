@@ -263,9 +263,9 @@ One of the Best Features of the NGINX ONE Console is the Configuration analysis 
 
     This security recommendation suggests you to consider adding an ACL to the stub_status module, which provides metrics about your NGINX instance. With no access list defined, anyone can see it.
 
-    But...what IS `stub_status` ?  Use the NGINX AI Assistant to tell you all about it. Highlight the word `stub_status` in your config file, and then click the `Explain with AI` button.  Your highlighted text automatically becomes the question to the AI Assistant, and it sends you back a quick response with details.  Very nice indeed!
-
     ![AI stub status](media/lab3_ai-stub-status.png)
+    
+    But...what IS `stub_status`?  Use the NGINX AI Assistant to tell you all about it. Highlight the word `stub_status` in your config file, and then click the `Explain with AI` button.  Your highlighted text automatically becomes the question to the AI Assistant, and it sends you back a quick response with details.  Very nice indeed!
 
     ![Stub Status Best Practice](media/lab3_stub-status-best-practice.png)
 
@@ -312,7 +312,7 @@ Ok, so now what?? You can fix all these. Just Click the `Edit Configuration` Pen
 
     >You can even add `new` files to your NGINX configurations, and Publish those as well! Just click on `Add file` while you are in Edit mode.
 
-1. Take some time to use the NGINX AI Assistant.  Peruse your various Nginx config files, highlight different directives and variables and paramaters, and see what the AI can tell you.
+1. Take some time to use the NGINX AI Assistant.  Explore your various Nginx config files, highlight different directives and variables and paramaters, and see what the AI can tell you.
 
 <br/>
 
