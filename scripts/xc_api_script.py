@@ -80,6 +80,13 @@ def process_single_user():
         sys.exit(1)
     make_api_call(firstname, lastname, email)
 
+def test_max_users():
+    for i in range(20):
+        email = "s.jobs+" + str(i) + "@sjobs.com"
+        print(f"Test Email{i}: {email}")
+        # make_api_call("user","user",email)
+
+
 if __name__ == "__main__":
     if MODE == "single":
         process_single_user()
@@ -87,5 +94,7 @@ if __name__ == "__main__":
         process_csv(CSV_FILE)
     elif MODE == "adhoc":
         process_adhoc_csv(ADHOC_FILE)
+    elif MODE == "test":
+        test_max_users()
     else:
-        print("Invalid MODE specified. Use 'single' or 'multiple' or 'adhoc'.")
+        print("Invalid MODE specified. Use 'single', 'multiple', 'adhoc' or 'test'.")
