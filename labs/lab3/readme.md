@@ -175,41 +175,65 @@ Another nice feature of the NGINX One Console is the ability to quickly see the 
 
     ![Cert Details](media/lab3_30-day-cert-details.png)
 
+<br>
+
 **Optional Lab Exercise:**
 
 Fix the Expired Certificate! If you want to create a new certificate, say with a 91-day expiration, follow these instructions to use `openssl` to create a Self-Signed certificate/key pair, and update your NGINX config files to use the new Certficate.
 
-1. Create a new `$NAME-91-day` SSL certificate/key, and apply it to your configuration:
+1. Change your Terminal to the appropriate directory, in this exercise, that would be `labs/lab2/nginx-oss/etc/ssl/nginx`.
+
+1. Create a new `$NAME-91-day` SSL certificate/key pair:
 
     ```bash
     openssl req -x509 -nodes -days 91 -newkey rsa:2048 -keyout $NAME-91-day.key -out $NAME-91-day.crt -subj "/CN=NginxPlusBasics"
 
     ```
 
-1. Copy the $NAME-91.* files to the appropriate directory, in this workshop, that would be `lab2/nginx-oss/etc/ssl/nginx`.
+1. Verify the .crt and .key files were created, in the correct volume mounted folder:
 
-1. Edit the `tls-cars.example.com.conf` file that can be found in `lab2/nginx-oss/etc/nginx/conf.d/` file path. Change the names of the crt/key from `cars.crt and cars.key` to `$NAME-90-day.crt and $NAME-90-day.key`; Lines #13-14.
+    ```bash
+    ls -l
+
+    ```
+    ```bash
+    ## Sample output ##
+    ubuntu@NGINX-Basics:~/Documents/nginx-one-workshops/labs/lab2/nginx-oss/etc/ssl/nginx$ ls -l
+    total 32
+    -rw-rw-r-- 1 ubuntu ubuntu 1131 Mar 19 22:07 1-day.crt
+    -rw------- 1 ubuntu ubuntu 1704 Mar 19 22:07 1-day.key
+    -rw-rw-r-- 1 ubuntu ubuntu 1131 Mar 19 22:07 30-day.crt
+    -rw------- 1 ubuntu ubuntu 1704 Mar 19 22:07 30-day.key
+    -rw-rw-r-- 1 ubuntu ubuntu 1131 Mar 19 21:58 cars.crt
+    -rw-rw-r-- 1 ubuntu ubuntu 1704 Mar 19 21:58 cars.key
+    -rw-rw-r-- 1 ubuntu ubuntu 1131 Mar 20 00:03 s.jobs-91-day.crt
+    -rw------- 1 ubuntu ubuntu 1704 Mar 20 00:03 s.jobs-91-day.key
+
+    ```
+
+1. Edit the `tls-cars.example.com.conf` file that can be found in `lab2/nginx-oss/etc/nginx/conf.d/` file path. Change the names of the crt/key from `cars.crt and cars.key` to `$NAME-91-day.crt and $NAME-91-day.key`; Lines #13-14.
 
     ```nginx
     ...
     # Update the following 2 lines for NGINX cert and key directives and file locations
 
-        ssl_certificate /etc/ssl/nginx/cars.crt;
-        ssl_certificate_key /etc/ssl/nginx/cars.key;
+        ssl_certificate /etc/ssl/nginx/s.jobs-91.crt;
+        ssl_certificate_key /etc/ssl/nginx/s.jobs-91.key;
 
     ...
 
     ```
 
-1. Once you have made this file edits, you would need to reload nginx within all the NGINX OSS containers to incorporate these configuration changes. To do so run below command in your terminal
+1. Once you have made this file edit, you would need to reload nginx within all the NGINX OSS containers to incorporate these configuration changes. To do so run below command in your Terminal:
 
     ```bash
     docker exec -it $NAME-oss1 nginx -s reload
     docker exec -it $NAME-oss2 nginx -s reload
     docker exec -it $NAME-oss3 nginx -s reload
+
     ```
 
-    The above set of commands would reload nginx in all the three NGINX OSS containers: $NAME-oss1, $NAME-oss2 and $NAME-oss3.
+    The above set of commands would reload nginx in all three NGINX OSS containers: $NAME-oss1, $NAME-oss2 and $NAME-oss3.
 
 <br/>
 
