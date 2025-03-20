@@ -392,4 +392,4 @@ You can update a single instance following this procedure for adding a license.j
 
 -------------
 
-Navigate to [Main Menu](../readme.md))
+Navigate to [LabGuide](../readme.md))
