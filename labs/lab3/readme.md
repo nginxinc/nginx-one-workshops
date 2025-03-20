@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this lab, you will be log back into NGINX One Console and explore various features within NGINX One Console. You will then dive deep into those features and understand their usage.
+In this lab, you will use NGINX One Console and explore various features within NGINX One Console. You will then dive deep into those features and explore further.  You will also use the NGINX One AI Assistant to help you with Nginx directives, variables, and best practices.
 
 <br/>
 
@@ -10,10 +10,11 @@ In this lab, you will be log back into NGINX One Console and explore various fea
 
 By the end of the lab you will be able to:
 
-- [Explore NGINX One Console Overview Dashboard](#explore-the-nginx-one-console-overview-dashboard)
-- [Understand NGINX One Certificates feature](#access-and-navigate-the-nginx-one-console)
-- [Understand NGINX One Configuration Recommendations feature](#create-and-manage-data-plane-keys-that-would-be-used-to-manage-nginx-instances)
-- [Understand NGINX One CVE feature](#create-and-manage-data-plane-keys-that-would-be-used-to-manage-nginx-instances)
+- Explore NGINX One Console Overview Dashboard
+- Understand NGINX One Certificates feature
+- Understand NGINX One Configuration Recommendations feature
+- Understand NGINX One CVE feature
+- Explore NGINX One AI Assistant
 
 ## Prerequisites
 
@@ -36,11 +37,13 @@ Within NGINX One Console service, click on the Overview Dashboard, to see the Su
 - Different Versions of NGINX OSS / Plus being used
 - Different Versions of Linux Distros being used 
 - The Expiration dates/status of your TLS Certificates
-- Expert analysis of your NGINX configurations - and YES!! NGINX AI is coming here :-)
+- Expert analysis of your NGINX configurations - and YES!! NGINX AI is here :-)
 - Any CVEs detected, either with NGINX or the Linux OS
 - CPU, RAM, and Disk utilization
 - Network Throughput metrics
 - Summary of HTTP 400/500 Response Codes
+
+<br/>
 
 ### Availability
 
@@ -48,17 +51,23 @@ This Panel is pretty self explanatory, which of your NGINX Instances is online a
 
 ![NGINX Availability](media/lab3_none-availability.png)
 
+<br/>
+
 ### NGINX Versions
 
 This Panel shows a Summary of which NGINX Versions are in use and by how many instances. Sure, you could write a `bash script to SSH into every Instance`, and query `nginx -v` and collect this data yourself ... but why not use the Console instead? Do you even *have* `root privileges` to SSH in the first place? This makes it easy to know what versions of NGINX are running on your Instances - do they need a patch or an upgrade??
 
 ![NGINX versions](media/lab3_none-nginx-versions.png)
 
+<br/>
+
 ### Operating Systems
 
-This Panel shows a Summary of which Linux Distros are in use and by how many instances. Sure, you could write YABS - yet another bash script - to SSH into every Instance, and query `uname` and collect the versions yourself ... but why not use the Console's Easy Button instead? As the number of people, teams, and projects grow using NGINX, the Version sprawl can become an issue. The Console lets you see this level of detail quite easily. And it makes it easy to find Linux versions that may not be approved by Security for Production, or need a patch applied.
+This Panel shows a Summary of which Linux Distros are in use and by how many instances. Sure, you could write YABS - yet another bash script - to SSH into every Instance, and query `uname` and collect the versions yourself ... but why not use the Console's Easy Button instead? As the number of people, teams, and projects grow using NGINX, the OS Version sprawl can become an issue. The Console lets you see this level of detail quite easily. And it makes it easy to find Linux versions that may not be approved by Security for Production, or need a patch applied.
 
 ![Linux versions](media/lab3_none-linux-versions.png)
+
+<br/>
 
 ### Certificates Overview
 
@@ -66,11 +75,15 @@ This Panel shows a Summary of the TLS Certificate expiration Status, using each 
 
 ![Certs](media/lab3_none-certs.png)
 
+<br/>
+
 ### Configuration Recommendations Overview
 
 This Panel shows some possible improvements that could be made to your current running NGINX configs. Some are Security related, or an Optimization, or a Best Practice from the experts that built NGINX. Clicking on each of these will give you additional details and provide an easy way to edit / update your NGINX configs. You will do this in the next Exercise.
 
 ![Config recommendations](media/lab3_none-config-recommendations.png)
+
+<br/>
 
 ### CVEs Overview
 
@@ -78,11 +91,13 @@ This Panel is a great tool to show you the CVEs that you might have in your NGIN
 
 ![CVEs](media/lab3_none-cves.png)
 
-Click on `$NAME-plus2` Instance, you should see a list of all the CVEs identified by NGINX One Console CVE scanner. NOTE: *This list may not include ALL CVEs*, rather just the list that NGINX One Console knows about at the time of the last scan.
+Click on your `$NAME-plus1` or `$NAME-plus2` Instance, you should see a list of all the CVEs identified by NGINX One Console CVE scanner. NOTE: *This list may not include ALL CVEs*, rather just the list that NGINX One Console knows about at the time of the last scan.
 
 Plus1 | Plus2
 :-------------------------:|:-------------------------:
 ![Container CVEs](media/lab3_plus1-cves.png) | ![Container CVEs](media/lab3_plus2-cves.png)
+
+<br/>
 
 ### CPU, RAM, Disk Utilization
 
@@ -93,11 +108,15 @@ CPU | RAM | Disk
 :-------------------------:|:-------------------------:|:---------------:
 ![Cpu](media/lab3_none-cpu.png) | ![Ram](media/lab3_none-ram.png) | ![Disk](media/lab3_none-disk.png)
 
+<br/>
+
 ### Unsuccessful Response Codes
 
 The NGINX Agent scans the Access logs and summarizes the number of 4xx and 5xx HTTP Return codes found, and reports this information to the NGINX One Console. There is `Time Selector` and a `See All` button for this Panel as well.
 
 ![Response Codes](media/lab3_none-response-codes.png)
+
+<br/>
 
 ### Top Network Usage
 
@@ -109,7 +128,7 @@ This Panel shows basic Network level information from the Linux OS about the net
 
 ## NGINX One Console CVEs Deep Dive
 
-![CVE](media/lab3_none-cves.png)
+![One](media/nginx-one-icon.png) | ![CVE](media/lab3_none-cves.png)
 
 One of the nice security feature of the NGINX One Console is the ability to provide a CVE summary with `High-Medium-Low Severity` classes. Clicking those classes reveals which Instances fall under them.
 
@@ -137,7 +156,7 @@ One of the nice security feature of the NGINX One Console is the ability to prov
 
 ## NGINX One Console Certificates Deep Dive
 
-![Certs](media/lab3_none-certs.png)
+![One](media/nginx-one-icon.png) | ![Certs](media/lab3_none-certs.png)
 
 Another nice feature of the NGINX One Console is the ability to quickly see the `Expiration Dates of the TLS Certificates` being used by your NGINX Instances. When the nginx-agent reads the NGINX configuration, it looks for the TLS certificate path/name, and uses openssl to collect the Certificate Expiration date and Subject Name, and sends this information to the One Console. It provides both a Summary of all the certificates, and the details on each one. Sure, you can write an bash script to login with root privileges to every NGINX Server, and collect this information yourself. But using the NGINX One Console makes this easy to see and help plan appropriate actions.
 
@@ -156,55 +175,79 @@ Another nice feature of the NGINX One Console is the ability to quickly see the 
 
     ![Cert Details](media/lab3_30-day-cert-details.png)
 
+<br>
+
 **Optional Lab Exercise:**
 
 Fix the Expired Certificate! If you want to create a new certificate, say with a 91-day expiration, follow these instructions to use `openssl` to create a Self-Signed certificate/key pair, and update your NGINX config files to use the new Certficate.
 
-1. Create a new `$NAME-91-day` SSL certificate/key, and apply it to your configuration:
+1. Change your Terminal to the appropriate directory, in this exercise, that would be `labs/lab2/nginx-oss/etc/ssl/nginx`.
+
+1. Create a new `$NAME-91-day` SSL certificate/key pair:
 
     ```bash
     openssl req -x509 -nodes -days 91 -newkey rsa:2048 -keyout $NAME-91-day.key -out $NAME-91-day.crt -subj "/CN=NginxPlusBasics"
 
     ```
 
-1. Copy the $NAME-91.* files to the appropriate directory, in this workshop, that would be `lab2/nginx-oss/etc/ssl/nginx`.
+1. Verify the .crt and .key files were created, in the correct volume mounted folder:
 
-1. Edit the `tls-cars.example.com.conf` file that can be found in `lab2/nginx-oss/etc/nginx/conf.d/` file path. Change the names of the crt/key from `cars.crt and cars.key` to `$NAME-90-day.crt and $NAME-90-day.key`; Lines #13-14.
+    ```bash
+    ls -l
+
+    ```
+    ```bash
+    ## Sample output ##
+    ubuntu@NGINX-Basics:~/Documents/nginx-one-workshops/labs/lab2/nginx-oss/etc/ssl/nginx$ ls -l
+    total 32
+    -rw-rw-r-- 1 ubuntu ubuntu 1131 Mar 19 22:07 1-day.crt
+    -rw------- 1 ubuntu ubuntu 1704 Mar 19 22:07 1-day.key
+    -rw-rw-r-- 1 ubuntu ubuntu 1131 Mar 19 22:07 30-day.crt
+    -rw------- 1 ubuntu ubuntu 1704 Mar 19 22:07 30-day.key
+    -rw-rw-r-- 1 ubuntu ubuntu 1131 Mar 19 21:58 cars.crt
+    -rw-rw-r-- 1 ubuntu ubuntu 1704 Mar 19 21:58 cars.key
+    -rw-rw-r-- 1 ubuntu ubuntu 1131 Mar 20 00:03 s.jobs-91-day.crt
+    -rw------- 1 ubuntu ubuntu 1704 Mar 20 00:03 s.jobs-91-day.key
+
+    ```
+
+1. Edit the `tls-cars.example.com.conf` file that can be found in `lab2/nginx-oss/etc/nginx/conf.d/` file path. Change the names of the crt/key from `cars.crt and cars.key` to `$NAME-91-day.crt and $NAME-91-day.key`; Lines #13-14.
 
     ```nginx
     ...
     # Update the following 2 lines for NGINX cert and key directives and file locations
 
-        ssl_certificate /etc/ssl/nginx/cars.crt;
-        ssl_certificate_key /etc/ssl/nginx/cars.key;
+        ssl_certificate /etc/ssl/nginx/s.jobs-91-day.crt;
+        ssl_certificate_key /etc/ssl/nginx/s.jobs-91-day.key;
 
     ...
 
     ```
 
-1. Once you have made this file edits, you would need to reload nginx within all the NGINX OSS containers to incorporate these configuration changes. To do so run below command in your terminal
+1. Once you have made this file edit, you would need to reload nginx within all the NGINX OSS containers to incorporate these configuration changes. To do so run below command in your Terminal:
 
     ```bash
     docker exec -it $NAME-oss1 nginx -s reload
     docker exec -it $NAME-oss2 nginx -s reload
     docker exec -it $NAME-oss3 nginx -s reload
+
     ```
 
-    The above set of commands would reload nginx in all the three NGINX OSS containers: $NAME-oss1, $NAME-oss2 and $NAME-oss3.
+    The above set of commands would reload nginx in all three NGINX OSS containers: $NAME-oss1, $NAME-oss2 and $NAME-oss3.
 
 <br/>
 
 ## NGINX One Console Configuration Recommendations Deep Dive
 
-One of the Best Features of the NGINX ONE Console is the Configuration analysis and recommendations that it provides. The NGINX Product Management and Development teams are experts at NGINX, and they have collaborated to create these valuable insights. There are three types of Recommendations:
+One of the Best Features of the NGINX ONE Console is the Configuration analysis and recommendations that it provides. The NGINX Product Management and Development teams are experts at NGINX, and they have collaborated to create these valuable insights. There is also an **`NGINX AI Assistant`** , to provide additional help for NGINX directives, variables, and configurations.  There are three types of Recommendations:
 
 - Security: NGINX configurations to provide the best levels of security.
 - Optimization: NGINX configurations known to provide optimal performance.
-- Best Practices: Common configurations that follow standards and conform to ideal configs.
+- Best Practices: Ideal configurations that follow standards and suggest settings for optimal operation of NGINX.
 
 1. From the Overview Dashboard, click on the `Security` and then click on the `$NAME-oss1` Instance.
 
-    ![Config Rec Security](media/lab3_none-config-recommendations.png)
+    ![One](media/nginx-one-icon.png) | ![Config Rec Security](media/lab3_none-config-recommendations.png)
 
 1. Switch view to `Configuration` tab to see the recommendation details. The Recommendations are at the bottom of the screen, and if you look at the config file list, you see small numbers next to each config file that is affected. These are `color-coded`: the Orange numbers are for Security, Blue numbers are for Best Practices, and the Green numbers for for Optimizations.
 
@@ -221,12 +264,17 @@ One of the Best Features of the NGINX ONE Console is the Configuration analysis 
     This security recommendation suggests you to consider adding an ACL to the stub_status module, which provides metrics about your NGINX instance. With no access list defined, anyone can see it.
 
     ![Stub Status Best Practice](media/lab3_stub-status-best-practice.png)
+    
+    But...what IS `stub_status`?  Use the NGINX AI Assistant to tell you all about it. Highlight the word `stub_status` in your config file, and then click the `Explain with AI` button.  Your highlighted text automatically becomes the question to the AI Assistant, and it sends you back a quick response with details.  Very nice indeed!
+
+    ![AI stub status](media/lab3_ai-stub-status.png)
+
 
 1. Now Click on the `nginx.conf` file, it will show you a best practice recommendations about the `worker_processes` Directive.
 
     ![NGINX Conf Best Practice](media/lab3_nginx-conf-best-practice.png)
 
-Ok, so now what?? You can fix all these. Just Click the `Edit Configuration` Pencil icon at the top, and now you can edit the NGINX config files directly.
+    Ok, so now what?? You can fix all these. Just Click the `Edit Configuration` Pencil icon at the top, and now you can edit the NGINX config files directly.
 
 1. Try this on the `cafe.example.com.conf` file. At the bottom, Click the link for `line 4`. It will take you directly to the file's config line, and also display an explanation with details about the parameter.
 
@@ -240,6 +288,18 @@ Ok, so now what?? You can fix all these. Just Click the `Edit Configuration` Pen
 
     ![Cafe Edit Line16](media/lab3_cafe-edit-line16.png)
 
+    However, you want more details on `Proxy Buffering`.  Use your mouse, and highlight `proxy_buffering off`, then click the `Explain with AI` button in the upper right.  Your highlighted text becomes the question to the AI Assistant, and it will respond in a few seconds with a detailed explanation.
+
+    ![AI Proxy Buffering](media/lab3_ai-proxy-buffering.png)
+
+    >How cool is that?
+
+    >>But wait a sec, you have an `Open Support Ticket for a Slow Server`, you wonder... can the NGINX AI Assitant help me with NGINX Logging?  YES IT CAN!!
+
+    Check out the Extended logging format, found in the `/etc/nginx/includes/log_formats/main_ext.conf` file.  What do you find - several `$upstream` logging variables? Now highlight `$upstream_response_time` and Click AI Assistant.  A detailed explanation of this logging variable is at your fingertips.
+
+    ![AI upstream response time](media/lab3_ai-upstream-response-time.png)
+    
 1. When finished with your Edits, Click the Green `Next` button. This will show you a side-by-side `DIFF` of the before/after configuration changes that you made.
 
     ![Cafe Edit Line16](media/lab3_cafe-config-diff.png)
@@ -252,6 +312,8 @@ Ok, so now what?? You can fix all these. Just Click the `Edit Configuration` Pen
 1. You can follow this same procedure for your other NGINX config files, making the edits and Publish your changes.
 
     >You can even add `new` files to your NGINX configurations, and Publish those as well! Just click on `Add file` while you are in Edit mode.
+
+1. Take some time to use the NGINX AI Assistant.  Explore your various Nginx config files, highlight different directives and variables and paramaters, and see what the AI can tell you.
 
 <br/>
 
@@ -296,7 +358,7 @@ If you would like to just run a few containers without Docker Compose, here are 
 
 <br/>
 
-This ends lab3.
+This ends Lab3.
 
 <br/>
 
