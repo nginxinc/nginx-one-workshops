@@ -263,17 +263,18 @@ One of the Best Features of the NGINX ONE Console is the Configuration analysis 
 
     This security recommendation suggests you to consider adding an ACL to the stub_status module, which provides metrics about your NGINX instance. With no access list defined, anyone can see it.
 
-    ![AI stub status](media/lab3_ai-stub-status.png)
+    ![Stub Status Best Practice](media/lab3_stub-status-best-practice.png)
     
     But...what IS `stub_status`?  Use the NGINX AI Assistant to tell you all about it. Highlight the word `stub_status` in your config file, and then click the `Explain with AI` button.  Your highlighted text automatically becomes the question to the AI Assistant, and it sends you back a quick response with details.  Very nice indeed!
 
-    ![Stub Status Best Practice](media/lab3_stub-status-best-practice.png)
+    ![AI stub status](media/lab3_ai-stub-status.png)
+
 
 1. Now Click on the `nginx.conf` file, it will show you a best practice recommendations about the `worker_processes` Directive.
 
     ![NGINX Conf Best Practice](media/lab3_nginx-conf-best-practice.png)
 
-Ok, so now what?? You can fix all these. Just Click the `Edit Configuration` Pencil icon at the top, and now you can edit the NGINX config files directly.
+    Ok, so now what?? You can fix all these. Just Click the `Edit Configuration` Pencil icon at the top, and now you can edit the NGINX config files directly.
 
 1. Try this on the `cafe.example.com.conf` file. At the bottom, Click the link for `line 4`. It will take you directly to the file's config line, and also display an explanation with details about the parameter.
 
