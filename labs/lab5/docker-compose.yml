@@ -10,7 +10,7 @@ services:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
-      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey From One Console
+      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Dataplane key From Nginx One Console
       NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
     hostname: $NAME-plus1
     container_name: $NAME-plus1
@@ -32,7 +32,7 @@ services:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
-      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
+      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Dataplane key From Nginx One Console
       NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
     hostname: $NAME-plus2
     container_name: $NAME-plus2
@@ -54,7 +54,7 @@ services:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
-      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
+      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Dataplane key From Nginx One Console
       NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
     hostname: $NAME-plus3
     container_name: $NAME-plus3
@@ -76,7 +76,7 @@ services:
 #      NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
 #      NGINX_AGENT_SERVER_GRPCPORT: '443'
 #      NGINX_AGENT_TLS_ENABLE: 'true'
-#      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
+#      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Dataplane key From Nginx One Console
 #      NGINX_LICENSE_JWT: $JWT
 #      NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
 #    hostname: $NAME-plus4
@@ -99,7 +99,7 @@ services:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
-      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
+      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Dataplane key From Nginx One Console
     hostname: $NAME-oss1
     container_name: $NAME-oss1
     image: docker-registry.nginx.com/nginx/agent:mainline # From Docker Public Registry
@@ -121,7 +121,7 @@ services:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
-      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
+      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Dataplane key From Nginx One Console
     hostname: $NAME-oss2
     container_name: $NAME-oss2
     image: docker-registry.nginx.com/nginx/agent:alpine # From Docker Public Registry
@@ -143,7 +143,7 @@ services:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
-      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
+      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Dataplane key From Nginx One Console
     hostname: $NAME-oss3
     container_name: $NAME-oss3
     image: docker-registry.nginx.com/nginx/agent:1.26-alpine # From Docker Public Registry
