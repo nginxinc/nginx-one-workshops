@@ -60,7 +60,7 @@ Notice that the configuration is empty when you first create a Config Sync Group
 
 ### Option 1 - Create and add an instance to the group
 
-On this page is a button that says `Add Instance to Config Sync Group`. Click on this.
+On _Details_ page is a button that says `Add Instance to Config Sync Group`. Click on this.
 
 <br/>
 
@@ -244,10 +244,11 @@ A final note... you can _**mix OSS and Plus instances**_ in the same group! The 
 
 ## Wrap Up
 
-> If you are finished with this lab, you can use Docker Compose to shut down your test environment. Make sure you are in the `lab2` folder:
+> If you are finished with this lab, you can use Docker Compose to shut down your test environment.
+
+(**NOTE:** Make sure you are within `labs/lab2` folder before running the command)
 
 ```bash
-cd ../lab2
 docker compose down
 ```
 

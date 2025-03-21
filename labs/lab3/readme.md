@@ -186,7 +186,7 @@ Fix the Expired Certificate! If you want to create a new certificate, say with a
 1. Create a new `$NAME-91-day` SSL certificate/key pair:
 
     ```bash
-    openssl req -x509 -nodes -days 91 -newkey rsa:2048 -keyout $NAME-91-day.key -out $NAME-91-day.crt -subj "/CN=NginxPlusBasics"
+    openssl req -x509 -nodes -days 91 -newkey rsa:2048 -keyout $NAME-91-day.key -out $NAME-91-day.crt -subj "/CN=NginxOneWorkshop"
 
     ```
 
