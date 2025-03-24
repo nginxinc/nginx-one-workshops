@@ -122,7 +122,7 @@ Release 33 of NGINX Plus now requires NGINX Agent to be installed along with a l
 
     ![NGINX Plus](media/r33-delete-old-instances-3.png)
 
-1. **(Optional Exercise)** To automate this removal of instances, you can expand the `Settings` menu on the left hand side it will reveal an entry for `Instance Settings`. (Requires Admin access)
+1. **(Optional Step)** To automate this removal of instances, you can expand the `Settings` menu on the left hand side it will reveal an entry for `Instance Settings`. (Requires Admin access)
 
     ![NGINX Plus](media/r33-instance-settings-1.png)
 
