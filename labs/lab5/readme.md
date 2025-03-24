@@ -2,13 +2,13 @@
 
 ## Introduction
 
-This lab will explore the R33 upgrade process with One Console. With release 33, your instances being managed is now a requirement. Let's explore how we can add our instances to One Console and how it will assist us in prepping our systems for the R33 upgrade. We will explore the One Console interface, create an Instance Group and look at how we can manage configs. Finally, we will show deploying a R33 container instance to One Console and upgrading our a standalone instance to R33 via One Console.
+This lab will explore the R33 upgrade process with NGINX One Console. With release 33, your instances being managed is now a requirement. Let's explore how you can add our instances to NGINX One Console and how it will assist us in prepping our systems for the R33 upgrade. We will explore the NGINX One Console interface, create an Instance Group and look at how you can manage configs. Finally, you will see deploying a R33 container instance to NGINX One Console and upgrading our a standalone instance to R33 via NGINX One Console.
 
 ## Learning Objectives
 
 - You will learn how to deploy a R33 version of a docker container
 - You will learn how to pin a release version while installing NGINX Plus
-- You will learn how to add an NGINX web server to One Console
+- You will learn how to add an NGINX web server to NGINX One Console
 - You will learn how to install NGINX Agent
 - You will learn how to use Instance Groups to manage files
 - You will learn how to upgrade your release to R33 (latest)
@@ -35,9 +35,9 @@ This lab will explore the R33 upgrade process with One Console. With release 33,
 
 ### Deploy an R33 instance.
 
-Release 33 of NGINX Plus now requires NGINX Agent to be installed along with a license for NGINX One (Not to be confused with the NGINX One Console we are working with today). It is not as painful as some have been led to believe. Let's add a new R33 instance to our lab setup.
+Release 33 of NGINX Plus now requires NGINX Agent to be installed along with a license for NGINX One (Not to be confused with the NGINX One Console you are working with today). It is not as painful as some have been led to believe. Let's add a new R33 instance to our lab setup.
 
-First we need the NGINX One `license.jwt` file which you can get from [my.f5.com](https://my.f5.com). Create a new file in the lab5 folder called `license.jwt` and paste the contents into it. If you are in the F5 UDF environment, this has been done for you. The $JWT environment variable should still be set from the earlier labs, but you can check it. If it is not there, add the license to an environment variable as you did previously:
+First you need the NGINX One `license.jwt` file which you can get from [my.f5.com](https://my.f5.com). Create a new file in the lab5 folder called `license.jwt` and paste the contents into it. If you are in the F5 UDF environment, this has been done for you. The $JWT environment variable should still be set from the earlier labs, but you can check it. If it is not there, add the license to an environment variable as you did previously:
 
 ```bash
 echo $JWT
@@ -50,7 +50,7 @@ echo $TOKEN
 
 # If they are not set, go ahead and set them again:
 export NAME=s.jobs
-export TOKEN=<insert the dataplane key for One Console that you used previously>
+export TOKEN=<insert the dataplane key for NGINX One Console that you used previously>
 ```
 
 If you updated/changed the JWT token, you will need to login to docker again. Skip if everything was still set from before:
@@ -59,15 +59,15 @@ If you updated/changed the JWT token, you will need to login to docker again. Sk
 docker login private-registry.nginx.com --username=$JWT --password=none
 ```
 
-In this portion of the lab we re-use a docker-compose.yml file from lab2 to deploy our containers and register with the One Console. This time we will now add an R33 (latest) version of the NGINX Plus container. Open the docker-compose file in VS Code.
+In this portion of the lab you will re-use a docker-compose.yml file from lab2 to deploy our containers and register with the NGINX One Console. This time you will now add an R33 (latest) version of the NGINX Plus container. Open the docker-compose file in VS Code.
 
 ```bash
 vi lab5/docker-compose.yml
 ```
 
-After the `plus3` instance code block we will put a new block of code for the R33 release. We will call this `plus4`, keeping in line with our naming convention for the labs.
+After the `plus3` instance code block you will put a new block of code for the R33 release. We will call this `plus4`, keeping in line with our naming convention for the labs.
 
-Starting on line 74 let's uncomment this block of code (ends on line 94):
+Starting on line 74 let's uncomment this block of code (ends on line 95):
 
 ```bash
 ### Uncomment this section for Lab5
@@ -76,12 +76,12 @@ plus4: # Debian R33 NGINX Plus Web / Load Balancer
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
       NGINX_AGENT_TLS_ENABLE: 'true'
-      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron Nginx One Console
+      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron NGINX One Console
       NGINX_LICENSE_JWT: $JWT
       NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
     hostname: $NAME-plus4
     container_name: $NAME-plus4
-    image: private-registry.nginx.com/nginx-plus/agent:debian # From Nginx Private Registry R33
+    image: private-registry.nginx.com/nginx-plus/agent:debian # From NGINX Private Registry R33
     volumes: # Sync these folders to container
       - ./nginx-plus/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx-plus/etc/nginx/conf.d:/etc/nginx/conf.d
@@ -96,7 +96,7 @@ plus4: # Debian R33 NGINX Plus Web / Load Balancer
   #
 ```
 
-Save your edits. You'll notice a couple of changes from the other blocks (besides the name). The first is the environment variable called `NGINX_LICENSE_JWT: $JWT` This is what authorizes the pulling of this specific image. The second change is the image name `private-registry.nginx.com/nginx-plus/agent:debian` which pulls the debian version of the NGINX Plus with Agent installed. We will be able to see this in the One Console once deployed.
+Save your edits. You'll notice a couple of changes from the other blocks (besides the name). The first is the environment variable called `NGINX_LICENSE_JWT: $JWT` This is what authorizes the pulling of this specific image. The second change is the image name `private-registry.nginx.com/nginx-plus/agent:debian` which pulls the debian version of the NGINX Plus with Agent installed. We will be able to see this in the NGINX One Console once deployed.
 
 Now that this file is edited, save it and let's restart the containers. Issue the following commands:
 
@@ -107,13 +107,13 @@ docker compose up --force-recreate -d
 
 <br />
 
-## Examine in One Console
+## Examine in NGINX One Console
 
-You will notice a few things in One console now. First - why are there duplicate container names?!?!? 
+You will notice a few things in NGINX One Console now. First - why are there duplicate container names?!?!? 
 
 ![NGINX Plus](media/r33-delete-old-instances-1.png)
 
-Containers as we know are ephemeral. Once we destroy / recreate them they re-register with the Console. You can manually clean these up (delete the grayed out versions of your images) or you can have these cleaned up automatically. Previously we used the search to narrow down the instances with your name. This time we will use the Filter feature. Choose the action of `Availability is Unavailable` then you can select your containers and use the `Delete selected` button. 
+Containers as you know are ephemeral. Once you destroy / recreate them they re-register with the Console. You can manually clean these up (delete the grayed out versions of your images) or you can have these cleaned up automatically. Previously you used the search to narrow down the instances with your name. This time you will use the Filter feature. Choose the action of `Availability is Unavailable` then you can select your containers and use the `Delete selected` button. 
 
 ![NGINX Plus](media/r33-delete-old-instances-2.png)
 
@@ -125,7 +125,7 @@ Once done, remember to clear the filter so you will be able to see the active in
 
 ![NGINX Plus](media/r33-instance-settings-1.png)
 
-Clicking that will take you to a screen where you can change the cleanup to a time of your choosing. We usually leave it at 24 hours not seen, but we can set it down to a single hour. 
+Clicking that will take you to a screen where you can change the cleanup to a time of your choosing. We usually leave it at 24 hours not seen, but you can set it down to a single hour. 
 
 ![NGINX Plus](media/r33-instance-settings-2.png)
 
@@ -135,19 +135,19 @@ Make sure you aren't too aggressive with the auto cleanup as sometimes it is goo
 </details>
 
 
-Now that we cleaned things up we can see the plus4 instance in our `Instances` interface.  
+Now that you have cleaned things up you can see the plus4 instance in our `Instances` interface.  
 
 ![NGINX Plus](media/r33-plus4-deployed.png)
 
-If we click on the instance name, now we can see the NGINX version as well as the Agent version that are deployed:
+If you click on the instance name, now you can see the NGINX version as well as the Agent version that are deployed:
 
 ![NGINX Plus](media/r33-plus4-with-agent.png)
 
-That's how easy it is to deploy an R33 instance and have it registered with One Console. Using A/B testing practices, you can move the traffic from any R31/32 container to the R33 instance. 
+That's how easy it is to deploy an R33 instance and have it registered with NGINX One Console. Using A/B testing practices, you can move the traffic from any R31/32 container to the R33 instance. 
 
 >Notice that the `plus4, R33` container was ADDED to your <$NAME-sync-group>, (from your docker-compose file, line #82).  This means it has the *SAME configuration* as the `plus1,2,3` containers.  Because the configurations are synchronized, you can easily move traffic from older R31/R32 containers to newer R33 containers.
 
->>This is a great way to upgrade and migrate your Nginx fleet to the latest versions of Nginx!  After all the traffic has been routed to newer containers, you can safely delete older containers.
+>>This is a great way to upgrade and migrate your NGINX fleet to the latest versions of NGINX!  After all the traffic has been routed to newer containers, you can safely delete older containers.
 
 ![Config Sync 4 nplus](media/lab5-csg-4nplus.png)
 
@@ -157,15 +157,15 @@ When you are finished, you can now clean up your Docker environment by issuing:
 docker compose down
 ```
 
-Don't forget to remove your unused Instances from the One Console.
+Don't forget to remove your unused Instances from the NGINX One Console.
 
 <br/>
 
 ## Stand up a NGINX Plus instance on NGINX Plus R32
 
-Next you will create an NGINX instance that is pinned to version R32 on a virtual machine. This will show you an upgrade from R32 to the new R33 on a VM, a common Nginx upgrade task. From the Jumphost you can use the terminal to SSH to the VM's command line to do an install. You can also use Webshell to the nplus server or RDP directly to it. From the VS Studio Terminal window, run the following commands.
+Next you will create an NGINX instance that is pinned to version R32 on a virtual machine. This will show you an upgrade from R32 to the new R33 on a VM, a common NGINX upgrade task. From the Jumphost you can use the terminal to SSH to the VM's command line to do an install. You can also use Webshell to the nplus server or RDP directly to it. From the VS Studio Terminal window, run the following commands.
 
-**Note:** If you are using the F5 UDF environment, the NginxPlus license files have been placed there ahead of time for your convenience. You can continue with the next step (install).
+**Note:** If you are using the F5 UDF environment, the NGINXPlus license files have been placed there ahead of time for your convenience. You can continue with the next step (install).
 
 ```bash
 ssh nplus
@@ -178,7 +178,7 @@ sudo mkdir -p /etc/ssl/nginx
 sudo cp license/nginx-repo.* /etc/ssl/nginx/
 ```
 
-With the cert and key in place we can go ahead with the install. Let's do the pre-work:
+With the cert and key in place you can go ahead with the install. Let's do the pre-work:
 
 ```bash
 sudo apt update
@@ -188,7 +188,7 @@ wget -qO - https://cs.nginx.com/static/keys/nginx_signing.key     | gpg --dearmo
 https://pkgs.nginx.com/plus/ubuntu `lsb_release -cs` nginx-plus\n" | sudo tee /etc/apt/sources.list.d/nginx-plus.list
 ```
 
-For this lab, we need to pin this release version to R32 so that we can show the upgrade process. The keys we are using are good for R33, so if we simply ask for an install of nginx we will get the latest release (currently R33). To pin the release, we manually need to put the R32 branch in URL like:  `/plus/R32/`
+For this lab, you need to pin this release version to R32 so that you can see the upgrade process. The keys you are using are good for R33, so if you simply ask for an install of NGINX you will get the latest release (currently R33). To pin the release, you manually need to put the R32 branch in URL like:  `/plus/R32/`
 
 ```bash
 sudo vi /etc/apt/sources.list.d/nginx-plus.list 
@@ -237,30 +237,30 @@ sudo systemctl start nginx
 
 <br/>
 
-## Install NGINX Agent and add NGINX Plus to One Console
+## Install NGINX Agent and add NGINX Plus to NGINX One Console
 
-First, you will create a new Config Sync Group to add machines that you want to upgrade. As a best practice, you want your Config Sync Groups to only contain machines that will have the exact same configuration. For example, a group for docker containers with nginx.  One for OSS instances you might have. Here we are creating a group to add Virtual Machines that we want to upgrade. Follow the same process as the previous lab by clicking on `Config Sync Groups` in the left hand menu and then clicking on the `Add Config Sync Group` button.
+First, you will create a new Config Sync Group to add machines that you want to upgrade. As a best practice, you want your Config Sync Groups to only contain machines that will have the exact same configuration. For example, a group for docker containers with nginx.  One for OSS instances you might have. Here you are creating a group to add Virtual Machines that you want to upgrade. Follow the same process as the previous lab by clicking on `Config Sync Groups` in the left hand menu and then clicking on the `Add Config Sync Group` button.
 
 ![Add Config Sync Group](media/lab5-config-sync-group1.png)
 
-In the Nginx One Console, open your new Config Sync Group, click on the `Add Instance` button. 
+In the NGINX One Console, open your new Config Sync Group, click on the `Add Instance` button. 
 
 ![Add Instance](media/lab5-add-instance-1.png)
 
-It will ask you if you want to `Generate a new key` or `Use existing key`.  We have already created a TOKEN variable in previous labs so we will use that same value.  Click on the radio button for `Use existing key`.  
+It will ask you if you want to `Generate a new key` or `Use existing key`.  We have already created a TOKEN variable in previous labs so you will use that same value.  Click on the radio button for `Use existing key`.  
 
 ![Add Instance to Sync Group](media/lab5-add-instance-csg.png)
 
-In the field labeled `Data Plane Key (optional)`, type in the environment variable `$TOKEN`.  This will customize the curl command. For this example, we will use `Virtual Machine or Bare Metal` tab. You will see the command to install agent and register the instance with One Console, and add it to your Sync Group.
+In the field labeled `Data Plane Key (optional)`, type in the environment variable `$TOKEN`.  This will customize the curl command. For this example, you will use `Virtual Machine or Bare Metal` tab. You will see the command to install agent and register the instance with NGINX One Console, and add it to your Sync Group.
 
-1. If not already connected, use the VScode Terminal, SSH to the Nginx Plus VM.
+1. If not already connected, use the VScode Terminal, SSH to the NGINX Plus VM.
 
   ```bash
   ssh nplus
 
   ```
 
-1. Set the hostname of your Ubuntu VM, so it displays in the Nginx One Console Instances.  Use `Nginx123` for the password:
+1. Set the hostname of your Ubuntu VM, so it displays in the NGINX One Console Instances.  Use `Nginx123` for the password:
 
   ```bash
   hostnamectl hostname $NAME-nplus-vm
@@ -298,7 +298,7 @@ export JWT=$(cat /home/ubuntu/Documents/license/license.jwt)
 
 ```
 
-1. Install the NGINX Agent and register with the One Console.  You can copy/paste from the One Console, or use this example:
+1. Install the NGINX Agent and register with the NGINX One Console.  You can copy/paste from the NGINX One Console, or use this example:
 
 ```bash
 curl https://agent.connect.nginx.com/nginx-agent/install | DATA_PLANE_KEY="$TOKEN" sh -s -- -y -c $NAME-sync-group-vm
@@ -363,24 +363,24 @@ Mar 21 18:45:45 s.jobs-nplus nginx-agent[3164]: time="2025-03-21T18:45:45Z" leve
 
 ```
 
-Now that Nginx Agent is installed, configured for your Config Sync Group, it should appear in the Instances and <NAME-sync-group-vm>. There are a couple of modifications you should make to get the most out of this installation.
+Now that NGINX Agent is installed, configured for your Config Sync Group, it should appear in the Instances and <NAME-sync-group-vm>. There are a couple of modifications you should make to get the most out of this installation.
 
 <br>
 
 ## Enable NGINX Plus Dashboard and API
 
-The Nginx Plus Dashboard and API is where Nginx exposes all of the over 240 metrics available.  These include:
+The NGINX Plus Dashboard and API is where NGINX exposes all of the over 240 metrics available.  These include:
 - HTTP requests/responses
 - TLS session metrics
 - TCP connection metrics
 - Healthcheck success, failures, servers up/down
 - Response Time for both HTTP and TCP upstreams
-- Nginx Caching Ram/Disk usage, Cache Hit Ratio
-- Nginx DNS resolver
-- Nginx Worker metrics
+- NGINX Caching Ram/Disk usage, Cache Hit Ratio
+- NGINX DNS resolver
+- NGINX Worker metrics
 - And others
 
-You can do this in the One Console - in the Config Sync Group, click on the Configuration tab, then Edit. Click the Add file button, and create `/etc/nginx/conf.d/dashboard.conf`.  Use the example provide here, just copy/paste:
+You can do this in the NGINX One Console - in the Config Sync Group, click on the Configuration tab, then Edit. Click the Add file button, and create `/etc/nginx/conf.d/dashboard.conf`.  Use the example provide here, just copy/paste:
 
 ```nginx
 # NGINX Plus Basics, Nov 2024
@@ -421,9 +421,9 @@ This configuration:
 
 ## Upgrade NGINX Plus VM from R32 to R33
 
-You have a system added to the Config Sync Group, let's show how we can push out config changes and even new files. To do an upgrade on an R32 system, there needs to be a `license.jwt` file placed in the `/etc/nginx` folder. This prevents accidental upgrades to R33 or later from happening. You will use the One Console to place the required R33 license file on each VM, so then you can then go and upgrade each system. 
+You have a system added to the Config Sync Group, let's show how you can push out config changes and even new files. To do an upgrade on an R32 system, there needs to be a `license.jwt` file placed in the `/etc/nginx` folder. This prevents accidental upgrades to R33 or later from happening. You will use the NGINX One Console to place the required R33 license file on each VM, so then you can then go and upgrade each system. 
 
-Let's take the previous R32 install we created and upgrade it. This time we will do it with assistance from One Console. On the `nplus` system there is a directory for the NGINX One license files. The path is `~/Documents/license`
+Let's take the previous R32 install you just created and upgrade it. This time you will do it with assistance from NGINX One Console. On the `nplus` system there is a directory for the NGINX One license files. The path is `~/Documents/license`
 
 In the UDF environment, the files are already there. From the jumphost system, check via the Visual Studio terminal:
 
@@ -443,13 +443,13 @@ license/
 0 directories, 3 files
 ```
 
-In the One Console we will create a new file. Pull up the Config Sync Group  - we can see there is one Instance (nplus) that is in the group.  
+In the NGINX One Console you will create a new file. Pull up the Config Sync Group  - you can see there is one Instance (nplus) that is in the group.  
 
 Click on the group name and it will bring up the Details pane. 
 
 ![NGINX Plus](media/lab5-csg-1.png)
 
-Click on the Configuration tab. This will show the initial config pulled from the first instance that was added. We can add our own files to this and we will do so now. Click on the `+ Add File` button.
+Click on the Configuration tab. This will show the initial config pulled from the first instance that was added. We can add our own files to this and you will do so now. Click on the `+ Add File` button.
 
 The upgrade license file needs to be put in a certain location which is `/etc/nginx/license.jwt`. Type in that file name (including the path) and hit the green `Add` button.
 
@@ -459,17 +459,17 @@ Copy the value from the `~/Downloads/license/license.jwt` and enter it into this
 
 ![NGINX Plus](media/lab5-add-license-3.png)
 
-This will bring up a confirmation screen and we will select the green `Save and Publish` button.
+This will bring up a confirmation screen and you will select the green `Save and Publish` button.
 
 ![NGINX Plus](media/lab5-add-license-2.png)
 
-On pressing this button, the new `license.jwt` file was pushed out to the remote system. Let's confirm that by going to the terminal on the nplus system and checking. In Visual Studio terminal, you should still be on the `nplus` system. If not, do a `ssh nplus` and then we can check to see if the license file is there:
+On pressing this button, the new `license.jwt` file was pushed out to the remote system. Let's confirm that by going to the terminal on the nplus system and checking. In Visual Studio terminal, you should still be on the `nplus` system. If not, do a `ssh nplus` and then you can check to see if the license file is there:
 
 ![NGINX Plus](media/lab5-one-lic-confirm.png)
 
-We can see the Console pushed out the new license file to the remote system. This can be a huge help in the upgrade process, as we can put 100's of instances into the Config Sync Group, then push the license.jwt file out to all of them automatically making them ready for an upgrade. 
+We can see the Console pushed out the new license file to the remote system. This can be a huge help in the upgrade process, as you can put 100's of instances into the Config Sync Group, then push the license.jwt file out to all of them automatically making them ready for an upgrade. 
 
-1. Let's go ahead and upgrade the instance as we are on the server already. For our example, we pinned the release to R32. When upgrading a system, you will not be sure if the system was pinned, so let's check:
+1. Let's go ahead and upgrade the instance as you are on the server already. For our example, you pinned the release to R32. When upgrading a system, you will not be sure if the system was pinned, so let's check:
 
 ```bash
 cd /etc/apt/sources.list.d/
@@ -488,7 +488,7 @@ to:
 "https://pkgs.nginx.com/plus/ubuntu jammy nginx-plus"
 ```
 
-Now we can do an upgrade:
+Now you can do an upgrade:
 
 ```bash
 sudo apt update
@@ -509,7 +509,7 @@ nginx version: nginx/1.27.2 (nginx-plus-r33-p2)
 
 ```
 
-Confirm in One Console that the system was upgraded. Click on the `Instances` menu on the left-hand side and you will see the instance was upgraded:
+Confirm in NGINX One Console that the system was upgraded. Click on the `Instances` menu on the left-hand side and you will see the instance was upgraded:
 
 ![NGINX Plus](media/lab5-upgrade-confirmed.png)
 
