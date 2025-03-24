@@ -132,7 +132,7 @@ Release 33 of NGINX Plus now requires NGINX Agent to be installed along with a l
 
     > **NOTE:** Make sure you aren't too aggressive with the auto cleanup as sometimes it is good to see what has been out in production over a recent period.
 
-1. Now that you have cleaned things up you can see the `plus4` instance in your `Instances` interface.  
+1. Now that you have cleaned things up, you can see the `plus4` instance in your `Instances` interface.  
 
     ![NGINX Plus](media/r33-plus4-deployed.png)
 
