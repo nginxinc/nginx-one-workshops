@@ -140,21 +140,21 @@ Release 33 of NGINX Plus now requires NGINX Agent to be installed along with a l
 
     ![NGINX Plus](media/r33-plus4-with-agent.png)
 
-    That's how easy it is to deploy an R33 instance and have it registered with NGINX One Console. Using A/B testing practices, you can move the traffic from any R31/32 container to the R33 instance.
+That's how easy it is to deploy an R33 instance and have it registered with NGINX One Console. Using A/B testing practices, you can move the traffic from any R31/32 container to the R33 instance.
 
-    >Notice that the `plus4, R33` container was ADDED to your <$NAME-sync-group>, (from your docker-compose file, line #82).  This means it has the *SAME configuration* as the `plus1,2,3` containers.  Because the configurations are synchronized, you can easily move traffic from older R31/R32 containers to newer R33 containers.
+>Notice that the `plus4, R33` container was ADDED to your <$NAME-sync-group>, (from your docker-compose file, line #82).  This means it has the *SAME configuration* as the `plus1,2,3` containers.  Because the configurations are synchronized, you can easily move traffic from older R31/R32 containers to newer R33 containers.
 
-    >>This is a great way to upgrade and migrate your NGINX fleet to the latest versions of NGINX!  After all the traffic has been routed to newer containers, you can safely delete older containers.
+>>This is a great way to upgrade and migrate your NGINX fleet to the latest versions of NGINX!  After all the traffic has been routed to newer containers, you can safely delete older containers.
 
-    ![Config Sync 4 nplus](media/lab5-csg-4nplus.png)
+![Config Sync 4 nplus](media/lab5-csg-4nplus.png)
 
-1. When you are finished, you can now clean up your Docker environment by issuing:
+When you are finished, you can now clean up your Docker environment by issuing:
 
-    ```bash
-    docker compose down
-    ```
+```bash
+docker compose down
+```
 
-    Don't forget to remove your unused Instances from the NGINX One Console.
+Don't forget to remove your unused Instances from the NGINX One Console.
 
 <br/>
 
