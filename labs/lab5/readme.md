@@ -26,120 +26,119 @@ This lab will explore the R33 upgrade process with NGINX One Console. With relea
 
 ## Deploy a container running R33 with Docker
 
-
 |          NGINX One Console         |              Docker              |             NGINX Plus             |
 | :--------------------------------------: | :------------------------------: | :--------------------------------: |
 | ![NGINX One Console](media/nginx-one-icon.png) | ![Docker](media/docker-icon.png) | ![NGINX Plus](media/nginx-plus-icon.png) |
 
 <br/>
 
-### Deploy an R33 instance.
+### Deploy an R33 instance
 
 Release 33 of NGINX Plus now requires NGINX Agent to be installed along with a license for NGINX One (Not to be confused with the NGINX One Console you are working with today). It is not as painful as some have been led to believe. Let's add a new R33 instance to your lab setup.
 
-First you need the NGINX One `license.jwt` file which you can get from [my.f5.com](https://my.f5.com). Create a new file in the lab5 folder called `license.jwt` and paste the contents into it. If you are in the F5 UDF environment, this has been done for you. The $JWT environment variable should still be set from the earlier labs, but you can check it. If it is not there, add the license to an environment variable as you did previously:
+1. First you need the NGINX One `license.jwt` file which you can get from [my.f5.com](https://my.f5.com). Create a new file in the lab5 folder called `license.jwt` and paste the contents into it. If you are in the F5 UDF environment, this has been done for you. The $JWT environment variable should still be set from the earlier labs, but you can check it. If it is not there, add the license to an environment variable as you did previously:
 
-```bash
-echo $JWT
-# If the result is empty, set it the JWT variable again. 
-export JWT=$(cat license.jwt)
+    ```bash
+    echo $JWT
+    # If the result is empty, set it the JWT variable again. 
+    export JWT=$(cat lab5/license.jwt)
 
-#Confirm the other two previously used variables are still set:
-echo $NAME
-echo $TOKEN
+    #Confirm the other two previously used variables are still set:
+    echo $NAME
+    echo $TOKEN
 
-# If they are not set, go ahead and set them again:
-export NAME=<YOUR_INITIALS.LASTNAME>
-export TOKEN=<insert the dataplane key for NGINX One Console that you used previously>
-```
+    # If they are not set, go ahead and set them again:
+    export NAME=<YOUR_INITIALS.LASTNAME>
+    export TOKEN=<insert the dataplane key for NGINX One Console that you used previously>
+    ```
 
-If you updated/changed the JWT token, you will need to login to docker again. Skip if everything was still set from before:
+1. If you updated/changed the JWT token, you will need to login to docker again. Skip if everything was still set from before:
 
-```bash
-docker login private-registry.nginx.com --username=$JWT --password=none
-```
+    ```bash
+    docker login private-registry.nginx.com --username=$JWT --password=none
+    ```
 
-In this portion of the lab you will re-use a docker-compose.yml file from lab2 to deploy your containers and register with the NGINX One Console. This time you will now add an R33 (latest) version of the NGINX Plus container. Open the docker-compose file in VS Code.
+1. In this portion of the lab you will re-use a docker-compose.yml file from lab2 to deploy your containers and register with the NGINX One Console. This time you will now add an R33 (latest) version of the NGINX Plus container. Open the docker-compose file in VS Code.
 
-```bash
-vi lab5/docker-compose.yml
-```
+    ```bash
+    vi lab5/docker-compose.yml
+    ```
 
-After the `plus3` instance code block you will put a new block of code for the R33 release.  You will call this `plus4`, keeping in line with your naming convention for the labs.
+    After the `plus3` instance code block you will put a new block of code for the R33 release.  You will call this `plus4`, keeping in line with your naming convention for the labs.
 
-Starting on line 75 let's uncomment this block of code (ends on line 96):
+    Starting on line 75 let's uncomment this block of code (ends on line 96):
 
-```bash
-### Uncomment this section for Lab5
-plus4: # Debian R33 NGINX Plus Web / Load Balancer
-    environment:
-      NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
-      NGINX_AGENT_SERVER_GRPCPORT: '443'
-      NGINX_AGENT_TLS_ENABLE: 'true'
-      NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron NGINX One Console
-      NGINX_LICENSE_JWT: $JWT
-      NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
-    hostname: $NAME-plus4
-    container_name: $NAME-plus4
-    image: private-registry.nginx.com/nginx-plus/agent:debian # From NGINX Private Registry R33
-    volumes: # Sync these folders to container
-      - ./nginx-plus/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx-plus/etc/nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx-plus/etc/nginx/includes:/etc/nginx/includes
-      - ./nginx-plus/usr/share/nginx/html:/usr/share/nginx/html
-    ports:
-      - '80' # Open for HTTP
-      - '443' # Open for HTTPS
-      - '9000' # Open for API / Dashboard page
-      - '9113' # Open for Prometheus Scraper page
-    restart: always
-  #
-```
+    ```bash
+    ### Uncomment this section for Lab5
+    plus4: # Debian R33 NGINX Plus Web / Load Balancer
+        environment:
+          NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
+          NGINX_AGENT_SERVER_GRPCPORT: '443'
+          NGINX_AGENT_TLS_ENABLE: 'true'
+          NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron NGINX One Console
+          NGINX_LICENSE_JWT: $JWT
+          NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
+        hostname: $NAME-plus4
+        container_name: $NAME-plus4
+        image: private-registry.nginx.com/nginx-plus/agent:debian # From NGINX Private Registry R33
+        volumes: # Sync these folders to container
+          - ./nginx-plus/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
+          - ./nginx-plus/etc/nginx/conf.d:/etc/nginx/conf.d
+          - ./nginx-plus/etc/nginx/includes:/etc/nginx/includes
+          - ./nginx-plus/usr/share/nginx/html:/usr/share/nginx/html
+        ports:
+          - '80' # Open for HTTP
+          - '443' # Open for HTTPS
+          - '9000' # Open for API / Dashboard page
+          - '9113' # Open for Prometheus Scraper page
+        restart: always
+      #
+    ```
 
-Save your edits. You'll notice a couple of changes from the other blocks (besides the name). The first is the environment variable called `NGINX_LICENSE_JWT: $JWT` This is what authorizes the pulling of this specific image. The second change is the image name `private-registry.nginx.com/nginx-plus/agent:debian` which pulls the debian version of the NGINX Plus with Agent installed.  You will be able to see this in the NGINX One Console once deployed.
+1. Save your edits. You'll notice a couple of changes from the other blocks (besides the name). The first is the environment variable called `NGINX_LICENSE_JWT: $JWT` This is what authorizes the pulling of this specific image. The second change is the image name `private-registry.nginx.com/nginx-plus/agent:debian` which pulls the debian version of the NGINX Plus with Agent installed.  You will be able to see this in the NGINX One Console once deployed.
 
-Now that this file is edited, save it and let's restart the containers. Issue the following commands:
+1. Now that this file is edited, save it and let's restart the containers. Issue the following commands:
 
-```bash
-docker compose down
-docker compose up --force-recreate -d
-```
+    ```bash
+    docker compose down
+    docker compose up --force-recreate -d
+    ```
 
 <br />
 
 ## Examine in NGINX One Console
 
-You will notice a few things in NGINX One Console now. First - why are there duplicate container names?!?!?
+1. You will notice a few things in NGINX One Console now. First - why are there duplicate container names?!?!?
 
-![NGINX Plus](media/r33-delete-old-instances-1.png)
+    ![NGINX Plus](media/r33-delete-old-instances-1.png)
 
-Containers as you know are ephemeral. Once you destroy / recreate them they re-register with the Console. You can manually clean these up (delete the grayed out versions of your images) or you can have these cleaned up automatically. Previously you used the search to narrow down the instances with your name. This time you will use the Filter feature. Choose the action of `Availability is Unavailable` then you can select your containers and use the `Delete selected` button.
+1. Containers as you know are ephemeral. Once you destroy / recreate them they re-register with the Console. You can manually clean these up (delete the grayed out versions of your images) or you can have these cleaned up automatically. Previously you used the search to narrow down the instances with your name. This time you will use the Filter feature. Choose the action of `Availability is Unavailable` then you can select your containers and use the `Delete selected` button.
 
-> **NOTE:** If you are in shared environment make sure you are deleting only your instances.
+    > **NOTE:** If you are in shared environment make sure you are deleting only your instances.
 
-![NGINX Plus](media/r33-delete-old-instances-2.png)
+    ![NGINX Plus](media/r33-delete-old-instances-2.png)
 
-Once done, remember to clear the filter so you will be able to see the active instances.
+1. Once done, remember to clear the filter so you will be able to see the active instances.
 
-![NGINX Plus](media/r33-delete-old-instances-3.png)
+    ![NGINX Plus](media/r33-delete-old-instances-3.png)
 
- **(Optional Exercise)** To automate this removal of instances, you can expand the `Settings` menu on the left hand side it will reveal an entry for `Instance Settings`. (Requires Admin access)
+1. **(Optional Step):** To automate this removal of instances, you can expand the `Settings` menu on the left hand side it will reveal an entry for `Instance Settings`. (Requires Admin access. See [References](#references) for details)
 
-![NGINX Plus](media/r33-instance-settings-1.png)
+    ![NGINX Plus](media/r33-instance-settings-1.png)
 
-Clicking that will take you to a screen where you can change the cleanup to a time of your choosing. The default is at 24 hours, but you can set it down to a single hour.
+    Clicking that will take you to a screen where you can change the cleanup to a time of your choosing. The default is at 24 hours, but you can set it down to a single hour.
 
-![NGINX Plus](media/r33-instance-settings-2.png)
+    ![NGINX Plus](media/r33-instance-settings-2.png)
 
-> **NOTE:** Make sure you aren't too aggressive with the auto cleanup as sometimes it is good to see what has been out in production over a recent period.
+    > **NOTE:** Make sure you aren't too aggressive with the auto cleanup as sometimes it is good to see what has been out in production over a recent period.
 
-Now that you have cleaned things up you can see the `plus4` instance in your `Instances` interface.  
+1. Now that you have cleaned things up, you can see the `plus4` instance in your `Instances` interface.  
 
-![NGINX Plus](media/r33-plus4-deployed.png)
+    ![NGINX Plus](media/r33-plus4-deployed.png)
 
-If you click on the `plus4` instance name, now you can see the NGINX version as well as the Agent version that are deployed:
+1. If you click on the `plus4` instance name, now you can see the NGINX version as well as the Agent version that are deployed:
 
-![NGINX Plus](media/r33-plus4-with-agent.png)
+    ![NGINX Plus](media/r33-plus4-with-agent.png)
 
 That's how easy it is to deploy an R33 instance and have it registered with NGINX One Console. Using A/B testing practices, you can move the traffic from any R31/32 container to the R33 instance.
 
@@ -161,96 +160,102 @@ Don't forget to remove your unused Instances from the NGINX One Console.
 
 ## Install NGINX Plus R32 on a VM
 
-Next you will create an NGINX instance that is pinned to version R32 on a virtual machine. This will show you an upgrade from R32 to the new R33 on a VM, a common NGINX upgrade task. From the Jumphost you can use the terminal to SSH to the VM's command line to do an install. From the VS Studio Terminal window, run the following commands.
+Next you will create an NGINX instance that is pinned to version R32 on a virtual machine. This will show you an upgrade from R32 to the new R33 on a VM, a common NGINX upgrade task. From the Jumphost you can use the terminal to SSH to the VM's command line to do an install. 
 
->**NOTE:** If you are using the F5 UDF environment, the NGINX Plus license files have been placed there ahead of time for your convenience. You can continue with the next step (install).
+1. From the VS Studio Terminal window, run the following commands.
 
-```bash
-ssh nplus
-cd ~/Documents
+    >**NOTE:** If you are using the F5 UDF environment, the NGINX Plus license files have been placed there ahead of time for your convenience. You can continue with the next step (install).
 
-sudo mkdir -p /etc/nginx/
-sudo cp license/license.jwt /etc/nginx/license.jwt
+    ```bash
+    ssh nplus
+    cd ~/Documents
 
-sudo mkdir -p /etc/ssl/nginx
-sudo cp license/nginx-repo.* /etc/ssl/nginx/
-```
+    sudo mkdir -p /etc/nginx/
+    sudo cp license/license.jwt /etc/nginx/license.jwt
 
-With the cert and key in place you can go ahead with the install. Let's do the pre-work:
+    sudo mkdir -p /etc/ssl/nginx
+    sudo cp license/nginx-repo.* /etc/ssl/nginx/
+    ```
 
-```bash
-sudo apt update
-sudo apt install apt-transport-https lsb-release ca-certificates wget gnupg2 ubuntu-keyring
-wget -qO - https://cs.nginx.com/static/keys/nginx_signing.key     | gpg --dearmor     | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
- printf "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
-https://pkgs.nginx.com/plus/ubuntu `lsb_release -cs` nginx-plus\n" | sudo tee /etc/apt/sources.list.d/nginx-plus.list
-```
+1. With the cert and key in place you can go ahead with the install. Let's do the pre-work:
 
-For this lab, you need to pin this release version to R32 so that you can see the upgrade process. The keys you are using are good for R33, so if you simply ask for an install of NGINX you will get the latest release (currently R33). To pin the release, you manually need to put the R32 branch in URL like:  `/plus/R32/`
+    ```bash
+    sudo apt update
+    sudo apt install apt-transport-https lsb-release ca-certificates wget gnupg2 ubuntu-keyring
+    wget -qO - https://cs.nginx.com/static/keys/nginx_signing.key     | gpg --dearmor     | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+    printf "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+    https://pkgs.nginx.com/plus/ubuntu `lsb_release -cs` nginx-plus\n" | sudo tee /etc/apt/sources.list.d/nginx-plus.list
+    ```
 
-```bash
-sudo vi /etc/apt/sources.list.d/nginx-plus.list 
-```
+1. For this lab, you need to pin this release version to R32 so that you can see the upgrade process. The keys you are using are good for R33, so if you simply ask for an install of NGINX you will get the latest release (currently R33). To pin the release, you manually need to put the R32 branch in URL like:  `/plus/R32/`
 
-Change this line:
+    ```bash
+    sudo vi /etc/apt/sources.list.d/nginx-plus.list 
+    ```
 
-```bash
-"https://pkgs.nginx.com/plus/ubuntu jammy nginx-plus"
+    Change this line:
 
-```
+    ```bash
+    "https://pkgs.nginx.com/plus/ubuntu jammy nginx-plus"
 
-to:
+    ```
 
-```bash
-"https://pkgs.nginx.com/plus/R32/ubuntu jammy nginx-plus"
+    to:
 
-```
+    ```bash
+    "https://pkgs.nginx.com/plus/R32/ubuntu jammy nginx-plus"
 
-Run the commands to install NGINX Plus:
+    ```
 
-```bash
-sudo wget -P /etc/apt/apt.conf.d https://cs.nginx.com/static/files/90pkgs-nginx
-sudo apt update
-sudo apt install -y nginx-plus
+1. Run the commands to install NGINX Plus:
 
-```
+    ```bash
+    sudo wget -P /etc/apt/apt.conf.d https://cs.nginx.com/static/files/90pkgs-nginx
+    sudo apt update
+    sudo apt install -y nginx-plus
 
-Confirm the version that you installed:
+    ```
 
-```bash
-nginx -v
+1. Confirm the version that you installed:
 
-```
+    ```bash
+    nginx -v
 
-```bash
-### SAMPLE OUTPUT ###
-nginx version: nginx/1.25.5 (nginx-plus-r32-p2)
+    ```
 
-```
+    ```bash
+    ### SAMPLE OUTPUT ###
+    nginx version: nginx/1.25.5 (nginx-plus-r32-p2)
 
-```bash
-sudo systemctl enable nginx
-sudo systemctl start nginx
+    ```
 
-```
+1. Finally enable and start NGINX Plus
+
+  ```bash
+  sudo systemctl enable nginx
+  sudo systemctl start nginx
+
+  ```
 
 <br/>
 
 ## Install NGINX Agent and add NGINX Plus VM to NGINX One Console
 
-First, you will create a new Config Sync Group to add machines that you want to upgrade. As a best practice, you want your Config Sync Groups to only contain machines that will have the exact same configuration. For example, a group for docker containers with nginx. One for OSS instances you might have. Here you are creating a group to add Virtual Machines that you want to upgrade. Follow the same process as the previous lab by clicking on `Config Sync Groups` in the left hand menu and then clicking on the `Add Config Sync Group` button.
+First, you will create a new Config Sync Group to add machines that you want to upgrade. As a best practice, you want your Config Sync Groups to only contain machines that will have the exact same configuration. For example, a group for docker containers with NGINX. One for OSS instances you might have. Here you are creating a group to add Virtual Machines that you want to upgrade.
 
-![Add Config Sync Group](media/lab5-config-sync-group1.png)
+1. Follow the same process as the previous lab by clicking on `Config Sync Groups` in the left hand menu and then clicking on the `Add Config Sync Group` button.
 
-In the NGINX One Console, open your new Config Sync Group, click on the `Add Instance` button.
+    ![Add Config Sync Group](media/lab5-config-sync-group1.png)
 
-![Add Instance](media/lab5-add-instance-1.png)
+1. In the NGINX One Console, open your new Config Sync Group, click on the `Add Instance` button.
 
-It will ask you if you want to `Generate a new key` or `Use existing key`. You have already created a TOKEN variable in previous labs so you will use that same value.  Click on the radio button for `Use existing key`.  
+    ![Add Instance](media/lab5-add-instance-1.png)
 
-![Add Instance to Sync Group](media/lab5-add-instance-csg.png)
+1. It will ask you if you want to `Generate a new key` or `Use existing key`. You have already created a TOKEN variable in previous labs so you will use that same value.  Click on the radio button for `Use existing key`.  
 
-In the field labeled `Data Plane Key (optional)`, type in the environment variable `$TOKEN`. This will customize the curl command. For this example, you will use `Virtual Machine or Bare Metal` tab. You will see the command to install agent and register the instance with NGINX One Console, and add it to your Sync Group.
+    ![Add Instance to Sync Group](media/lab5-add-instance-csg.png)
+
+1. In the field labeled `Data Plane Key (optional)`, type in the environment variable `$TOKEN`. This will customize the curl command. For this example, you will use `Virtual Machine or Bare Metal` tab. You will see the command to install agent and register the instance with NGINX One Console, and add it to your Sync Group.
 
 1. If not already connected, use the VScode Terminal, SSH to the NGINX Plus VM.
 
@@ -539,4 +544,4 @@ You can update a single instance following this procedure for adding a license.j
 
 -------------
 
-Navigate to [LabGuide](../readme.md))
+Navigate to ([LabGuide](../readme.md))
