@@ -71,6 +71,7 @@ services:
       - '9113' # Open for Prometheus Scraper page
     restart: always
   #
+  ### Uncomment this section for Lab5
   # plus4: # Debian R33 NGINX Plus Web / Load Balancer
   #   environment:
   #     NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
