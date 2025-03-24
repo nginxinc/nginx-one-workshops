@@ -20,7 +20,7 @@ You will learn and explore NGINX One Console, part of the F5 Distributed Cloud. 
 
 The Hands-on Lab Exercises are designed to build upon each other, adding additional services and features as you progress through them, completing the labs in sequential order is required.  You can follow along as an instructor guides you through these exercises, or you can do the exercises at your pace on your own time.
 
-This is the second Workshop in the `NGINXperts Series` from the Nginx Communities and Alliances Team at Nginx.
+This is the second Workshop in the `NGINXperts Series` from the Nginx Community and Alliances Team at NGINX.
 
 <br/>
 
@@ -65,6 +65,9 @@ Choose one of the [Lab 0: Workshop pre-work](#lab-0-workshop-pre-work-choose-any
 
 ### Lab 4: Managing your NGINX fleet
 - [Lab 4: Managing your NGINX fleet](lab4/readme.md)
+
+### Lab 5: Upgrading NGINX Plus Instances to R33
+- [Lab 5: Upgrading NGINX Plus Instances to R33](lab5/readme.md)
 
 <br/>
 

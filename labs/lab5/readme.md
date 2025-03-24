@@ -1,4 +1,4 @@
-# NGINX One Console and Upgrading NGINX Plus Instances to R33
+# Upgrading NGINX Plus Instances to R33
 
 ## Introduction
 
