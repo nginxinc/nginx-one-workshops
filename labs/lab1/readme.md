@@ -80,7 +80,9 @@ The NGINX One Console requires `NGINX Agent`, an open source software module wri
 
     ![New Dataplane key](media/lab1_none-dataplane-key-new.png)
 
-    Once the key is generated, copy the value of this key to the clipboard using the `Copy` icon on the right side.  **NOTE:**  This Dataplane Key is only shown here and NGINX One Console doesn't save this value. Save this value locally as you would be using it to register new NGINX Instances.  You can Register as many NGINX Instances as you like with the same Dataplane Key.  If you lose the value of the key then you need to generate a new one again.
+    Once the key is generated, copy the value of this key to the clipboard using the `Copy` icon on the right side.  
+
+    > **NOTE:**  This Dataplane Key is only shown here and NGINX One Console doesn't save this value. Save this value locally as you would be using it to register new NGINX Instances.  You can Register as many NGINX Instances as you like with the same Dataplane Key.  If you lose the value of the key then you need to generate a new one again.
 
     ![New Dataplane key save](media/lab1_none-dataplane-key-save.png)
 
