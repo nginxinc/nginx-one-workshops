@@ -350,12 +350,11 @@ If you would like to just run a few containers without Docker Compose, here are 
     curl https://docker-registry.nginx.com/v2/nginx/agent/tags/list | jq
     ```
 
-1. Find all the currently available `NGINX Plus` containers with Agent installed. Curl the `NGINX Private Registry` ( **NOTE:** you will need your `nginx-repo Certificate and Key` files to run this command):
+1. Find all the currently available `NGINX Plus` containers with Agent installed. Curl the `NGINX Private Registry` ( **NOTE:** you will use your `nginx-repo.jwt` license file to run this command):
 
     ```bash
-    curl https://private-registry.nginx.com/v2/nginx-plus/agent/tags/list --key nginx-repo.key --cert nginx-repo.crt | jq
+    curl https://private-registry.nginx.com/v2/nginx-plus/agent/tags/list -u $JWT:none | jq
     ```
-
 <br/>
 
 This ends Lab3.

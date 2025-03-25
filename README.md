@@ -62,7 +62,7 @@ See [Lab0 prerequisites](/labs/lab0/prerequisites.md) for the Hardware/Software 
 
 Review the Github Repo content for the NGINX Basics Workshop 101.  If you have taken this Workshop, and understand the content, you can successfully complete the Lab exercises in this NGINX One Console Workshop.  It is HIGHLY recommended that you complete the 101 Workshop prior.  
 
-It will take approximately 1 hour to complete the NGINX One Console Workshop.
+It will take approximately 2-3 hour to complete the NGINX One Console Workshop.
 
 <br/>
 

@@ -160,7 +160,7 @@ Don't forget to remove your unused Instances from the NGINX One Console.
 
 ## Install NGINX Plus R32 on a VM
 
-Next you will create an NGINX instance that is pinned to version R32 on a virtual machine. This will show you an upgrade from R32 to the new R33 on a VM, a common NGINX upgrade task. From the Jumphost you can use the terminal to SSH to the VM's command line to do an install. 
+Next you will create an NGINX instance that is pinned to version R32 on a virtual machine. This will show you an upgrade from R32 to the new R33 on a VM, a common NGINX upgrade task. From the Jumphost you can use the terminal to SSH to the VM's command line to do an install.
 
 1. From the VS Studio Terminal window, run the following commands.
 
@@ -169,9 +169,6 @@ Next you will create an NGINX instance that is pinned to version R32 on a virtua
     ```bash
     ssh nplus
     cd ~/Documents
-
-    sudo mkdir -p /etc/nginx/
-    sudo cp license/license.jwt /etc/nginx/license.jwt
 
     sudo mkdir -p /etc/ssl/nginx
     sudo cp license/nginx-repo.* /etc/ssl/nginx/
@@ -461,7 +458,7 @@ Let's take the previous R32 install you just created and upgrade it. This time y
 
     ![NGINX Plus](media/lab5-add-license-1.png)
 
-    Copy the value from the `~/Downloads/license/license.jwt` and enter it into this file. Click the `Next` button.
+    Copy the value from the `lab5/license.jwt` and enter it into this file. Click the `Next` button.
 
     >**NOTE:** Make sure you do not add any extra spaces or characters to the license file or it would be considered invalid.
 
