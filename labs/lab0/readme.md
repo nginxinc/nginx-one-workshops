@@ -78,7 +78,7 @@ Look for an email from **`courses@notify.udf.f5.com`**. This will have instructi
 
   ### OPTION 1: Using **Apache Guacamole**
 
-  ![Apache Guacamole](media/Apache_Guacamole.png)
+  ![Apache Guacamole](media/apache_guacamole.png)
   
   This workshop is enabled with Apache Guacamole, which is a clientless remote desktop gateway.
 
