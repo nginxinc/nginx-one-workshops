@@ -9,12 +9,13 @@ services:
     volumes:
       - ./csv_files/input.csv:/app/input.csv
       - ./csv_files/adhoc.csv:/app/adhoc.csv
+      - ./csv_files/report.csv:/app/report.csv
       - ./xc_api_script.py:/app/xc_api_script.py
     restart: on-failure
     environment:
       AUTH_TOKEN: $API_TOKEN
       REQUEST: add              # Change to 'add' or 'update' or 'delete'
-      MODE: test            # Change to 'single','multiple','adhoc' or 'test'
+      MODE: test            # Change to 'single','multiple','adhoc', 'test' or 'report'
       FIRSTNAME: Steve        # Only used if MODE=single
       LASTNAME: Jobs           # Only used if MODE=single
       EMAIL: s.jobs@sjobs.com  # Only used if MODE=single

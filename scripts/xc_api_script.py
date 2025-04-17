@@ -11,8 +11,10 @@ except ImportError:
 # Constants
 CSV_FILE = "input.csv"
 ADHOC_FILE= "adhoc.csv"
+REPORT_FILE= "report.csv"
 ADD_API_URL = "https://nginx-busdev.console.ves.volterra.io/api/web/custom/namespaces/system/user_roles"
 DELETE_API_URL = "https://nginx-busdev.console.ves.volterra.io/api/web/custom/namespaces/system/users/cascade_delete"
+
 REQUEST = os.getenv("REQUEST", "ADD").upper()
 HEADERS = {
     "Content-Type": "application/json",
@@ -87,6 +89,62 @@ def test_max_users():
         print(f"Test Email{i}: {email}")
         # make_api_call("user","user",email)
 
+# Function to report users login status
+def report_users_login_status(file_path):
+    try:
+        response = requests.get(ADD_API_URL,headers=HEADERS)
+        response.raise_for_status()
+        
+        data = response.json()
+
+        users = data.get("items", [])
+
+        if not isinstance(users, list):
+            print("Unexpected format: 'items' should be a list.")
+            return
+        
+        processed_data = []
+
+        for user in users:
+            groups = user.get("group_names", [])
+            
+            # Only include users in the "workshop-usergroup"
+            # if "workshop-usergroup" not in groups:
+            #     continue
+
+            firstname = user.get("first_name", "")
+            lastname = user.get("last_name", "")
+            email = user.get("email", "")
+            last_login = user.get("last_login_timestamp", "")
+
+            logged_in = "yes" if last_login else "no"
+
+            processed_data.append({
+                "first_name": firstname,
+                "last_name": lastname,
+                "email": email,
+                "last_login_timestamp": last_login,
+                "Logged in?": logged_in
+            })
+
+            if processed_data:
+                headers = ["first_name", "last_name", "email", "last_login_timestamp", "Logged in?"]
+
+                with open(file_path, "w", newline="", encoding="utf-8") as csvfile:
+                    writer = csv.DictWriter(csvfile, fieldnames=headers)
+                    writer.writeheader()
+                    writer.writerows(processed_data)
+
+                print(f"Filtered CSV written to {file_path}")
+
+            else:
+                print("No users matched the group filter.")
+
+    except requests.RequestException as e:
+        print(f"API request Error: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 
 if __name__ == "__main__":
     if MODE == "single":
@@ -97,5 +155,7 @@ if __name__ == "__main__":
         process_adhoc_csv(ADHOC_FILE)
     elif MODE == "test":
         test_max_users()
+    elif MODE == "report":
+        report_users_login_status(REPORT_FILE)
     else:
-        print("Invalid MODE specified. Use 'single', 'multiple', 'adhoc' or 'test'.")
+        print("Invalid MODE specified. Use 'single', 'multiple', 'adhoc', 'test' or 'report'.")
