@@ -60,7 +60,7 @@ Notice that the configuration is empty when you first create a Config Sync Group
 
 ### Option 1 - Create and add an instance to the group
 
-On this page is a button that says `Add Instance to Config Sync Group`. Click on this.
+On _Details_ page is a button that says `Add Instance to Config Sync Group`. Click on this.
 
 <br/>
 
@@ -139,9 +139,7 @@ You can see that the container starts up. With a refresh on the Config Sync Grou
 
 You can also notice that it says you are in sync! You did not populate the configuration manually, so the first container added will download the configuration and become the new default config. You will change this a bit later. Hey, didn't you use docker compose to start your containers in the previous labs? You can add those instances to this `Config Sync Group` even easier than what you did above - automatically!
 
-Let's stop your running containers by running:
-
-(**NOTE:** Make sure you are within `labs/lab2` folder before running the command)
+Let's stop your running containers by running: (**NOTE:** Make sure you are within `labs/lab2` folder before running the command)
 
 ```bash
 docker compose down
@@ -246,7 +244,7 @@ A final note... you can _**mix OSS and Plus instances**_ in the same group! The 
 
 ## Wrap Up
 
-> If you are finished with this lab, you can use Docker Compose to shut down your test environment. 
+> If you are finished with this lab, you can use Docker Compose to shut down your test environment.
 
 (**NOTE:** Make sure you are within `labs/lab2` folder before running the command)
 

@@ -84,4 +84,4 @@ You are now prepared to start with the workshop labs.
 
 -------------
 
-Navigate to ([Lab1](../lab1/readme.md) | [LabGuide](../readme.md))
+Navigate to ([Lab1](../lab1/readme.md) | [Main Menu](../readme.md))
