@@ -169,14 +169,14 @@ Fix the Expired Certificate! If you want to create a new certificate, say with a
 
 1. Copy the $NAME-91.* files to the appropriate directory, in this workshop, that would be `lab2/nginx-oss/etc/ssl/nginx`.
 
-1. Edit the `tls-cars.example.com.conf` file that can be found in `lab2/nginx-oss/etc/nginx/conf.d/` file path. Change the names of the crt/key from `cars.crt and cars.key` to `$NAME-90-day.crt and $NAME-90-day.key`; Lines #13-14.
+1. Edit the `tls-cars.example.com.conf` file that can be found in `lab2/nginx-oss/etc/nginx/conf.d/` file path. Change the names of the crt/key from `cars.crt and cars.key` to `$NAME-91-day.crt and $NAME-91-day.key`; Lines #13-14.
 
     ```nginx
     ...
     # Update the following 2 lines for NGINX cert and key directives and file locations
 
-        ssl_certificate /etc/ssl/nginx/cars.crt;
-        ssl_certificate_key /etc/ssl/nginx/cars.key;
+        ssl_certificate /etc/ssl/nginx/s.jobs-91-day.crt;       # Change the prefix to your $NAME value
+        ssl_certificate_key /etc/ssl/nginx/s.jobs-91-day.key;   # Change the prefix to your $NAME value
 
     ...
 
