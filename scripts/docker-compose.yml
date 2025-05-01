@@ -14,7 +14,7 @@ services:
     restart: on-failure
     environment:
       AUTH_TOKEN: $API_TOKEN
-      REQUEST: add              # Change to 'add' or 'update' or 'delete'
+      REQUEST: add              # Change to 'add' or 'update' or 'delete' (Optional if mode is 'report')
       MODE: test            # Change to 'single','multiple','adhoc', 'test' or 'report'
       FIRSTNAME: Steve        # Only used if MODE=single
       LASTNAME: Jobs           # Only used if MODE=single
