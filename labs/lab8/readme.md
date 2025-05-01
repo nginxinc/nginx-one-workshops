@@ -37,7 +37,7 @@ With NGINX Plus release 33, your instances are required to be managed. You have 
 You will now review the `lab8/docker-compose.yml` file. This compose file is the same as the one we used in Lab 2 with a new code block. Review the new code block on lines 74-95:
 
 ```bash
-  plus4: # Debian R33 NGINX Plus Web / Load Balancer
+  plus4: # Debian R34 NGINX Plus Web / Load Balancer
     environment:
       NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
       NGINX_AGENT_SERVER_GRPCPORT: '443'
@@ -47,7 +47,7 @@ You will now review the `lab8/docker-compose.yml` file. This compose file is the
       NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
     hostname: $NAME-plus4
     container_name: $NAME-plus4
-    image: private-registry.nginx.com/nginx-plus/agent:debian # From Nginx Private Registry R33
+    image: private-registry.nginx.com/nginx-plus/agent:debian # From Nginx Private Registry R34
     volumes: # Sync these folders to container
       - ./nginx-plus/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx-plus/etc/nginx/conf.d:/etc/nginx/conf.d
@@ -119,7 +119,7 @@ There is a NGINX Plus instance at release R32 installed for you in this lab. You
 
 Before you begin, let's confirm that we actually have a web server on Release 32 and it is up and running. 
 
-We are going to need the TOKEN to connect the system, since the web server is a phgysically different server, you will need to set the TOKEN variable on the new system.  You can make this easier by echoing the output before you ssh to the new system (so you can copy it):
+We are going to need the TOKEN to connect the system, since the web server is a physically different server, you will need to set the TOKEN variable on the new system.  You can make this easier by echoing the output before you ssh to the new system (so you can copy it):
 
 ```bash
 ubuntu@jumphost:~/Documents/nginx-one-workshops/labs/lab8$ echo $TOKEN
@@ -128,6 +128,8 @@ yOa55EprwIFQ2Ky7Ni/PZtpTSU7uhKI3I5PfbCAAAAA=
 ```bash
 ubuntu@jumphost:~/Documents/nginx-one-workshops/labs/lab8$ ssh nplus
 ```
+Now that you are on the nplus system, set the TOKEN variable again.
+
 ```bash
 ubuntu@nplus:~$ export TOKEN=yOa55EprwIFQ2Ky7Ni/PZtpTSU7uhKI3I5PfbCAAAAA=
 ubuntu@nplus:~$ echo $TOKEN
@@ -188,9 +190,9 @@ On this screen you will choose `Register a new instance with NGINX One then add 
 
 ![NGINX One Config Sync Group](media/lab8-csg-3.png)
 
-On this next screen you will choose the radio button `Use Existing Key`. In the `Data Pl;ane Key` field type $TOKEN
+On this next screen you will choose the radio button `Use Existing Key`. In the `Data Plane Key` field type $TOKEN
 
-At the bottom of that screen you will be on the `Virtual MAchine or Bare Metal` tab, this will give you the command you need to run on the `nplus` machine.
+At the bottom of that screen you will be on the `Virtual Machine or Bare Metal` tab, this will give you the command you need to run on the `nplus` machine.
 
 ![NGINX One Config Sync Group](media/lab8-csg-4.png)
 
@@ -274,7 +276,7 @@ Back in One Console, you can see the instance has been added to the Config Sync 
 
 # Upgrade Preparation
 
-While in this Config Sync Group, Let's go to the `Configuration` taband click on the `Edit Configuration` button in the upper right.
+While in this Config Sync Group, let's go to the `Configuration` tab and click on the `Edit Configuration` button in the upper right.
 
 ![NGINX One Upgrade 1](media/lab8-upgrade-1.png)
 
@@ -282,7 +284,7 @@ Here you will click on the `Add File` button - so that you can add the One Licen
 
 ![NGINX One Upgrade 1](media/lab8-upgrade-2.png)
 
-You can use the `Upload Auxiliary / Other File` button if you had downloaded the file from my.f5.  Here you will simply create an empth file and then pas the JWT value we have been using from the labs. You can issue a `echo $JWT` command to get the string you need. The file needs to be place in a specific location, so type the filename with the full path:
+You can use the `Upload Auxiliary / Other File` button if you had downloaded the file from my.f5.  Here you will simply create an empty file and then pas the JWT value we have been using from the labs. You can issue a `echo $JWT` command to get the string you need. The file needs to be place in a specific location, so type the filename with the full path:
 
 ```bash
 /etc/nginx/license.jwt
@@ -352,7 +354,7 @@ Click on teh default.conf file and then uncomment lines 47-51.  When done click 
 
 ![NGINX One Config Sync Group](media/lab8-metrics-2.png)
 
-You will get the same review screen and can dig into if you want to or just hit the `Save and Publish` button.  That will now ensure your metrics are reporting corretly for Plus.
+You will get the same review screen and can dig into if you want to or just hit the `Save and Publish` button. That will now ensure your metrics are reporting corretly for Plus.
 
 ![NGINX One Config Sync Group](media/lab8-metrics-3.png)
 
