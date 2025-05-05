@@ -109,8 +109,8 @@ def report_users_login_status(file_path):
             groups = user.get("group_names", [])
             
             # Only include users in the "workshop-usergroup"
-            # if "workshop-usergroup" not in groups:
-            #     continue
+            if "workshop-usergroup" not in groups:
+                continue
 
             firstname = user.get("first_name", "")
             lastname = user.get("last_name", "")
