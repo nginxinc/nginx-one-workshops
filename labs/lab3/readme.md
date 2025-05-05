@@ -181,24 +181,25 @@ Another nice feature of the NGINX One Console is the ability to quickly see the 
 
 Fix the Expired Certificate! If you want to create a new certificate, say with a 91-day expiration, follow these instructions to use `openssl` to create a Self-Signed certificate/key pair, and update your NGINX config files to use the new Certficate.
 
-1. Change your Terminal to the appropriate directory, in this exercise, that would be `labs/lab2/nginx-oss/etc/ssl/nginx`.
-
 1. Create a new `$NAME-91-day` SSL certificate/key pair:
 
+    (**NOTE:** Make sure you are within `labs/lab2` folder before running the command)
+
     ```bash
-    openssl req -x509 -nodes -days 91 -newkey rsa:2048 -keyout $NAME-91-day.key -out $NAME-91-day.crt -subj "/CN=NginxOneWorkshop"
+    openssl req -x509 -nodes -days 91 -newkey rsa:2048 -keyout nginx-oss/etc/ssl/nginx/$NAME-91-day.key -out nginx-oss/etc/ssl/nginx/$NAME-91-day.crt -subj "/CN=NginxOneWorkshop"
 
     ```
 
 1. Verify the .crt and .key files were created, in the correct volume mounted folder:
 
     ```bash
-    ls -l
+    ls -l nginx-oss/etc/ssl/nginx
 
     ```
+
     ```bash
     ## Sample output ##
-    ubuntu@NGINX-Basics:~/Documents/nginx-one-workshops/labs/lab2/nginx-oss/etc/ssl/nginx$ ls -l
+    ubuntu@NGINX-Basics:~/Documents/nginx-one-workshops/labs/lab2$ ls -l nginx-oss/etc/ssl/nginx
     total 32
     -rw-rw-r-- 1 ubuntu ubuntu 1131 Mar 19 22:07 1-day.crt
     -rw------- 1 ubuntu ubuntu 1704 Mar 19 22:07 1-day.key
