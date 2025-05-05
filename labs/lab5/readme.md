@@ -1,4 +1,4 @@
-# Upgrading NGINX Plus Instances to R33
+# Upgrading NGINX Plus Instances to R34
 
 ## Introduction
 
@@ -226,7 +226,7 @@ First, you will create a new Config Sync Group to add machines that you want to 
 
     ```bash
     hostnamectl hostname $NAME-nplus-vm
-    
+
     ```
 
     ```bash
@@ -452,7 +452,7 @@ Let's take the R32 install and upgrade it. This time you will do it with assista
 
 1. NGINX Agent detected the NGINX upgrade and automatically send this information to NGINX One Console. You can also confirm this with NGINX One Console that the NGINX Plus version was upgraded for the VM. Click on the `Instances` menu on the left-hand side and you will see the instance was upgraded:
 
-    ![NGINX Plus](media/lab5-upgrade-confirmed.png)
+    ![NGINX Plus](media/lab5-upgrade-confirmed-r34.png)
 
 You can update a single instance following this procedure for adding a license.jwt to the server. However, using a Config Sync Group, you can prepare 100's or 1000's of instances in your NGINX fleet and have them ready for the upgrade.  
 

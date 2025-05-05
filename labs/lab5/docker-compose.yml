@@ -1,7 +1,6 @@
 # NGINX Plus / OSS with NGINX Agent
 # NGINX webservers with ingress-demo pages
 # NGINX One Console Instance Registration
-# NGINX Basics, Dec 2024
 # Chris Akker, Shouvik Dutta, Adam Currier
 #
 services:
