@@ -165,7 +165,7 @@ Don't forget to remove your unused instances from the NGINX One Console.
 
 ## Confirm you have an R32 Instance
 
-You will now start the process of upgrading a standalone web server. Confirm taht you have this instance by issuing the following commands:
+You will now start the process of upgrading a standalone web server. Confirm that you have this instance by issuing the following commands:
 
 1. SSH to the web server:
     ```bash

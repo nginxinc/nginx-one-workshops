@@ -167,7 +167,7 @@ Another nice feature of the NGINX One Console is the ability to quickly see the 
 
 1. Using the Overview Dashboard Certificates Panel, Click on the `Expiring` link. This will provide a List View of the Instances affected, with metadata about the Instances using the Certificate.
 
-1. Click on the `$NAME-oss1` Instance. This will provide the Instance level Details, you will see a `Certificates` Section, this time with the Name, Status, Expiration Date, and Subject Name for each certificate file.
+1. Click on the `$NAME-oss1` Instance. This will provide the Instance level Details. You will see a `Certificates` Section, switch to `Unmanaged` tab. This will list the Name, Status, Expiration Date, and Subject Name for each certificate file associated to `$NAME-oss1` Instance.
 
     ![Certs](media/lab3_oss1-certs.png)
 
