@@ -72,7 +72,7 @@ services:
     restart: always
   #
   ### Uncomment this section for Lab5
-  # plus4: # Debian R33 NGINX Plus Web / Load Balancer
+  # plus4: # Debian R34 NGINX Plus Web / Load Balancer
   #   environment:
   #     NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
   #     NGINX_AGENT_SERVER_GRPCPORT: '443'
@@ -82,7 +82,7 @@ services:
   #     NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
   #   hostname: $NAME-plus4
   #   container_name: $NAME-plus4
-  #   image: private-registry.nginx.com/nginx-plus/agent:debian # From Nginx Private Registry R33
+  #   image: private-registry.nginx.com/nginx-plus/agent:debian # From Nginx Private Registry R34
   #   volumes: # Sync these folders to container
   #     - ./nginx-plus/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
   #     - ./nginx-plus/etc/nginx/conf.d:/etc/nginx/conf.d
