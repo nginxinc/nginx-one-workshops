@@ -35,14 +35,20 @@ This lab will explore the R33-R34 upgrade process with NGINX One Console. Starti
 
 Starting with Release 33, NGINX Plus requires NGINX Agent to be installed along with a license for NGINX One (Not to be confused with the NGINX One Console you are working with today). It is not as painful as some have been led to believe. You will now add the latest version of an instance to your lab setup.
 
-1. First you need the NGINX One `license.jwt` file which you can get from [my.f5.com](https://my.f5.com). Create a new file in the lab5 folder called `license.jwt` and paste the contents into it. If you are in the F5 UDF environment, this has been done for you. The $JWT environment variable should still be set from the earlier labs, but you can check it. If it is not there, add the license to an environment variable as you did previously:
+1. First you need the NGINX One `license.jwt` file which you can get from [my.f5.com](https://my.f5.com). Create a new file in the lab5 folder called `license.jwt` and paste the contents into it. *If you are in the F5 UDF environment, this has been done for you.* The $JWT environment variable should still be set from the earlier labs, but you can check it. If it is not there, add the license to an environment variable as you did previously:
 
+1. Change to the `lab5` folder for these exercises.
+    
+    ```bash
+    cd lab5
+    ```
+    
     ```bash
     echo $JWT
     ```
 
-    If the result is empty, set it the JWT variable again. 
-    
+    If the result is empty, set it the JWT variable again, you must be in the `/lab5 folder`.
+
     ```bash
     export JWT=$(cat ../lab2/license.jwt)
     ```
@@ -86,7 +92,7 @@ Starting with Release 33, NGINX Plus requires NGINX Agent to be installed along 
           NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
         hostname: $NAME-plus4
         container_name: $NAME-plus4
-        image: private-registry.nginx.com/nginx-plus/agent:debian    # From NGINX Private Registry R34
+        image: private-registry.nginx.com/nginx-plus/agent:r34-debian    # From NGINX Private Registry R34
         volumes: # Sync these folders to container
           - ./nginx-plus/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
           - ./nginx-plus/etc/nginx/conf.d:/etc/nginx/conf.d
