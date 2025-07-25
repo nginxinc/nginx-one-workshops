@@ -35,40 +35,50 @@ This lab will explore the R33-R34 upgrade process with NGINX One Console. Starti
 
 Starting with Release 33, NGINX Plus requires NGINX Agent to be installed along with a license for NGINX One (Not to be confused with the NGINX One Console you are working with today). It is not as painful as some have been led to believe. You will now add the latest version of an instance to your lab setup.
 
-1. First you need the NGINX One `license.jwt` file which you can get from [my.f5.com](https://my.f5.com). Create a new file in the lab5 folder called `license.jwt` and paste the contents into it. If you are in the F5 UDF environment, this has been done for you. The $JWT environment variable should still be set from the earlier labs, but you can check it. If it is not there, add the license to an environment variable as you did previously:
+1. First you need the NGINX One `license.jwt` file which you can get from [my.f5.com](https://my.f5.com). Create a new file in the lab5 folder called `license.jwt` and paste the contents into it. *If you are in the F5 UDF environment, this has been done for you.* The $JWT environment variable should still be set from the earlier labs, but you can check it. If it is not there, add the license to an environment variable as you did previously:
 
+1. Change to the `lab5` folder for these exercises.
+    
+    ```bash
+    cd lab5
+    ```
+    
     ```bash
     echo $JWT
-    # If the result is empty, set it the JWT variable again. 
-    export JWT=$(cat lab5/license.jwt)
-
-    #Confirm the other two previously used variables are still set:
-    echo $NAME
-    echo $TOKEN
-
-    # If they are not set, go ahead and set them again:
-    export NAME=<YOUR_INITIALS.LASTNAME>
-    export TOKEN=<insert the dataplane key for NGINX One Console that you used previously>
-
     ```
 
-1. If you updated/changed the JWT token, you will need to login to docker again. Skip if everything was still set from before:
+    If the result is empty, set it the JWT variable again, you must be in the `/lab5 folder`.
+
+    ```bash
+    export JWT=$(cat ../lab2/license.jwt)
+    ```
+
+    Confirm the other two previously used variables are still set:
+    
+    ```bash
+    echo $NAME
+    echo $TOKEN
+    ```
+
+    If they are not set, go ahead and set them again:
+    
+    ```bash
+    export NAME=<YOUR_INITIALS.LASTNAME>
+    export TOKEN=<insert the dataplane key for NGINX One Console that you used previously>
+    ```
+
+1. If you updated/changed the JWT token, you will need to login to Docker again. Skip if everything was still set from before:
 
     ```bash
     docker login private-registry.nginx.com --username=$JWT --password=none
 
     ```
 
-1. In this portion of the lab you will re-use a docker-compose.yml file from lab2 to deploy your containers and register with the NGINX One Console. This time you will now add an R34 (latest) version of the NGINX Plus container. Open the docker-compose file in VS Code.
+1. In this portion of the lab you will re-use a `docker-compose.yml` file from lab2 to deploy your containers and register with the NGINX One Console. This time you will now add an R34 (latest) version of the NGINX Plus container. Open the docker-compose file in VS Code.
 
-    ```bash
-    vi lab5/docker-compose.yml
+    After the `plus3` instance code block you will put a new block of code for the R34 release.  You will call this `plus4`, keeping in line with your naming convention for the labs.
 
-    ```
-
-    After the `plus3` instance code block you will put a new block of code for the R33 release.  You will call this `plus4`, keeping in line with your naming convention for the labs.
-
-    Starting on line 75 let's uncomment this block of code (ends on line 96). A little tip, in VS Studio you can highlight the block of code and press `Ctrl` + `/` to uncomment the whole block at once.
+    Starting on line 75, let's uncomment this block of code (ends on line 96). A little tip, in VS Studio you can highlight the block of code and press `Ctrl` + `/` to uncomment the whole block at once.
 
     ```bash
     ### Uncomment the section below for Lab5
@@ -77,12 +87,12 @@ Starting with Release 33, NGINX Plus requires NGINX Agent to be installed along 
           NGINX_AGENT_SERVER_HOST: 'agent.connect.nginx.com'
           NGINX_AGENT_SERVER_GRPCPORT: '443'
           NGINX_AGENT_TLS_ENABLE: 'true'
-          NGINX_AGENT_SERVER_TOKEN: $TOKEN # Datakey Fron NGINX One Console
+          NGINX_AGENT_SERVER_TOKEN: $TOKEN    # Datakey Fron NGINX One Console
           NGINX_LICENSE_JWT: $JWT
           NGINX_AGENT_INSTANCE_GROUP: $NAME-sync-group
         hostname: $NAME-plus4
         container_name: $NAME-plus4
-        image: private-registry.nginx.com/nginx-plus/agent:debian # From NGINX Private Registry R34
+        image: private-registry.nginx.com/nginx-plus/agent:r34-debian    # From NGINX Private Registry R34
         volumes: # Sync these folders to container
           - ./nginx-plus/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
           - ./nginx-plus/etc/nginx/conf.d:/etc/nginx/conf.d
@@ -94,11 +104,12 @@ Starting with Release 33, NGINX Plus requires NGINX Agent to be installed along 
           - '9000' # Open for API / Dashboard page
           - '9113' # Open for Prometheus Scraper page
         restart: always
-      #
 
     ```
 
-1. Save your edits. You'll notice a couple of changes from the other blocks (besides the name). The first is the environment variable called `NGINX_LICENSE_JWT: $JWT` This is what authorizes the pulling of this specific image. The second change is the image name `private-registry.nginx.com/nginx-plus/agent:debian` which pulls the latest Debian version of NGINX Plus with Agent installed. You will be able to see this in the NGINX One Console once deployed.
+1. Save your edits. You'll notice a couple of changes from the other blocks (besides the name). 
+    - The first is the environment variable called `NGINX_LICENSE_JWT: $JWT` This is what authorizes the pulling of this specific image. 
+    - The second change is the image name `private-registry.nginx.com/nginx-plus/agent:r34-debian` which pulls the R34 Debian version of NGINX Plus with Agent installed. You will be able to see this in the NGINX One Console once deployed.
 
 1. Now that this file is edited, restart the containers. Issue the following commands:
 
@@ -213,7 +224,7 @@ First, you will create a new Config Sync Group to add machines that you want to 
 
     ```
 
-1. Set your environment variables:
+1. Set your three environment variables, check them with `echo`:
 
     ```bash
     export NAME=<YOUR_INITIALS.LASTNAME>
@@ -221,6 +232,14 @@ First, you will create a new Config Sync Group to add machines that you want to 
     export JWT=$(cat /home/ubuntu/Documents/license/license.jwt)
 
     ```
+
+    ```bash
+    echo $NAME
+    echo $TOKEN
+    echo $JWT
+
+    ```
+
 
 1. Set the hostname of your Ubuntu VM, so it displays in the NGINX One Console Instances. Use `Nginx123` for the password:
 
@@ -337,32 +356,32 @@ The NGINX Plus Dashboard and API is where NGINX exposes all of the over 240 metr
 
 You can do this in the NGINX One Console - in the Config Sync Group, click on the Configuration tab, then Edit. Click the Add file button, and create `/etc/nginx/conf.d/dashboard.conf`. Use the example provide here, just copy/paste:
 
-```nginx
-# NGINX Plus Basics, Nov 2024
-# Chris Akker, Shouvik Dutta, Adam Currier
-# dashboard.conf
-#
-server {
-    # Conventional port for the NGINX Plus API is 8080
-    listen 9000;
-    access_log off;    # reduce noise in access logs
+    ```nginx
+    # NGINX Plus Basics, Nov 2024
+    # Chris Akker, Shouvik Dutta, Adam Currier
+    # dashboard.conf
+    #
+    server {
+        # Conventional port for the NGINX Plus API is 8080
+        listen 9000;
+        access_log off;    # reduce noise in access logs
 
-    location /api/ {
-    # Enable in read-write mode
-    api write=on;
-    }
-    # Conventional location of the NGINX Plus dashboard
-    location = /dashboard.html {
-        root /usr/share/nginx/html;
+        location /api/ {
+        # Enable in read-write mode
+        api write=on;
+        }
+        # Conventional location of the NGINX Plus dashboard
+        location = /dashboard.html {
+            root /usr/share/nginx/html;
+        }
+
+        # Redirect requests for "/" to "/dashboard.html"
+        location / {
+            return 301 /dashboard.html;
+        }
     }
 
-    # Redirect requests for "/" to "/dashboard.html"
-    location / {
-        return 301 /dashboard.html;
-    }
-}
-
-```
+    ```
 
 ![Add Dashboard.conf](media/lab5-add-dashboard.png)
 

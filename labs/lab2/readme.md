@@ -97,9 +97,16 @@ You will run some Docker containers to build out various workshop components, us
    Login Succeeded
    ```
 
-1. Run below script to generate temporary self-signed certificates that would be used by NGINX OSS instances.Ensure you are in the `/lab2` folder:
+1. Change to lab2 folder for these exercises.
 
    ```bash
+   cd lab2
+   ```
+
+1. Run the script below to generate temporary self-signed certificates that would be used by NGINX OSS instances.  Ensure you are in the `/lab2` folder:
+
+   ```bash
+   
    bash generate_certs.sh
    ```
 
