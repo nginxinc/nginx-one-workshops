@@ -60,7 +60,7 @@ Starting with Release 33, NGINX Plus requires NGINX Agent to be installed along 
     echo $TOKEN
     ```
 
-    #If they are not set, go ahead and set them again:
+    If they are not set, go ahead and set them again:
     
     ```bash
     export NAME=<YOUR_INITIALS.LASTNAME>
