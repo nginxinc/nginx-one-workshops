@@ -3,6 +3,7 @@
 *-day.crt
 *-day.key
 nginx-repo.*
+license.jwt
 *~
 \#*
 

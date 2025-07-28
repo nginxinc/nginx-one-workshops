@@ -78,7 +78,7 @@ Starting with Release 33, NGINX Plus requires NGINX Agent to be installed along 
 
     After the `plus3` instance code block you will put a new block of code for the R34 release.  You will call this `plus4`, keeping in line with your naming convention for the labs.
 
-    Starting on line 75, let's uncomment this block of code (ends on line 96). A little tip, in VS Studio you can highlight the block of code and press `Ctrl` + `/` to uncomment the whole block at once.
+    Starting on line 74, let's uncomment this block of code (ends on line 96). A little tip, in VS Studio you can highlight the block of code and press `Ctrl` + `/` to uncomment the whole block at once.
 
     ```bash
     ### Uncomment the section below for Lab5
@@ -432,7 +432,7 @@ Let's take the R32 install and upgrade it. This time you will do it with assista
 
     ![NGINX Plus](media/lab5-add-license-1.png)
 
-    Copy the value from the `lab5/license.jwt` and enter it into this file. Click the `Next` button.
+    Copy the value from the `lab2/license.jwt` and enter it into this file. Click the `Next` button.
 
     >**NOTE:** Make sure you do not add any extra spaces or characters to the license file or it would be considered invalid.
 

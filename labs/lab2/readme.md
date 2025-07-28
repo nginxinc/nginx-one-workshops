@@ -52,10 +52,10 @@ You will run some Docker containers to build out various workshop components, us
    vJ+ADwlFXKf58bX0Qk/...6N38Al4fdxXDefT6J2iiM=
    ```
 
-1. Using the same Terminal, set the `JWT` environment variable from your `nginx-repo.jwt` license file. This is required to pull the NGINX Plus container images from the NGINX Private Registry. If you do not have an NGINX Plus license, you can request a free 30-Day Trial license from here: <https://www.f5.com/trials/nginx-one>
+1. Using the same Terminal, set the `JWT` environment variable from your NGINX One `license.jwt` file. This is required to pull the NGINX Plus container images from the NGINX Private Registry. If you do not have an NGINX One license, you can request a free 30-Day Trial license from here: <https://www.f5.com/trials/nginx-one>
 
    ```bash
-   export JWT=$(cat lab2/nginx-repo.jwt)
+   export JWT=$(cat lab2/license.jwt)
    ```
 
    And verify it was set:
