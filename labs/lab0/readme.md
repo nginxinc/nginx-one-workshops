@@ -2,9 +2,15 @@
 
 ## F5 Distributed Cloud Account Requirements
 
-You will need an F5 Distributed Cloud account to complete the Nginx One Console lab exercises.  If you do not have an Account, please contact your F5 Sales Representative for more information. Know more about F5 Distributed Cloud by navigating to the following link: https://www.f5.com/products/distributed-cloud-services/distributed-cloud-console.
+You will need a F5 Distributed Cloud account to complete the Nginx One Console lab exercises.
 
-You must also have enabled NGINX One service within F5 Distributed Cloud(XC) for this workshop.
+- If you have a F5 Distributed Cloud Account then you are encouraged to use your own tenant so that the things that you work on during the workshop can be used at a later time.
+
+- If you do not have a F5 Distributed Cloud Account and have registered for this workshop, one will be provided for access to a shared F5 Distributed Cloud tenant.
+
+- To learn more about F5 Distributed Cloud, navigate to the following link: https://www.f5.com/products/distributed-cloud-services/distributed-cloud-console.
+
+> **NOTE:** You must also have enabled NGINX One service within F5 Distributed Cloud(XC) for this workshop. This has already been done in the workshop shared tenant.
 
 ## Prep for your upcoming F5/NGINX Workshop
 
